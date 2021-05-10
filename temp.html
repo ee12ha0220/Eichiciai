@@ -1,53 +1,42 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
     <head>
         <meta charset="UTF-8">
-        <title>Layout01</title>
-        <style>
-            //#footer {float: left; width: 1000px; height: 100px; line-height: 100px;}
-            
-        </style>
-        <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"> </script>
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <title>Eichiciai</title>
         <link href="./temp.css" rel="stylesheet" /> 
-        <meta charset="utf-8" />
-        <link
-        rel="stylesheet"
-        href="https://unpkg.com/swiper/swiper-bundle.min.css"
-        />
+        <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
+        <link href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="header">
-            <nav id = "nav">
-                <a style = "float: left; margin-left : 20px;font-size : 30px"> Starlight </a>
-                <select name="boards" style="height : 29px">
+        <div id = "header">
+            <nav id = "nav1">
+                <a style = "float:left; margin-left:20px; font-size:30px"> Starlight </a>
+                <select name = "boards" style = "height:29px">
                     <option hidden>Boards</option>
                     <option>Free Board</option>
                     <option>QnA Board</option>
                     <option>Photo Board</option>
                     <option>Video Board</option>
                 </select>
-                <input id="search-board" style = "width : 500px; font-size: 20px"></input>
-                <button id="search-board-btn" style =  "font-size: 20px">Enter</button>
-
-                <img style = "float: right;margin-right : 20px" alt="user-img"></img>
-                <a style = "float: right"> user123 </a>
+                <input id = "search-board" style = "width:500px; font-size:20px"></input>
+                <button id = "search-board-btn" style = "font-size:20px">Enter</button>
+                <img style = "float:right; margin-right:20px" alt="user-img"></img>
+                <a style = "float:right"> user123 </a>
                 <a><i style = "float:right; font-size:30px; margin-top:10px; margin-right:10px" class="fas fa-arrow-left"></i></a>
             </nav>
         </div>
-        <div id="side">
+        <div id = "side">
             <nav id = "nav2">
                 <ul>
                     <li><a class = "active" href="#main">Main</a></li>
-                    <li><a href="#notice">Notice</a></li>
-                    <li><a href="#hot">HOT</a></li>
-                    <li><a href="#shop">Shop</a></li>
-                    <li><a href="#caledar">Calendar</a></li>
-                    <li><a href="#wiki">Wiki</a></li>
+                    <li><a class = "notactive" href="#notice">Notice</a></li>
+                    <li><a class = "notactive" href="#hot">HOT</a></li>
+                    <li><a class = "notactive" href="#shop">Shop</a></li>
+                    <li><a class = "notactive" href="#caledar">Calendar</a></li>
+                    <li><a class = "notactive" href="#wiki">Wiki</a></li>
                 </ul>
             </nav>
         </div>
-    
         <div id="contents">
             <div Id = "boards">
                 <a> Favorites </a>
@@ -58,7 +47,7 @@
                 <a> Star board </a>
                 <a> SNS </a>
             </div>
-            <div style = "margin-left : 20px; margin-top : 10px">
+            <div style = "margin-left:20px; margin-top:10px">
                 <select name="job">
                 <option hidden value="" selected="selected">Filter</option>
                 <option value="All">All</option>
@@ -66,34 +55,12 @@
                 <option value="G-IDLE">G-IDLE</option>
                 </select>
             </div>
-            <div class="swiper-container mySwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">Slide 1</div>
-                        <div class="swiper-slide">Slide 2</div>
-                        <div class="swiper-slide">Slide 3</div>
-                        <div class="swiper-slide">Slide 4</div>
-                        <div class="swiper-slide">Slide 5</div>
-                        <div class="swiper-slide">Slide 6</div>
-                        <div class="swiper-slide">Slide 7</div>
-                        <div class="swiper-slide">Slide 8</div>
-                        <div class="swiper-slide">Slide 9</div>
-                    </div>
-                <div class="swiper-pagination"></div>
-            </div>
-            <div style = "text-align : center">
-                <img class = "photo" src = "yuqi.PNG" alt="user-img"></img>
-                <img class = "photo" src = "yuqi.PNG" alt="user-img"></img>
-                <img class = "photo" src = "yuqi.PNG" alt="user-img"></img>
-                <button style = "width:280px;height:200px;vertical-align:top;margin-top : 20px;font-size:50px"> + </button>
-            </div>
+            
         </div>
+        <script src="jquery/js/jquery-1.9.0.min.js"></script>
+        <script src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+        <script src="./temp.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"> </script>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     </body>
-    <script>
-        var swiper = new Swiper(".mySwiper", {
-            pagination: {
-            el: ".swiper-pagination",
-            dynamicBullets: true,
-            },
-        });
-    </script>
 </html>
