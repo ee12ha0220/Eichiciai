@@ -57,8 +57,10 @@ $( document ).ready(function() {
             content: content
         });
     })
+    var current_state = "main";
+    var selected_filter;
     
-    function drawmain() {
+    function main() {
         var parent = document.getElementById("contents");
         var div0 = document.createElement("div");
         div0.setAttribute("class", "bigdiv");
@@ -121,7 +123,7 @@ $( document ).ready(function() {
         });
     }
     
-    function drawidolmain(){
+    function idolmain(){
         var div = document.createElement("div");
         div.setAttribute("class", "bigdiv");
 
@@ -137,7 +139,7 @@ $( document ).ready(function() {
         div2.setAttribute("style", "text-align:center; width:1000px;");
         var text1 = document.createTextNode("Hot photos & videos");
 
-        div2.appendChild(text1);
+        div2.appendChild(text1); 
         div0.appendChild(div2);
 
         var div3 = document.createElement("div");
@@ -167,7 +169,7 @@ $( document ).ready(function() {
 
         var list = document.createElement("ul");
         var li1 = document.createElement("li");
-        //li1.setAttribute("style", "font-size:5px");
+        
         li1.innerHTML = "one";
         var li2 = document.createElement("li");
         li2.innerHTML = "two";
@@ -197,10 +199,10 @@ $( document ).ready(function() {
         div.setAttribute("class", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "width:75%; float:right");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px; margin-bottom:-23px");
 
         var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px; float:right");
+        strong1.setAttribute("style", "font-size:40px; margin-right:50px");
 
         var text1 = document.createTextNode("QnA Board");
 
@@ -244,40 +246,98 @@ $( document ).ready(function() {
 
         div.appendChild(div2);
 
+        var div3 = document.createElement("var");
+
+        var btn = document.createElement("button");
+        btn.setAttribute("ID", "write_button");
+        btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6");
+        btn.innerHTML = "Write";
+
+        div3.appendChild(btn);
+        div.appendChild(div3);
+        
         parent.appendChild(div);
-
-
-        //     <div style= "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;">
-        //         <h5 class="qnaheader" style="width: 10%">No.</h5>
-        //         <h5 class="qnaheader" style="width: 40%">Title</h5>
-        //         <h5 class="qnaheader" style="width: 25%">Author</h5>
-        //         <h5 class="qnaheader" style="width: 10%">Answers</h5>
-        //         <h5 class="qnaheader" style="width: 15%">Date</h5>
-        //     </div>
-        //     <div>
-        //         <button style="float: right;margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6;"  onclick="location.href='./qnawrite.html' ">Write</button>
-        //     </div>
     }
 
+    function qna2(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("class", "bigdiv");
 
+        var div1 = document.createElement("div");
+        
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size: 40px");
+        strong1.innerHTML = "Write a Question!";
 
-    // function reshape(){
-    //     var selected_filter = $("#filter").val();
-    //     var div = document.getElementsByClassName("bigdiv")[0];
-    //     var parent = document.getElementById("contents");
-    //     if (div != null) parent.removeChild(div);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
 
-    //     if (selected_filter == "BTS") drawidolmain();
-    //     else drawmain();
-    // }
+        var div2 = document.createElement("div");
+        var input1 = document.createElement("input");
+        input1.setAttribute("value", "Enter a Title...");
+        input1.setAttribute("style", "width: 98%;margin-bottom: 10px;height: 30px;margin-top: 8px");
 
-    // filter.addEventListener("change", function(){
-    //     reshape();
-    //     });
+        div2.appendChild(input1);
+        div.appendChild(div2);
 
-    // $('#qna').get(0).click()
-    // reshape();
-    
-    qna1();
-    getqnaData();
+        var div3 = document.createElement("div");
+        var input2 = document.createElement("input");
+        input2.setAttribute("value", "Enter a Question...");
+        input2.setAttribute("style", "width: 98%; height: 430px");
+
+        div3.appendChild(input2);
+        div.appendChild(div3);
+
+        var div4 = document.createElement("div");
+        var btn = document.createElement("button");
+        btn.setAttribute("style", "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6");
+        btn.innerHTML = "Submit";
+        
+        div4.appendChild(btn);
+        div.appendChild(div4);
+
+        parent.appendChild(div);
+    }
+
+    function clear(){
+        var div = document.getElementsByClassName("bigdiv")[0];
+        var parent = document.getElementById("contents");
+        if (div != null) parent.removeChild(div);
+    }
+
+    function reshape(filter_change = false){
+        clear();
+        selected_filter = $("#filter").val();
+        if (current_state == "main"){
+            if (selected_filter == "BTS") idolmain();
+            else main();
+        }
+        else if (current_state == "qna1"){
+            qna1();
+        }
+        else if (current_state == "qna2"){
+            if (filter_change){
+                current_state = "qna1";
+                reshape();
+            }
+            else qna2();
+        }
+    }
+
+    filter.addEventListener("change", function(){
+        reshape(true);
+        });
+
+    $('#qna').click(function(){
+        current_state = "qna1";
+        reshape();
+    });
+
+    $('#contents').on("click", "#write_button", function(){
+        current_state = "qna2";
+        reshape();
+    });
+
+    reshape();
 });
