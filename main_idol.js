@@ -13,57 +13,68 @@ $( document ).ready(function() {
     };
     firebase.initializeApp(firebaseConfig);
 
-    var qnaTitle = document.getElementById("qnatitle");
-    var qnaContent = document.getElementById("qnacontent");
-    var qnaSubmit = document.getElementById("submitqna");
-    var database = firebase.database();
     var qnanum = 0;
-    
-    function getqnaData() {
-
-        firebase.database().ref('qna').once('value').then((snapshot) => {
-        var qnaval = snapshot.val();
-        var keyList = Object.keys(qnaval);
-
-        for(var i=0; i<keyList.length; i++){
-            qnaval[keyList[i]];
-        }
-        // var content = snapshot.content.value();
-
-        console.log(qnaval);
-        //console.log(content);
-        addqna(qnanum, snapshot.key, 'author', '12', '2021-05-12');
-        qnanum ++;
-        });
-    }
-
-    function addqna(no, title, author, answer, date) {
-        console.log(no);
-        console.log(title);
-        console.log(author);
-        console.log(answer);
-        console.log(date);
-    }
-
-    $('#submitqna').click(function() {
-        console.log("하고있쪄요!\n");
-        var title = qnaTitle.value;
-        console.log(qnaTitle.value);
-        var content = qnaContent.value;
-        var hello = "hello";
-        var newqna = firebase.database().ref('/qna').push();
-        newqna.set({
-            title: title,
-            content: content
-        });
-    })
     var current_state = "main";
     var selected_filter;
     
+    function getqnaData() {
+        firebase.database().ref('/qna').once('value').then((snapshot) => {
+        var qnaval = snapshot.val();
+        if (qnaval == null) return;
+        var keyList = Object.keys(qnaval);
+        qnanum = keyList.length;
+        var current;
+
+        for(var i=qnanum-1; i>=0; i--){
+            current = qnaval[keyList[i]];
+            addqna(current);
+        }
+        });
+    }
+
+    function addqna(qnaval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class","qnaline");
+        var h1 = document.createElement("p");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%")
+        h1.innerHTML = qnaval.no;
+
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute("style", "width: 40%")
+        h2.innerHTML = qnaval.title;
+
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 25%")
+        h3.innerHTML = qnaval.author;
+
+        var h4 = document.createElement("p");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute("style", "width: 10%")
+        h4.innerHTML = qnaval.answer;
+
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%")
+        h5.innerHTML = qnaval.date;
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
+        div1.appendChild(h4);
+        div1.appendChild(h5);
+
+        parent.insertBefore(div1, target_div);
+    }
+
     function main() {
         var parent = document.getElementById("contents");
         var div0 = document.createElement("div");
-        div0.setAttribute("class", "bigdiv");
+        div0.setAttribute("ID", "bigdiv");
 
         var swipe = document.createElement("div");
         swipe.setAttribute("class", "swiper-container mySwiper");
@@ -125,7 +136,7 @@ $( document ).ready(function() {
     
     function idolmain(){
         var div = document.createElement("div");
-        div.setAttribute("class", "bigdiv");
+        div.setAttribute("ID", "bigdiv");
 
         var parent = document.getElementById("contents");
         var div0 = document.createElement("div");
@@ -196,10 +207,10 @@ $( document ).ready(function() {
     function qna1(){
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
-        div.setAttribute("class", "bigdiv");
+        div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px; margin-bottom:-23px");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px; margin-right:50px");
@@ -211,7 +222,8 @@ $( document ).ready(function() {
         div.appendChild(div1);
 
         var div2 = document.createElement("div");
-        div2.setAttribute("style", "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;");
+        div2.setAttribute("class","qnaline");
+        div2.setAttribute("style", "border-bottom:4px solid black");
 
         var h1 = document.createElement("h5");
         h1.setAttribute("class", "qnaheader");
@@ -246,7 +258,8 @@ $( document ).ready(function() {
 
         div.appendChild(div2);
 
-        var div3 = document.createElement("var");
+        var div3 = document.createElement("div");
+        div3.setAttribute("ID", "write-div");
 
         var btn = document.createElement("button");
         btn.setAttribute("ID", "write_button");
@@ -257,12 +270,14 @@ $( document ).ready(function() {
         div.appendChild(div3);
         
         parent.appendChild(div);
+
+        getqnaData();
     }
 
     function qna2(){
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
-        div.setAttribute("class", "bigdiv");
+        div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
         
@@ -277,6 +292,7 @@ $( document ).ready(function() {
         var input1 = document.createElement("input");
         input1.setAttribute("value", "Enter a Title...");
         input1.setAttribute("style", "width: 98%;margin-bottom: 10px;height: 30px;margin-top: 8px");
+        input1.setAttribute("ID", "qnaTitle");
 
         div2.appendChild(input1);
         div.appendChild(div2);
@@ -285,6 +301,7 @@ $( document ).ready(function() {
         var input2 = document.createElement("input");
         input2.setAttribute("value", "Enter a Question...");
         input2.setAttribute("style", "width: 98%; height: 430px");
+        input2.setAttribute("ID", "qnaContents");
 
         div3.appendChild(input2);
         div.appendChild(div3);
@@ -292,6 +309,7 @@ $( document ).ready(function() {
         var div4 = document.createElement("div");
         var btn = document.createElement("button");
         btn.setAttribute("style", "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6");
+        btn.setAttribute("ID", "submitqna");
         btn.innerHTML = "Submit";
         
         div4.appendChild(btn);
@@ -301,15 +319,34 @@ $( document ).ready(function() {
     }
 
     function clear(){
-        var div = document.getElementsByClassName("bigdiv")[0];
+        var div = document.getElementById("bigdiv");
         var parent = document.getElementById("contents");
         if (div != null) parent.removeChild(div);
     }
 
+    function resetmenu(){
+        var temp;
+        temp = document.getElementById("main");
+        temp.setAttribute("style", "cursor:pointer");
+        temp = document.getElementById("notice");
+        temp.setAttribute("style", "cursor:pointer");
+        temp = document.getElementById("hot");
+        temp.setAttribute("style", "cursor:pointer");
+        temp = document.getElementById("shop");
+        temp.setAttribute("style", "cursor:pointer");
+        temp = document.getElementById("calendar");
+        temp.setAttribute("style", "cursor:pointer");
+        temp = document.getElementById("wiki");
+        temp.setAttribute("style", "cursor:pointer");
+    }
+
     function reshape(filter_change = false){
         clear();
+        resetmenu();
         selected_filter = $("#filter").val();
         if (current_state == "main"){
+            var curr = document.getElementById("main");
+            curr.setAttribute("style", "background-color: #4767ff; cursor:pointer");
             if (selected_filter == "BTS") idolmain();
             else main();
         }
@@ -336,6 +373,24 @@ $( document ).ready(function() {
 
     $('#contents').on("click", "#write_button", function(){
         current_state = "qna2";
+        reshape();
+    });
+
+    $('#contents').on("click" , "#submitqna", function() {
+        qnanum++;
+        var title = document.getElementById("qnaTitle").value;
+        var content = document.getElementById("qnaContents").value;
+        var newqna = firebase.database().ref('/qna').push();
+        var date = new Date().toLocaleDateString();
+        newqna.set({
+            no : qnanum,
+            title: title,
+            author : "김주호",
+            answer: 0,
+            date: date,
+            content: content
+        });
+        current_state = "qna1";
         reshape();
     });
 

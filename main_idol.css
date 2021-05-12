@@ -135,10 +135,17 @@ select {
 }
 
 .qnaheader {
-    padding: -20px;
     margin-right: 50px; 
     font-size: 18px;
     text-align: center;
-    height: 0px;
-    /* line-height: 0; */
+}
+
+.qnaline {
+    border-bottom: 2px solid black; 
+    display: flex; 
+    flex-direction: row; 
+    margin-left:20px;
+    margin-right:20px;
+    align-items: center;
+    height:40px;
 }
