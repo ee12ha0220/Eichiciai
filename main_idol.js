@@ -1,5 +1,62 @@
 $( document ).ready(function() {
     var filter = document.getElementById("filter");
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyACT6acGeh9iFqQBDmkcAQc1Hzs9obUzr8",
+        authDomain: "starlight-5a11b.firebaseapp.com",
+        databaseURL: "https://starlight-5a11b-default-rtdb.firebaseio.com",
+        projectId: "starlight-5a11b",
+        storageBucket: "starlight-5a11b.appspot.com",
+        messagingSenderId: "725820928370",
+        appId: "1:725820928370:web:77593ae49597a445acadeb",
+        measurementId: "G-L5J6STQN97"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    var qnaTitle = document.getElementById("qnatitle");
+    var qnaContent = document.getElementById("qnacontent");
+    var qnaSubmit = document.getElementById("submitqna");
+    var database = firebase.database();
+    var qnanum = 0;
+    
+    function getqnaData() {
+
+        firebase.database().ref('qna').once('value').then((snapshot) => {
+        var qnaval = snapshot.val();
+        var keyList = Object.keys(qnaval);
+
+        for(var i=0; i<keyList.length; i++){
+            qnaval[keyList[i]];
+        }
+        // var content = snapshot.content.value();
+
+        console.log(qnaval);
+        //console.log(content);
+        addqna(qnanum, snapshot.key, 'author', '12', '2021-05-12');
+        qnanum ++;
+        });
+    }
+
+    function addqna(no, title, author, answer, date) {
+        console.log(no);
+        console.log(title);
+        console.log(author);
+        console.log(answer);
+        console.log(date);
+    }
+
+    $('#submitqna').click(function() {
+        console.log("하고있쪄요!\n");
+        var title = qnaTitle.value;
+        console.log(qnaTitle.value);
+        var content = qnaContent.value;
+        var hello = "hello";
+        var newqna = firebase.database().ref('/qna').push();
+        newqna.set({
+            title: title,
+            content: content
+        });
+    })
     
     function drawmain() {
         var parent = document.getElementById("contents");
@@ -222,4 +279,5 @@ $( document ).ready(function() {
     // reshape();
     
     qna1();
+    getqnaData();
 });
