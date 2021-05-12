@@ -134,21 +134,92 @@ $( document ).ready(function() {
         parent_div.appendChild(img);
     }
 
-
-
-    function reshape(){
-        var selected_filter = $("#filter").val();
-        var div = document.getElementsByClassName("bigdiv")[0];
+    function qna1(){
         var parent = document.getElementById("contents");
-        if (div != null) parent.removeChild(div);
+        var div = document.createElement("div");
+        div.setAttribute("class", "bigdiv");
 
-        if (selected_filter == "BTS") drawidolmain();
-        else drawmain();
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "width:75%; float:right");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px; float:right");
+
+        var text1 = document.createTextNode("QnA Board");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("style", "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;");
+
+        var h1 = document.createElement("h5");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%")
+        h1.innerHTML ="No.";
+
+        var h2 = document.createElement("h5");
+        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute("style", "width: 40%")
+        h2.innerHTML = "Title";
+
+        var h3 = document.createElement("h5");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 25%")
+        h3.innerHTML = "Author";
+
+        var h4 = document.createElement("h5");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute("style", "width: 10%")
+        h4.innerHTML = "Answer";
+
+        var h5 = document.createElement("h5");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%")
+        h5.innerHTML = "Date";
+
+        div2.appendChild(h1);
+        div2.appendChild(h2);
+        div2.appendChild(h3);
+        div2.appendChild(h4);
+        div2.appendChild(h5);
+
+        div.appendChild(div2);
+
+        parent.appendChild(div);
+
+
+        //     <div style= "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;">
+        //         <h5 class="qnaheader" style="width: 10%">No.</h5>
+        //         <h5 class="qnaheader" style="width: 40%">Title</h5>
+        //         <h5 class="qnaheader" style="width: 25%">Author</h5>
+        //         <h5 class="qnaheader" style="width: 10%">Answers</h5>
+        //         <h5 class="qnaheader" style="width: 15%">Date</h5>
+        //     </div>
+        //     <div>
+        //         <button style="float: right;margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6;"  onclick="location.href='./qnawrite.html' ">Write</button>
+        //     </div>
     }
 
-    filter.addEventListener("change", function(){
-        reshape();
-        });
 
-    reshape();
+
+    // function reshape(){
+    //     var selected_filter = $("#filter").val();
+    //     var div = document.getElementsByClassName("bigdiv")[0];
+    //     var parent = document.getElementById("contents");
+    //     if (div != null) parent.removeChild(div);
+
+    //     if (selected_filter == "BTS") drawidolmain();
+    //     else drawmain();
+    // }
+
+    // filter.addEventListener("change", function(){
+    //     reshape();
+    //     });
+
+    // $('#qna').get(0).click()
+    // reshape();
+    
+    qna1();
 });

@@ -133,3 +133,12 @@ select {
     margin : 10px;
     display : inline-block;
 }
+
+.qnaheader {
+    padding: -20px;
+    margin-right: 50px; 
+    font-size: 18px;
+    text-align: center;
+    height: 0px;
+    /* line-height: 0; */
+}
