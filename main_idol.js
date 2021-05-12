@@ -82,7 +82,7 @@ $( document ).ready(function() {
         div2.setAttribute("style", "text-align:center; width:1000px;");
         var text1 = document.createTextNode("Hot photos & videos");
 
-        div2.appendChild(text1);
+        div2.appendChild(text1); 
         div0.appendChild(div2);
 
         var div3 = document.createElement("div");
