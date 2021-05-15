@@ -140,6 +140,18 @@ select {
     text-align: center;
 }
 
+.question {
+    margin-right: 50px; 
+    font-size: 18px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.question:hover{
+    color : blue;
+    text-decoration : underline;
+}
+
 .qnaline {
     border-bottom: 2px solid black; 
     display: flex; 

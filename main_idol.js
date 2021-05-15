@@ -43,7 +43,7 @@ $( document ).ready(function() {
         h1.innerHTML = qnaval.no;
 
         var h2 = document.createElement("p");
-        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute("class", "question");
         h2.setAttribute("style", "width: 40%")
         h2.innerHTML = qnaval.title;
 
@@ -360,11 +360,24 @@ $( document ).ready(function() {
             }
             else qna2();
         }
+        else if (current_state == "qnapost"){
+            if (filter_change){
+                current_state = "qna1";
+                reshape();
+            }
+            else qnapost();
+        }
     }
 
     filter.addEventListener("change", function(){
         reshape(true);
         });
+
+
+    $('.question').click(function(){
+        current_state = "qnapost";
+        reshape();
+    });
 
     $('#qna').click(function(){
         current_state = "qna1";
