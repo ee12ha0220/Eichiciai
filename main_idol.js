@@ -94,7 +94,7 @@ $(document).ready(function () {
   }
   function addphoto(photoval) {
     var target_div = document.getElementById("write-div");
-    var parent = document.getElementById("bigdiv1");
+    var parent = document.getElementById("bigdiv");
     var div1 = document.createElement("div");
     div1.setAttribute("class", "photochunk");
     var h1 = document.createElement("div");
@@ -426,8 +426,7 @@ $(document).ready(function () {
   function photo() {
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
-    div.setAttribute("ID", "bigdiv1");
-    div.setAttribute("style", "flex:grid");
+    div.setAttribute("ID", "bigdiv");
 
     var div1 = document.createElement("div");
     div1.setAttribute(
@@ -572,6 +571,81 @@ $(document).ready(function () {
     div.appendChild(div4);
 
     parent.appendChild(div);
+  }
+  function specific_photo() {
+    var parent = document.getElementById("contents");
+    var div = document.createElement("div");
+    div.setAttribute("ID", "bigdiv");
+
+    var div1 = document.createElement("div");
+    div1.setAttribute(
+      "style",
+      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+    );
+
+    var strong1 = document.createElement("STRONG");
+    strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+
+    var text1 = document.createTextNode("QnA Board");
+
+    strong1.appendChild(text1);
+    div1.appendChild(strong1);
+    div.appendChild(div1);
+
+    var div2 = document.createElement("div");
+    div2.setAttribute("class", "qnaline");
+    div2.setAttribute("style", "border-bottom:4px solid black");
+
+    var h1 = document.createElement("h5");
+    h1.setAttribute("class", "qnaheader");
+    h1.setAttribute("style", "width: 10%");
+    h1.innerHTML = "No.";
+
+    var h2 = document.createElement("h5");
+    h2.setAttribute("class", "qnaheader");
+    h2.setAttribute("style", "width: 40%");
+    h2.innerHTML = "Title";
+
+    var h3 = document.createElement("h5");
+    h3.setAttribute("class", "qnaheader");
+    h3.setAttribute("style", "width: 25%");
+    h3.innerHTML = "Author";
+
+    var h4 = document.createElement("h5");
+    h4.setAttribute("class", "qnaheader");
+    h4.setAttribute("style", "width: 10%");
+    h4.innerHTML = "Answer";
+
+    var h5 = document.createElement("h5");
+    h5.setAttribute("class", "qnaheader");
+    h5.setAttribute("style", "width: 15%");
+    h5.innerHTML = "Date";
+
+    div2.appendChild(h1);
+    div2.appendChild(h2);
+    div2.appendChild(h3);
+    div2.appendChild(h4);
+    div2.appendChild(h5);
+
+    div.appendChild(div2);
+
+    var div3 = document.createElement("div");
+    div3.setAttribute("ID", "write-div");
+
+    var btn = document.createElement("button");
+    btn.setAttribute("ID", "write_button");
+    btn.setAttribute(
+      "style",
+      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+    );
+    btn.innerHTML = "Write";
+
+    div3.appendChild(btn);
+    div.appendChild(div3);
+
+    parent.appendChild(div);
+
+    getqnaData();
   }
 
   function clear() {
