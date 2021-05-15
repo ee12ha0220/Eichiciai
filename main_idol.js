@@ -16,7 +16,26 @@ $( document ).ready(function() {
     var qnanum = 0;
     var current_state = "main";
     var selected_filter;
+    var f_qna;
+    var f_key;
+    var f_qnaanswer;
+
+    function getCommentData(){
+        firebase.database().ref('/qna/'+f_key+'/comments').once('value').then((snapshot) => {
+            var qnaval = snapshot.val();
+            if (qnaval == null) return;
+            var keyList = Object.keys(qnaval);
+            qnanum = keyList.length;
+            var current;
     
+    
+            for(var i=qnanum-1; i>=0; i--){
+                current = qnaval[keyList[i]];
+                addcomment(current);
+            }
+        });
+    }
+
     function getqnaData() {
         firebase.database().ref('/qna').once('value').then((snapshot) => {
         var qnaval = snapshot.val();
@@ -24,6 +43,7 @@ $( document ).ready(function() {
         var keyList = Object.keys(qnaval);
         qnanum = keyList.length;
         var current;
+
 
         for(var i=qnanum-1; i>=0; i--){
             current = qnaval[keyList[i]];
@@ -69,6 +89,25 @@ $( document ).ready(function() {
         div1.appendChild(h5);
 
         parent.insertBefore(div1, target_div);
+    }
+
+    function addcomment(commentval) {
+        var target_div = document.getElementById("qna_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class","qnaline");
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width: 20%");
+        h1.innerHTML = commentval.author;    
+        
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 80%");
+        h2.innerHTML = commentval.content;
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+
+        target_div.appendChild(div1);
     }
 
     function main() {
@@ -213,7 +252,7 @@ $( document ).ready(function() {
         div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+        strong1.setAttribute("style", "font-size:40px;");
 
         var text1 = document.createTextNode("QnA Board");
 
@@ -319,15 +358,15 @@ $( document ).ready(function() {
     }
 
     function qnapost(){
-        var parent = document.getElementById("contents");;
+        var parent = document.getElementById("contents");
         var div = document.createElement("div");
-        div.setAttribute("class", "bigdiv");
+        div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px; margin-bottom:-23px");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+        strong1.setAttribute("style", "font-size:40px;");
 
         var text1 = document.createTextNode("QnA Board");
 
@@ -336,14 +375,96 @@ $( document ).ready(function() {
         div.appendChild(div1);
 
         var div2 = document.createElement("div");
-        div2.setAttribute("style", "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;");
+        div2.setAttribute("class","qnaline");
+        div2.setAttribute("style", "border-bottom:4px solid black");
 
-        var text2 = document.createTextNode("Question No.1234");
-        div2.appendChild(text2);
+        var qnano = document.createElement("div");
+        qnano.setAttribute("class", "qnaheader");
+        qnano.setAttribute("style", "width:50%; text-align:left");
+        qnano.innerHTML = "Question No."+f_qna.no;
+        
+
+        var qnaauthor = document.createElement("div");
+        qnaauthor.setAttribute("class", "qnaheader");
+        qnaauthor.setAttribute("style", "width:50%;text-align: right");
+        qnaauthor.innerHTML = f_qna.author;
+
+
+        div2.appendChild(qnano);
+        div2.appendChild(qnaauthor);
+        
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("class", "qnaline");
+        div3.setAttribute("style", "border-bottom:2px solid black");
+
+        var qnatitle = document.createElement("div");
+        qnatitle.setAttribute("class", "qnaheader");
+        qnatitle.setAttribute("style", "width:50%; text-align:left");
+        qnatitle.innerHTML = f_qna.title;
+
+        var qnatime = document.createElement("div");
+        qnatime.setAttribute("class", "qnaheader");
+        qnatime.setAttribute("style", "width:50%;text-align: right");
+        qnatime.innerHTML = f_qna.date;
+
+        div3.appendChild(qnatitle);
+        div3.appendChild(qnatime);
+
+
+        var div4 = document.createElement("div");
+        div4.innerHTML = f_qna.content;
+        div4.setAttribute("style", "margin:20px");
+
+
+
+        var div5 = document.createElement("div");
+
+        // var qnaedit = document.createElement("p");
+        // qnaedit.setAttribute("style", "display: inline-block; margin-right: 15px; cursor: pointer");
+        // qnaedit.innerHTML = "edit";
+
+        // var qnadelete = document.createElement("p");
+        // qnadelete.setAttribute("style", "display: inline-block; margin-right: 20px; cursor: pointer");
+        // qnadelete.innerHTML = "delete";
+
+        var leaveans = document.createElement("input");
+        leaveans.setAttribute("ID", "comment_input");
+        leaveans.setAttribute("style", "height: 80px;width: 88%;margin-left:20px;margin-top:30px");
+
+        var enterans = document.createElement("button");
+        enterans.setAttribute("ID", "enterans");
+        enterans.setAttribute("style", "height:86px;width:86px;margin-left:10px")
+        enterans.innerHTML = "Enter";
+
+        div5.appendChild(leaveans);
+        div5.appendChild(enterans);
+        // div5.appendChild(qnaedit);
+        // div5.appendChild(qnadelete);
+
+
+        var div6 = document.createElement("div");
+        div6.setAttribute("class", "qnaline");
+        div6.setAttribute("style", "border-bottom:2px solid black");
+
+        var answernum = document.createElement("h4");
+        answernum.innerHTML = "Answers("+f_qnaanswer+")";
+        
+        div6.appendChild(answernum);
+
+        var div7 = document.createElement("div");
+        div7.setAttribute("ID", "qna_comments");
 
         div.appendChild(div2);
+        div.appendChild(div3);
+        div.appendChild(div4);
+        div.appendChild(div5);
+        div.appendChild(div6);
+        div.appendChild(div7);
 
         parent.appendChild(div);
+
+        getCommentData();
     }
 
     function clear(){
@@ -402,9 +523,23 @@ $( document ).ready(function() {
         });
 
 
-    $('.question').click(function(){
-        current_state = "qnapost";
-        reshape();
+    $('#contents').on("click", ".question", function(){
+        index = $(this).parent().index();
+        firebase.database().ref('/qna').once('value').then((snapshot) => {
+            var qnaval = snapshot.val()
+            var keyList = Object.keys(qnaval);
+            index = keyList.length - index + 1;
+            var currentkey = keyList[index];
+            console.log(qnaval[currentkey].no);
+            f_qna = qnaval[currentkey];
+            f_key = currentkey;
+            f_qnaanswer = qnaval[currentkey].answer;
+            
+            current_state = "qnapost";
+            reshape();
+        });
+        // current_state = "qnapost";
+        // reshape();
     });
 
     $('#qna').click(function(){
@@ -414,6 +549,24 @@ $( document ).ready(function() {
 
     $('#contents').on("click", "#write_button", function(){
         current_state = "qna2";
+        reshape();
+    });
+
+    $('#contents').on("click", "#enterans", function(){
+
+        var comment_input = document.getElementById("comment_input").value;
+        var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
+        newcomment.set({
+            content: comment_input,
+            author : "이시하"
+        })
+
+        f_qnaanswer += 1;
+        
+        var update = {};
+        update['/qna/' + f_key + '/answer'] = f_qnaanswer; 
+
+        firebase.database().ref().update(update);
         reshape();
     });
 
@@ -435,5 +588,8 @@ $( document ).ready(function() {
         reshape();
     });
 
+
+
     reshape();
+    //qnapost();
 }); 
