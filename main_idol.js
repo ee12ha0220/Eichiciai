@@ -300,6 +300,34 @@ $( document ).ready(function() {
         parent.appendChild(div);
     }
 
+    function qnapost(){
+        var parent = document.getElementById("contents");;
+        var div = document.createElement("div");
+        div.setAttribute("class", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px; margin-bottom:-23px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+
+        var text1 = document.createTextNode("QnA Board");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("style", "border-bottom: 4px solid black; display: flex; flex-direction: row; margin-left:20px;margin-right:20px;padding: -20px;");
+
+        var text2 = document.createTextNode("Question No.1234");
+        div2.appendChild(text2);
+
+        div.appendChild(div2);
+
+        parent.appendChild(div);
+    }
+
     function clear(){
         var div = document.getElementsByClassName("bigdiv")[0];
         var parent = document.getElementById("contents");
@@ -339,5 +367,6 @@ $( document ).ready(function() {
         reshape();
     });
 
-    reshape();
+    //reshape();
+    qnapost();
 }); 
