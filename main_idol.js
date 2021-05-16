@@ -94,17 +94,25 @@ $(document).ready(function () {
   }
   function addphoto(photoval) {
     var target_div = document.getElementById("write-div");
+    var div_chunks = document.getElementById("photochunks");
     var parent = document.getElementById("bigdiv");
     var div1 = document.createElement("div");
     div1.setAttribute("class", "photochunk");
     var h1 = document.createElement("div");
     h1.setAttribute("class", "photoheader");
-    h1.setAttribute("style", "height: 5%; cursor:pointer");
+    h1.setAttribute(
+      "style",
+      "height: 4%; cursor:pointer;margin-bottom: 10px;font-size: 23px;font-weight: bold"
+    );
     h1.innerHTML = photoval.title;
 
+    var div_img = document.createElement("div");
+    div_img.setAttribute(
+      "style",
+      "width: 200px; height: 200px; cursor:pointer;align-items:center;display:flex;align-items:center;justify-content:center"
+    );
     var h2 = document.createElement("img");
     h2.setAttribute("class", "photoheader");
-    h2.setAttribute("style", "height: 80%; cursor:pointer");
     var storage = firebase.storage().ref();
     storage
       .child(photoval.photourl)
@@ -118,39 +126,45 @@ $(document).ready(function () {
         xhr.open("GET", url);
         xhr.send();
         h2.src = url;
+        return url;
       })
-      .catch(function (error) {
-        // Handle any errors
+      .then((url) => {
+        var img = new Image();
+        img.onload = function () {
+          if (this.width < this.height) {
+            h2.setAttribute("style", "width: auto; height: 200px");
+          } else {
+            h2.setAttribute("style", "width: 200px; height: auto");
+          }
+        };
+        img.src = url;
+
+        div_img.appendChild(h2);
       });
 
     var h3 = document.createElement("div");
     h3.setAttribute("class", "photoheader");
-    h3.setAttribute("style", "height: 5%");
+    h3.setAttribute("style", "height: 4%;margin-bottom: 10px;");
     h3.innerHTML = photoval.author;
-
-    var h4 = document.createElement("div");
-    h4.setAttribute("class", "photoheader");
-    h4.setAttribute("style", "height: 5%");
-    h4.innerHTML = photoval.content;
 
     var h5 = document.createElement("div");
     h5.setAttribute("class", "photoheader");
-    h5.setAttribute("style", "height: 3%");
+    h5.setAttribute("style", "height: 4%;margin-bottom: 10px;");
     h5.innerHTML = photoval.date;
 
     var h6 = document.createElement("div");
     h6.setAttribute("class", "photoheader");
-    h6.setAttribute("style", "height: 2%");
-    h6.innerHTML = photoval.schedule;
+    h6.setAttribute("style", "height: 4%;margin-bottom: 10px;");
+    h6.innerHTML = "schedule: " + photoval.schedule;
 
-    div1.appendChild(h2);
+    div1.appendChild(h6);
+    div1.appendChild(div_img);
     div1.appendChild(h1);
     div1.appendChild(h3);
-    div1.appendChild(h4);
     div1.appendChild(h5);
-    div1.appendChild(h6);
 
-    parent.insertBefore(div1, target_div);
+    div_chunks.appendChild(div1);
+    // parent.insertBefore(div1, target_div);
   }
 
   function main() {
@@ -433,6 +447,12 @@ $(document).ready(function () {
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
     div.setAttribute("ID", "bigdiv");
+    var div_chunks = document.createElement("div");
+    div_chunks.setAttribute("ID", "photochunks");
+    div_chunks.setAttribute(
+      "style",
+      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+    );
 
     var div1 = document.createElement("div");
     div1.setAttribute(
@@ -492,6 +512,7 @@ $(document).ready(function () {
     btn.innerHTML = "Write";
 
     div3.appendChild(btn);
+    div.appendChild(div_chunks);
     div.appendChild(div3);
 
     parent.appendChild(div);
