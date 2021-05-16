@@ -99,12 +99,12 @@ $(document).ready(function () {
     div1.setAttribute("class", "photochunk");
     var h1 = document.createElement("div");
     h1.setAttribute("class", "photoheader");
-    h1.setAttribute("style", "height: 5%");
+    h1.setAttribute("style", "height: 5%; cursor:pointer");
     h1.innerHTML = photoval.title;
 
     var h2 = document.createElement("img");
     h2.setAttribute("class", "photoheader");
-    h2.setAttribute("style", "height: 80%");
+    h2.setAttribute("style", "height: 80%; cursor:pointer");
     var storage = firebase.storage().ref();
     storage
       .child(photoval.photourl)
@@ -135,14 +135,20 @@ $(document).ready(function () {
 
     var h5 = document.createElement("div");
     h5.setAttribute("class", "photoheader");
-    h5.setAttribute("style", "height: 5%");
+    h5.setAttribute("style", "height: 3%");
     h5.innerHTML = photoval.date;
+
+    var h6 = document.createElement("div");
+    h6.setAttribute("class", "photoheader");
+    h6.setAttribute("style", "height: 2%");
+    h6.innerHTML = photoval.schedule;
 
     div1.appendChild(h2);
     div1.appendChild(h1);
     div1.appendChild(h3);
     div1.appendChild(h4);
     div1.appendChild(h5);
+    div1.appendChild(h6);
 
     parent.insertBefore(div1, target_div);
   }
@@ -559,6 +565,15 @@ $(document).ready(function () {
     div.appendChild(div3);
 
     var div4 = document.createElement("div");
+    var schedule = document.createTextNode("Select schedule :");
+    var input3 = document.createElement("input");
+    input3.setAttribute("type", "date");
+    input3.setAttribute("ID", "schedule");
+    div4.appendChild(schedule);
+    div4.appendChild(input3);
+    div.appendChild(div4);
+
+    var div4 = document.createElement("div");
     var btn = document.createElement("button");
     btn.setAttribute(
       "style",
@@ -747,6 +762,7 @@ $(document).ready(function () {
     var photourl = "images/" + photo.name;
     var title = document.getElementById("photoTitle").value;
     var content = document.getElementById("photoContents").value;
+    var schedule = document.getElementById("schedule").value;
     var newphoto = firebase.database().ref("/photo").push();
     var date = new Date().toLocaleDateString();
     newphoto.set({
@@ -755,6 +771,7 @@ $(document).ready(function () {
       date: date,
       content: content,
       photourl: photourl,
+      schedule: schedule,
     });
     current_state = "photo";
     reshape();
