@@ -100,9 +100,10 @@ $(document).ready(function () {
     div1.setAttribute("class", "photochunk");
     var h1 = document.createElement("div");
     h1.setAttribute("class", "photoheader");
+    h1.setAttribute("class", "photo_button_title");
     h1.setAttribute(
       "style",
-      "height: 4%; cursor:pointer;margin-bottom: 10px;font-size: 23px;font-weight: bold"
+      "height: 4%; cursor:pointer;margin-bottom: 10px;font-size: 23px;font-weight: bold;"
     );
     h1.innerHTML = photoval.title;
 
@@ -111,6 +112,7 @@ $(document).ready(function () {
       "style",
       "width: 200px; height: 200px; cursor:pointer;align-items:center;display:flex;align-items:center;justify-content:center"
     );
+    div_img.setAttribute("class", "photo_button");
     var h2 = document.createElement("img");
     h2.setAttribute("class", "photoheader");
     var storage = firebase.storage().ref();
@@ -157,11 +159,20 @@ $(document).ready(function () {
     h6.setAttribute("style", "height: 4%;margin-bottom: 10px;");
     h6.innerHTML = "schedule: " + photoval.schedule;
 
+    var h_content = document.createElement("div");
+    h_content.setAttribute("class", "photoheader");
+    h_content.setAttribute(
+      "style",
+      "height: 4%;margin-bottom: 10px;display:none"
+    );
+    h_content.innerHTML = photoval.content;
+
     div1.appendChild(h6);
     div1.appendChild(div_img);
     div1.appendChild(h1);
     div1.appendChild(h3);
     div1.appendChild(h5);
+    div1.appendChild(h_content);
 
     div_chunks.appendChild(div1);
     // parent.insertBefore(div1, target_div);
@@ -461,7 +472,7 @@ $(document).ready(function () {
     );
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size:40px; margin-right:12%");
+    strong1.setAttribute("style", "font-size:40px; margin-right:20%");
 
     var text1 = document.createTextNode("Photo Board");
 
@@ -608,10 +619,16 @@ $(document).ready(function () {
 
     parent.appendChild(div);
   }
-  function specific_photo() {
+  function specific_photo(content) {
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
     div.setAttribute("ID", "bigdiv");
+    var div_chunks = document.createElement("div");
+    div_chunks.setAttribute("ID", "photochunks");
+    div_chunks.setAttribute(
+      "style",
+      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+    );
 
     var div1 = document.createElement("div");
     div1.setAttribute(
@@ -620,56 +637,84 @@ $(document).ready(function () {
     );
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+    strong1.setAttribute("style", "font-size:40px;");
 
-    var text1 = document.createTextNode("QnA Board");
+    var text1 = document.createTextNode("Photo Board");
 
     strong1.appendChild(text1);
+
     div1.appendChild(strong1);
+
     div.appendChild(div1);
-
-    var div2 = document.createElement("div");
-    div2.setAttribute("class", "qnaline");
-    div2.setAttribute("style", "border-bottom:4px solid black");
-
-    var h1 = document.createElement("h5");
-    h1.setAttribute("class", "qnaheader");
-    h1.setAttribute("style", "width: 10%");
-    h1.innerHTML = "No.";
-
-    var h2 = document.createElement("h5");
-    h2.setAttribute("class", "qnaheader");
-    h2.setAttribute("style", "width: 40%");
-    h2.innerHTML = "Title";
-
-    var h3 = document.createElement("h5");
-    h3.setAttribute("class", "qnaheader");
-    h3.setAttribute("style", "width: 25%");
-    h3.innerHTML = "Author";
-
-    var h4 = document.createElement("h5");
-    h4.setAttribute("class", "qnaheader");
-    h4.setAttribute("style", "width: 10%");
-    h4.innerHTML = "Answer";
-
-    var h5 = document.createElement("h5");
-    h5.setAttribute("class", "qnaheader");
-    h5.setAttribute("style", "width: 15%");
-    h5.innerHTML = "Date";
-
-    div2.appendChild(h1);
-    div2.appendChild(h2);
-    div2.appendChild(h3);
-    div2.appendChild(h4);
-    div2.appendChild(h5);
-
-    div.appendChild(div2);
 
     var div3 = document.createElement("div");
     div3.setAttribute("ID", "write-div");
 
+    var div_content = document.createElement("div");
+    div_content.setAttribute(
+      "style",
+      "display : flex; flex-direction: column;"
+    );
+    var schedule_div = document.createElement("div");
+    schedule_div.setAttribute("style", "display : flex;height:40px");
+    var schedule = document.createElement("STRONG");
+    schedule.setAttribute(
+      "style",
+      "font-size: 30px;position: absolute; right: 20px"
+    );
+    schedule.innerHTML = content[0].innerHTML;
+
+    var img = document.createElement("img");
+    img.setAttribute("src", content[1].firstChild.src);
+    img.setAttribute(
+      "style",
+      "width: " +
+        content[1].firstChild.width +
+        "px; height: " +
+        content[1].firstChild.height +
+        "px"
+    );
+
+    var header = document.createElement("div");
+    header.setAttribute("style", "display : flex;");
+    var contents = document.createElement("div");
+    contents.setAttribute("style", "display : flex;");
+
+    var title = document.createElement("div");
+    title.setAttribute("style", "font-size: 30px");
+    title.innerHTML = "Title: " + content[2].innerHTML;
+    var author = document.createElement("div");
+    author.setAttribute(
+      "style",
+      "font-size: 30px;position: absolute; right: 20px"
+    );
+    author.innerHTML = content[3].innerHTML;
+    var date = document.createElement("div");
+    date.setAttribute(
+      "style",
+      "font-size: 30px;position: absolute; right: 20px"
+    );
+    date.innerHTML = "Date: " + content[4].innerHTML;
+    var content_html = document.createElement("div");
+    content_html.setAttribute("style", "font-size: 30px");
+    content_html.innerHTML = content[5].innerHTML;
+
+    header.appendChild(title);
+    header.appendChild(date);
+    schedule_div.appendChild(schedule);
+    contents.appendChild(content_html);
+    contents.appendChild(author);
+    div_content.appendChild(header);
+
+    div_content.appendChild(schedule_div);
+    div_content.appendChild(img);
+
+    div_content.appendChild(contents);
+
+    div3.appendChild(div_content);
+
     var btn = document.createElement("button");
-    btn.setAttribute("ID", "write_button");
+    btn.setAttribute("ID", "write_button_photo");
     btn.setAttribute(
       "style",
       "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
@@ -677,11 +722,10 @@ $(document).ready(function () {
     btn.innerHTML = "Write";
 
     div3.appendChild(btn);
+    div.appendChild(div_chunks);
     div.appendChild(div3);
 
     parent.appendChild(div);
-
-    getqnaData();
   }
 
   function clear() {
@@ -706,7 +750,7 @@ $(document).ready(function () {
     temp.setAttribute("style", "cursor:pointer");
   }
 
-  function reshape(filter_change = false) {
+  function reshape(filter_change = false, photo_content = "") {
     clear();
     resetmenu();
     selected_filter = $("#filter").val();
@@ -729,6 +773,14 @@ $(document).ready(function () {
         current_state = "photo";
         reshape();
       } else photo2();
+    } else if (current_state == "photo_specific") {
+      if (filter_change) {
+        current_state = "photo";
+        reshape();
+      } else {
+        console.log();
+        specific_photo(photo_content);
+      }
     }
   }
 
@@ -743,6 +795,14 @@ $(document).ready(function () {
   $("#photo").click(function () {
     current_state = "photo";
     reshape();
+  });
+  $("#contents").on("click", ".photo_button", function () {
+    current_state = "photo_specific";
+    console.log();
+    reshape(false, $(this).parent().children());
+  });
+  $("#contents").on("click", ".photo_button_title", function () {
+    $(this).parent().children()[1].click();
   });
 
   $("#contents").on("click", "#write_button", function () {
