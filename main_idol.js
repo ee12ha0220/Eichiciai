@@ -19,19 +19,20 @@ $( document ).ready(function() {
     var f_qna;
     var f_key;
     var f_qnaanswer;
+    var selected_answer;
 
     function getCommentData(){
-        firebase.database().ref('/qna/'+f_key+'/comments').once('value').then((snapshot) => {
+        firebase.database().ref('/qna/'+f_key).once('value').then((snapshot) => {
             var qnaval = snapshot.val();
-            if (qnaval == null) return;
-            var keyList = Object.keys(qnaval);
+            if (qnaval.comments == null) return;
+            var keyList = Object.keys(qnaval.comments);
             qnanum = keyList.length;
             var current;
-    
+            var state = qnaval.selected;
     
             for(var i=qnanum-1; i>=0; i--){
-                current = qnaval[keyList[i]];
-                addcomment(current);
+                current = qnaval.comments[keyList[i]];
+                addcomment(current, state);
             }
         });
     }
@@ -91,32 +92,48 @@ $( document ).ready(function() {
         parent.insertBefore(div1, target_div);
     }
 
-    function addcomment(commentval) {
+    function addcomment(commentval, state) {
         var target_div = document.getElementById("qna_comments");
         var div1 = document.createElement("div");
         div1.setAttribute("class","qnaline");
         div1.setAttribute("style", "height:auto")
 
         var h1 = document.createElement("p");
-        h1.setAttribute("style", "width: 20%");
+        if (commentval.selected == true){
+            h1.setAttribute("style", "color:#2f80ed;width:20%");
+        }
+        else h1.setAttribute("style", "width:20%");
         h1.innerHTML = commentval.author;    
         
         var h2 = document.createElement("p");
-        h2.setAttribute("style", "width: 60%");
+        if (commentval.selected == true){
+            h2.setAttribute("style", "color:#2f80ed;width:60%");
+        }
+        else h2.setAttribute("style", "width: 60%");
         h2.innerHTML = commentval.content;
 
         var text1 = document.createElement("p");
-        text1.setAttribute("style", "width: 14%;text-align:right;font-size:14px;color:#858080;cursor:pointer");
+        text1.setAttribute("style", "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer");
         text1.innerHTML = "History";
-
-        var button1 = document.createElement("button");
-        button1.setAttribute("class", "selectbtn");
-        button1.innerHTML = "SELECT";
 
         div1.appendChild(h1);
         div1.appendChild(h2);
         div1.appendChild(text1);
-        div1.appendChild(button1);
+        
+        if (!state){
+            var button1 = document.createElement("button");
+            button1.setAttribute("class", "selectbtn");
+            button1.innerHTML = "SELECT";
+            div1.appendChild(button1);
+        }
+        else {
+            if (commentval.selected == true){
+                var button1 = document.createElement("button");
+                button1.setAttribute("class", "selectedbtn");
+                button1.innerHTML = "SELECTED";
+                div1.appendChild(button1);
+            }
+        }
 
         target_div.appendChild(div1);
     }
@@ -476,6 +493,7 @@ $( document ).ready(function() {
         parent.appendChild(div);
 
         getCommentData();
+        //reshape();
     }
 
     function clear(){
@@ -569,7 +587,8 @@ $( document ).ready(function() {
         var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
         newcomment.set({
             content: comment_input,
-            author : "이시하"
+            author : "이시하",
+            selected : false
         })
 
         f_qnaanswer += 1;
@@ -593,18 +612,64 @@ $( document ).ready(function() {
             author : "김주호",
             answer: 0,
             date: date,
-            content: content
+            content: content,
+            selected : false
         });
         current_state = "qna1";
         reshape();
     });
 
-    $('#contents').on("click", ".selectbtn", function(){
-        window.open('select.html', 'popup01', 'width=300, height=400, scrollbars= 0, toolbar=0, menubar=no');
+    $('#select').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        show: {
+            duration: 0
+        },
+        hide: {
+            duration: 0
+        }
+    });
+    $("#select").dialog( "option", "width", 650 );
+
+    $('#select2').dialog({
+        autoOpen: false,
+        show: {
+            duration: 0
+        },
+        hide: {
+            duration: 0
+        }
     });
 
+    $('#contents').on("click", ".selectbtn", function(){
+        selected_answer = $(this).parent().index();
+        console.log(parent);
+        $("#select").dialog("open");
+    });
 
+    $("#yes").click(function(){
+        $("#select").dialog("close");
+        $("#select2").dialog("open");
 
+        firebase.database().ref('/qna/'+f_key).once('value').then((snapshot) => {
+            var qnaval = snapshot.val()
+            var keyList = Object.keys(qnaval.comments);
+            var currentkey = keyList[keyList.length - Number(selected_answer)-1];
+            
+            var update = {};
+            update['/qna/' + f_key + '/selected'] = true;
+            update['/qna/' + f_key + '/comments/' + currentkey + '/selected'] = true;
+            firebase.database().ref().update(update);
+        });
+    });
+
+    $("#no").click(function(){
+        $("#select").dialog("close");
+    });
+
+    $("#close").click(function(){
+        $("#select2").dialog("close");
+        reshape();
+    });
     reshape();
-    //qnapost();
 }); 

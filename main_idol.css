@@ -172,6 +172,20 @@ select {
     cursor: pointer;
 }
 
+.selectedbtn{
+    width:8%;
+    margin-left:20px;
+    background:#1087ff;
+    border-radius:10px;
+    border:none;
+    line-height:30px;
+    color:white;
+}
+
 .selectbtn:hover{
     background-color: #2b5a89;
+}
+
+.dialog_title .ui-dialog-titlebar {
+    background: #85b8eb;
 }
