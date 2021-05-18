@@ -95,17 +95,28 @@ $( document ).ready(function() {
         var target_div = document.getElementById("qna_comments");
         var div1 = document.createElement("div");
         div1.setAttribute("class","qnaline");
+        div1.setAttribute("style", "height:auto")
 
         var h1 = document.createElement("p");
         h1.setAttribute("style", "width: 20%");
         h1.innerHTML = commentval.author;    
         
         var h2 = document.createElement("p");
-        h2.setAttribute("style", "width: 80%");
+        h2.setAttribute("style", "width: 60%");
         h2.innerHTML = commentval.content;
+
+        var text1 = document.createElement("p");
+        text1.setAttribute("style", "width: 14%;text-align:right;font-size:14px;color:#858080;cursor:pointer");
+        text1.innerHTML = "History";
+
+        var button1 = document.createElement("button");
+        button1.setAttribute("class", "selectbtn");
+        button1.innerHTML = "SELECT";
 
         div1.appendChild(h1);
         div1.appendChild(h2);
+        div1.appendChild(text1);
+        div1.appendChild(button1);
 
         target_div.appendChild(div1);
     }
@@ -476,17 +487,17 @@ $( document ).ready(function() {
     function resetmenu(){
         var temp;
         temp = document.getElementById("main");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
         temp = document.getElementById("notice");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
         temp = document.getElementById("hot");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
         temp = document.getElementById("shop");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
         temp = document.getElementById("calendar");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
         temp = document.getElementById("wiki");
-        temp.setAttribute("style", "cursor:pointer");
+        temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
     }
 
     function reshape(filter_change = false){
@@ -495,7 +506,7 @@ $( document ).ready(function() {
         selected_filter = $("#filter").val();
         if (current_state == "main"){
             var curr = document.getElementById("main");
-            curr.setAttribute("style", "background-color: #4767ff; cursor:pointer");
+            curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             if (selected_filter == "BTS") idolmain();
             else main();
         }
@@ -586,6 +597,10 @@ $( document ).ready(function() {
         });
         current_state = "qna1";
         reshape();
+    });
+
+    $('#contents').on("click", ".selectbtn", function(){
+        window.open('select.html', 'popup01', 'width=300, height=400, scrollbars= 0, toolbar=0, menubar=no');
     });
 
 

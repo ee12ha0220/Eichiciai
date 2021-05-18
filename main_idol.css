@@ -33,7 +33,7 @@
 
 body {
     font-size: 20px;
-    background-color:#adbbff;
+    background-color:#e3eaf1;
 }
 
 #header {
@@ -54,7 +54,6 @@ body {
     width: 15%; 
     text-align : right;
     line-height: 70px; 
-    border-right : 3px solid black;
     position: fixed;
     z-index: 2;
 }
@@ -86,7 +85,7 @@ select {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #f1f1f1;
+    background-color: #e3eaf1;
 }
 
 #nav2 li a {
@@ -97,7 +96,7 @@ select {
 }
 
 .active {
-    background-color: #4767ff;
+    background-color: #2b5a89;
 }
 
 .notactive:hover{
@@ -160,4 +159,19 @@ select {
     margin-right:20px;
     align-items: center;
     height:40px;
+}
+
+.selectbtn{
+    width:6%;
+    margin-left:20px;
+    background:#1087ff;
+    border-radius:10px;
+    border:none;
+    line-height:30px;
+    color:white;
+    cursor: pointer;
+}
+
+.selectbtn:hover{
+    background-color: #2b5a89;
 }
