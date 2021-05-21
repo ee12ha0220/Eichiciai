@@ -20,8 +20,9 @@
                 </select>
                 <input id = "search-board" style = "width:500px; font-size:20px"></input>
                 <button id = "search-board-btn" style = "font-size:20px">Enter</button>
-                <img style = "float:right; margin-right:20px" alt="user-img"></img>
-                <a style = "float:right"> user123 </a>
+                <!-- <img style = "float:right; margin-right:20px" alt="user-img"></img>
+                <a style = "float:right"> user123 </a> -->
+                <button id = "login" style = "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px;">LOGIN</button>
                 <a><i style = "float:right; font-size:30px; margin-top:10px; margin-right:10px" class="fas fa-arrow-left"></i></a>
             </nav>
         </div>
@@ -53,6 +54,24 @@
                     <option value="BTS">BTS</option>
                     <option value="G-IDLE">G-IDLE</option>
                 </select>
+            </div>
+        </div>
+
+        <div id = "login_popup", style = "text-align:center"> 
+            <div style="font-size:30px; margin-bottom: 20px;">Welcome back to STARLIGHT!</div>
+            <div style="font-size:20px; margin-bottom: 5px;">Enter your ID and PASSWORD:</div>
+            <div style="display: flex;">
+                <div style="width: 85%;">
+                    <div>
+                        <input id="login_id" style="margin-bottom: 5px;width: 380px;" placeholder="ID"></input>
+                    </div>
+                    <div>
+                        <input placeholder="PASSWORD" style="width: 380px;margin-bottom: 5px;"></input>
+                    </div>
+                </div>
+                <div style="width: 15%;">
+                    <button id="login-ok" style="width: 70px;height: 70px;margin-left: 4px;">Enter</button>
+                </div>
             </div>
         </div>
 

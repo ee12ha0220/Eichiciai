@@ -20,6 +20,7 @@ $( document ).ready(function() {
     var f_key;
     var f_qnaanswer;
     var selected_answer;
+    var current_user;
 
     function getCommentData(){
         firebase.database().ref('/qna/'+f_key).once('value').then((snapshot) => {
@@ -600,6 +601,7 @@ $( document ).ready(function() {
         //reshape();
     }
 
+
     function photo() {
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
@@ -874,6 +876,12 @@ $( document ).ready(function() {
         parent.appendChild(div);
         }
 
+    function login_dia(){
+        var dialog = document.createElement("dialog");
+        dialog.innerHTML = "log-dia";
+        dialog.setAttribute("ID", "login-dialog");
+    }
+
     function clear(){
         var div = document.getElementById("bigdiv");
         var parent = document.getElementById("contents");
@@ -1035,6 +1043,31 @@ $( document ).ready(function() {
         current_state = "qna1";
         reshape();
     });
+
+    $('#login_popup').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        show: {
+            duration: 0
+        },
+        hide: {
+            duration: 0
+        }
+    });
+    $("#login_popup").dialog( "option", "width", 500 );
+
+    $('#login').click(function() {
+        console.log('login_button clicked');
+        $('#login_popup').dialog("open");
+    })
+
+    $('#login-ok').click(function(){
+        var logininput = document.getElementById('login_id');
+        current_user = logininput.value;
+        $('#login_popup').dialog("close");
+        console.log(current_user);
+    })
+
 
     $("#contents").on("click", "#submitphoto", function () {
         var photo = document.getElementById("image").files[0];
