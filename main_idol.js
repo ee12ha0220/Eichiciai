@@ -60,29 +60,31 @@ $( document ).ready(function() {
         var parent = document.getElementById("bigdiv");
         var div1 = document.createElement("div");
         div1.setAttribute("class","qnaline");
+        div1.setAttribute("style", "text-align:center;");
+
         var h1 = document.createElement("p");
         h1.setAttribute("class", "qnaheader");
-        h1.setAttribute("style", "width: 10%")
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
         h1.innerHTML = qnaval.no;
 
         var h2 = document.createElement("p");
         h2.setAttribute("class", "question");
-        h2.setAttribute("style", "width: 40%")
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
         h2.innerHTML = qnaval.title;
 
         var h3 = document.createElement("p");
         h3.setAttribute("class", "qnaheader");
-        h3.setAttribute("style", "width: 25%")
+        h3.setAttribute("style", "width: 25%;font-family: Roboto, serif;margin:auto;")
         h3.innerHTML = qnaval.author;
 
         var h4 = document.createElement("p");
         h4.setAttribute("class", "qnaheader");
-        h4.setAttribute("style", "width: 10%")
+        h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
         h4.innerHTML = qnaval.answer;
 
         var h5 = document.createElement("p");
         h5.setAttribute("class", "qnaheader");
-        h5.setAttribute("style", "width: 15%")
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
         h5.innerHTML = qnaval.date;
 
         div1.appendChild(h1);
@@ -104,18 +106,18 @@ $( document ).ready(function() {
         if (commentval.selected == true){
             h1.setAttribute("style", "color:#2f80ed;width:20%");
         }
-        else h1.setAttribute("style", "width:20%");
+        else h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
         h1.innerHTML = commentval.author;    
         
         var h2 = document.createElement("p");
         if (commentval.selected == true){
             h2.setAttribute("style", "color:#2f80ed;width:60%");
         }
-        else h2.setAttribute("style", "width: 60%");
+        else h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
         h2.innerHTML = commentval.content;
 
         var text1 = document.createElement("p");
-        text1.setAttribute("style", "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer");
+        text1.setAttribute("style", "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;");
         text1.innerHTML = "History";
 
         div1.appendChild(h1);
@@ -125,6 +127,7 @@ $( document ).ready(function() {
         if (!state){
             var button1 = document.createElement("button");
             button1.setAttribute("class", "selectbtn");
+            button1.setAttribute("style", "font-family: Roboto, serif;");
             button1.innerHTML = "SELECT";
             div1.appendChild(button1);
         }
@@ -132,6 +135,7 @@ $( document ).ready(function() {
             if (commentval.selected == true){
                 var button1 = document.createElement("button");
                 button1.setAttribute("class", "selectedbtn");
+                button1.setAttribute("style", "font-family: Roboto, serif;");
                 button1.innerHTML = "SELECTED";
                 div1.appendChild(button1);
             }
@@ -422,44 +426,47 @@ $( document ).ready(function() {
         div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px;");
 
         var text1 = document.createTextNode("QnA Board");
+        //text1.setAttribute("style", "font-family: Roboto, serif");
+        // var strong1 = document.createElement("h1");
+        // strong1.innerHTML = "QnA Board";
+        // strong1.setAttribute("style", "font-family: Roboto, serif");
 
         strong1.appendChild(text1);
         div1.appendChild(strong1);
         div.appendChild(div1);
 
         var div2 = document.createElement("div");
-        div2.setAttribute("class","qnaline");
-        div2.setAttribute("style", "border-bottom:4px solid black");
+        div2.setAttribute("class","qnaline_ori");
 
         var h1 = document.createElement("h5");
         h1.setAttribute("class", "qnaheader");
-        h1.setAttribute("style", "width: 10%")
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
         h1.innerHTML ="No.";
 
         var h2 = document.createElement("h5");
         h2.setAttribute("class", "qnaheader");
-        h2.setAttribute("style", "width: 40%")
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
         h2.innerHTML = "Title";
 
         var h3 = document.createElement("h5");
         h3.setAttribute("class", "qnaheader");
-        h3.setAttribute("style", "width: 25%")
+        h3.setAttribute("style", "width: 25%;font-family: Roboto, serif;margin:auto;")
         h3.innerHTML = "Author";
 
         var h4 = document.createElement("h5");
         h4.setAttribute("class", "qnaheader");
-        h4.setAttribute("style", "width: 10%")
+        h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
         h4.innerHTML = "Answer";
 
         var h5 = document.createElement("h5");
         h5.setAttribute("class", "qnaheader");
-        h5.setAttribute("style", "width: 15%")
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
         h5.innerHTML = "Date";
 
         div2.appendChild(h1);
@@ -475,7 +482,7 @@ $( document ).ready(function() {
 
         var btn = document.createElement("button");
         btn.setAttribute("ID", "write_button");
-        btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6");
+        btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
         btn.innerHTML = "Write";
 
         div3.appendChild(btn);
@@ -520,7 +527,7 @@ $( document ).ready(function() {
 
         var div4 = document.createElement("div");
         var btn = document.createElement("button");
-        btn.setAttribute("style", "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6");
+        btn.setAttribute("style", "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
         btn.setAttribute("ID", "submitqna");
         btn.innerHTML = "Submit";
         
@@ -536,7 +543,7 @@ $( document ).ready(function() {
         div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px");
+        div1.setAttribute("style", "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px;");
@@ -549,17 +556,17 @@ $( document ).ready(function() {
 
         var div2 = document.createElement("div");
         div2.setAttribute("class","qnaline");
-        div2.setAttribute("style", "border-bottom:4px solid black");
+        div2.setAttribute("style", "border-bottom:4px solid #2B5A89");
 
         var qnano = document.createElement("div");
         qnano.setAttribute("class", "qnaheader");
-        qnano.setAttribute("style", "width:50%; text-align:left");
+        qnano.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
         qnano.innerHTML = "Question No."+f_qna.no;
         
 
         var qnaauthor = document.createElement("div");
         qnaauthor.setAttribute("class", "qnaheader");
-        qnaauthor.setAttribute("style", "width:50%;text-align: right");
+        qnaauthor.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
         qnaauthor.innerHTML = f_qna.author;
 
 
@@ -569,16 +576,16 @@ $( document ).ready(function() {
 
         var div3 = document.createElement("div");
         div3.setAttribute("class", "qnaline");
-        div3.setAttribute("style", "border-bottom:2px solid black");
+        div3.setAttribute("style", "border-bottom:2px solid #2B5A89");
 
         var qnatitle = document.createElement("div");
         qnatitle.setAttribute("class", "qnaheader");
-        qnatitle.setAttribute("style", "width:50%; text-align:left");
+        qnatitle.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
         qnatitle.innerHTML = f_qna.title;
 
         var qnatime = document.createElement("div");
         qnatime.setAttribute("class", "qnaheader");
-        qnatime.setAttribute("style", "width:50%;text-align: right");
+        qnatime.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
         qnatime.innerHTML = f_qna.date;
 
         div3.appendChild(qnatitle);
@@ -587,7 +594,7 @@ $( document ).ready(function() {
 
         var div4 = document.createElement("div");
         div4.innerHTML = f_qna.content;
-        div4.setAttribute("style", "margin:20px");
+        div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;");
 
 
 
@@ -607,7 +614,7 @@ $( document ).ready(function() {
 
         var enterans = document.createElement("button");
         enterans.setAttribute("ID", "enterans");
-        enterans.setAttribute("style", "height:86px;width:86px;margin-left:10px")
+        enterans.setAttribute("style", "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;")
         enterans.innerHTML = "Enter";
 
         div5.appendChild(leaveans);
@@ -618,9 +625,10 @@ $( document ).ready(function() {
 
         var div6 = document.createElement("div");
         div6.setAttribute("class", "qnaline");
-        div6.setAttribute("style", "border-bottom:2px solid black");
+        div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
 
         var answernum = document.createElement("h4");
+        answernum.setAttribute("style", "font-family: Roboto, serif;")
         answernum.innerHTML = "Answers("+f_qnaanswer+")";
         
         div6.appendChild(answernum);
@@ -656,7 +664,7 @@ $( document ).ready(function() {
         var div1 = document.createElement("div");
         div1.setAttribute(
             "style",
-            "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+            "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
         );
     
         var strong1 = document.createElement("STRONG");
@@ -667,7 +675,7 @@ $( document ).ready(function() {
         var small1 = document.createElement("SMALL");
         small1.setAttribute(
             "style",
-            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray"
+            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
         );
     
         var text2 = document.createTextNode("By Schedule");
@@ -675,7 +683,7 @@ $( document ).ready(function() {
         var small2 = document.createElement("SMALL");
         small2.setAttribute(
             "style",
-            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray"
+            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
         );
     
         var text3 = document.createTextNode("Latest");
@@ -683,7 +691,7 @@ $( document ).ready(function() {
         var small3 = document.createElement("SMALL");
         small3.setAttribute(
             "style",
-            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;"
+            "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
         );
     
         var text4 = document.createTextNode("Hottest");
@@ -706,7 +714,7 @@ $( document ).ready(function() {
         btn.setAttribute("ID", "write_button_photo");
         btn.setAttribute(
             "style",
-            "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+            "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
         );
         btn.innerHTML = "Write";
     
@@ -743,7 +751,7 @@ $( document ).ready(function() {
         var div1 = document.createElement("div");
     
         var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size: 40px");
+        strong1.setAttribute("style", "font-size: 40px;font-family: Roboto, serif;");
         strong1.innerHTML = "Upload a photo!";
     
         div1.appendChild(strong1);
@@ -797,7 +805,7 @@ $( document ).ready(function() {
         var btn = document.createElement("button");
         btn.setAttribute(
             "style",
-            "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6"
+            "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
         );
         btn.setAttribute("ID", "submitphoto");
         btn.innerHTML = "Submit";
@@ -821,11 +829,11 @@ $( document ).ready(function() {
         var div1 = document.createElement("div");
         div1.setAttribute(
             "style",
-            "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+            "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
         );
     
         var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px;");
+        strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
     
         var text1 = document.createTextNode("Photo Board");
     
@@ -844,7 +852,7 @@ $( document ).ready(function() {
             "display : flex; flex-direction: column;"
         );
         var schedule_div = document.createElement("div");
-        schedule_div.setAttribute("style", "display : flex;height:40px");
+        schedule_div.setAttribute("style", "display : flex;height:40px;font-family: Roboto, serif;");
         var schedule = document.createElement("STRONG");
         schedule.setAttribute(
             "style",
@@ -874,13 +882,13 @@ $( document ).ready(function() {
         var author = document.createElement("div");
         author.setAttribute(
             "style",
-            "font-size: 30px;position: absolute; right: 20px"
+            "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
         );
         author.innerHTML = content[3].innerHTML;
         var date = document.createElement("div");
         date.setAttribute(
             "style",
-            "font-size: 30px;position: absolute; right: 20px"
+            "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
         );
         date.innerHTML = "Date: " + content[4].innerHTML;
         var content_html = document.createElement("div");
@@ -905,7 +913,7 @@ $( document ).ready(function() {
         btn.setAttribute("ID", "write_button_photo");
         btn.setAttribute(
             "style",
-            "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+            "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;border-radius:10px; color:white"
         );
         btn.innerHTML = "Write";
     
@@ -939,11 +947,30 @@ $( document ).ready(function() {
         temp.setAttribute("style", "cursor:pointer;border-right:2px solid #666666;");
     }
 
+    function blue_qna(){
+        var t_qna = document.getElementById("qna");
+        t_qna.setAttribute("style", "color: #1087FF;cursor:pointer;");
+    }
+    function black_qna(){
+        var t_qna = document.getElementById("qna");
+        t_qna.setAttribute("style", "color: #000000;cursor:pointer;");
+    }
+    function blue_photo(){
+        var t_photo = document.getElementById("photo");
+        t_photo.setAttribute("style", "color: #1087FF;cursor:pointer;");
+    }
+    function black_photo(){
+        var t_photo = document.getElementById("photo");
+        t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
+    }
+
     function reshape(filter_change = false, photo_content = ""){
         clear();
         resetmenu();
         selected_filter = $("#filter").val();
         if (current_state == "main"){
+            black_photo();
+            black_qna();
             var curr = document.getElementById("main");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             if (selected_filter == "BTS") idolmain();
@@ -951,11 +978,17 @@ $( document ).ready(function() {
         }
         else if (current_state == "qna1"){
             qna1();
+            blue_qna();
+            black_photo();
         }
         else if (current_state == "qna2"){
             qna2();
+            blue_qna();
+            black_photo();
         }
         else if (current_state == "qnapost"){
+            blue_qna();
+            black_photo();
             if (filter_change){
                 current_state = "qna1";
                 reshape();
@@ -964,12 +997,18 @@ $( document ).ready(function() {
         }
 
         else if (current_state == "photo") {
+            blue_photo();
+            black_qna();
             photo();
         } 
         else if (current_state == "photo2") {
+            blue_photo();
+            black_qna();
             photo2();
         } 
         else if (current_state == "photo_specific") {
+            blue_photo();
+            black_qna();
             if (filter_change) {
                 current_state = "photo";
                 reshape();
