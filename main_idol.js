@@ -140,7 +140,7 @@ $( document ).ready(function() {
         target_div.appendChild(div1);
     }
 
-    function getphotoData(div=None) {
+    function getphotoData(div) {
         firebase
             .database()
             .ref("/photo")
@@ -155,7 +155,7 @@ $( document ).ready(function() {
             for (var i = photonum - 1; i >= 0; i--) {
                 current = photoval[keyList[i]];
                 if (current.idol == idol || idol == "All") {
-                    if (current_state = "main") addphoto_main(div, current);
+                    if (current_state == "main") addphoto_main(div, current);
                     else addphoto(current);
                 }
             }
