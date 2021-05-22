@@ -20,6 +20,7 @@ $( document ).ready(function() {
     var f_key;
     var f_qnaanswer;
     var selected_answer;
+    var idol = $("#filter").val();
     var current_user;
 
     function getCommentData(){
@@ -49,7 +50,7 @@ $( document ).ready(function() {
 
         for(var i=qnanum-1; i>=0; i--){
             current = qnaval[keyList[i]];
-            addqna(current);
+            if (current.idol == idol || idol == "All") addqna(current);
         }
         });
     }
@@ -139,7 +140,7 @@ $( document ).ready(function() {
         target_div.appendChild(div1);
     }
 
-    function getphotoData() {
+    function getphotoData(div=None) {
         firebase
             .database()
             .ref("/photo")
@@ -153,31 +154,108 @@ $( document ).ready(function() {
     
             for (var i = photonum - 1; i >= 0; i--) {
                 current = photoval[keyList[i]];
-                addphoto(current);
+                if (current.idol == idol || idol == "All") {
+                    if (current_state = "main") addphoto_main(div, current);
+                    else addphoto(current);
+                }
             }
             });
         }
+
         function addphoto(photoval) {
+            var target_div = document.getElementById("write-div");
+            var div_chunks = document.getElementById("photochunks");
+            var parent = document.getElementById("bigdiv");
+            var div1 = document.createElement("div");
+            div1.setAttribute("class", "photochunk");
+            var h1 = document.createElement("div");
+            h1.setAttribute("class", "photoheader");
+            h1.setAttribute("class", "photo_button_title");
+            h1.setAttribute(
+                "style",
+                "height: 4%; cursor:pointer;margin-bottom: 10px;font-size: 23px;font-weight: bold;"
+            );
+            h1.innerHTML = photoval.title;
+        
+            var div_img = document.createElement("div");
+            div_img.setAttribute(
+                "style",
+                "width: 200px; height: 200px; cursor:pointer;align-items:center;display:flex;align-items:center;justify-content:center"
+            );
+            div_img.setAttribute("class", "photo_button");
+            var h2 = document.createElement("img");
+            h2.setAttribute("class", "photoheader");
+            var storage = firebase.storage().ref();
+            storage
+                .child(photoval.photourl)
+                .getDownloadURL()
+                .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                    var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                h2.src = url;
+                return url;
+                })
+                .then((url) => {
+                var img = new Image();
+                img.onload = function () {
+                    if (this.width < this.height) {
+                    h2.setAttribute("style", "width: auto; height: 200px");
+                    } else {
+                    h2.setAttribute("style", "width: 200px; height: auto");
+                    }
+                };
+                img.src = url;
+        
+                div_img.appendChild(h2);
+                });
+        
+            var h3 = document.createElement("div");
+            h3.setAttribute("class", "photoheader");
+            h3.setAttribute("style", "height: 4%;margin-bottom: 10px;");
+            h3.innerHTML = photoval.author;
+        
+            var h5 = document.createElement("div");
+            h5.setAttribute("class", "photoheader");
+            h5.setAttribute("style", "height: 4%;margin-bottom: 10px;");
+            h5.innerHTML = photoval.date;
+        
+            var h6 = document.createElement("div");
+            h6.setAttribute("class", "photoheader");
+            h6.setAttribute("style", "height: 4%;margin-bottom: 10px;");
+            h6.innerHTML = "schedule: " + photoval.schedule;
+        
+            var h_content = document.createElement("div");
+            h_content.setAttribute("class", "photoheader");
+            h_content.setAttribute(
+                "style",
+                "height: 4%;margin-bottom: 10px;display:none"
+            );
+            h_content.innerHTML = photoval.content;
+        
+            div1.appendChild(h6);
+            div1.appendChild(div_img);
+            div1.appendChild(h1);
+            div1.appendChild(h3);
+            div1.appendChild(h5);
+            div1.appendChild(h_content);
+        
+            div_chunks.appendChild(div1);
+            // parent.insertBefore(div1, target_div);
+            }
+
+
+        function addphoto_main(div, photoval) {
         var target_div = document.getElementById("write-div");
         var div_chunks = document.getElementById("photochunks");
         var parent = document.getElementById("bigdiv");
-        var div1 = document.createElement("div");
-        div1.setAttribute("class", "photochunk");
-        var h1 = document.createElement("div");
-        h1.setAttribute("class", "photoheader");
-        h1.setAttribute("class", "photo_button_title");
-        h1.setAttribute(
-            "style",
-            "height: 4%; cursor:pointer;margin-bottom: 10px;font-size: 23px;font-weight: bold;"
-        );
-        h1.innerHTML = photoval.title;
     
         var div_img = document.createElement("div");
-        div_img.setAttribute(
-            "style",
-            "width: 200px; height: 200px; cursor:pointer;align-items:center;display:flex;align-items:center;justify-content:center"
-        );
-        div_img.setAttribute("class", "photo_button");
+        div_img.setAttribute("class", "image_main_idol_2");
         var h2 = document.createElement("img");
         h2.setAttribute("class", "photoheader");
         var storage = firebase.storage().ref();
@@ -198,49 +276,16 @@ $( document ).ready(function() {
             .then((url) => {
             var img = new Image();
             img.onload = function () {
-                if (this.width < this.height) {
-                h2.setAttribute("style", "width: auto; height: 200px");
-                } else {
-                h2.setAttribute("style", "width: 200px; height: auto");
-                }
+                h2.setAttribute("class", "image_main_idol_2");
             };
             img.src = url;
     
-            div_img.appendChild(h2);
+            div.appendChild(h2);
             });
-    
-        var h3 = document.createElement("div");
-        h3.setAttribute("class", "photoheader");
-        h3.setAttribute("style", "height: 4%;margin-bottom: 10px;");
-        h3.innerHTML = photoval.author;
-    
-        var h5 = document.createElement("div");
-        h5.setAttribute("class", "photoheader");
-        h5.setAttribute("style", "height: 4%;margin-bottom: 10px;");
-        h5.innerHTML = photoval.date;
-    
-        var h6 = document.createElement("div");
-        h6.setAttribute("class", "photoheader");
-        h6.setAttribute("style", "height: 4%;margin-bottom: 10px;");
-        h6.innerHTML = "schedule: " + photoval.schedule;
-    
-        var h_content = document.createElement("div");
-        h_content.setAttribute("class", "photoheader");
-        h_content.setAttribute(
-            "style",
-            "height: 4%;margin-bottom: 10px;display:none"
-        );
-        h_content.innerHTML = photoval.content;
-    
-        div1.appendChild(h6);
-        div1.appendChild(div_img);
-        div1.appendChild(h1);
-        div1.appendChild(h3);
-        div1.appendChild(h5);
-        div1.appendChild(h_content);
-    
-        div_chunks.appendChild(div1);
-        // parent.insertBefore(div1, target_div);
+        
+        //div.appendChild(div_img)
+        
+        
         }
 
     function main() {
@@ -328,14 +373,9 @@ $( document ).ready(function() {
         var div3 = document.createElement("div");
         div3.setAttribute("style", "width:1020px;");
 
-        imageadder(div3, "BTS_main_big.jpg", "img1", "image_main_idol_2");
-        imageadder(div3, "BTS_main_big.jpg", "img2", "image_main_idol_2");
-        imageadder(div3, "BTS_main_big.jpg", "img3", "image_main_idol_2");
-        imageadder(div3, "BTS_main_big.jpg", "img4", "image_main_idol_2");
-        imageadder(div3, "BTS_main_big.jpg", "img5", "image_main_idol_2");
-        imageadder(div3, "BTS_main_big.jpg", "img6", "image_main_idol_2");
-
+        getphotoData(div3);
         div0.appendChild(div3);
+        
         div.appendChild(div0);
 
         var div4 = document.createElement("div");
@@ -876,11 +916,6 @@ $( document ).ready(function() {
         parent.appendChild(div);
         }
 
-    function login_dia(){
-        var dialog = document.createElement("dialog");
-        dialog.innerHTML = "log-dia";
-        dialog.setAttribute("ID", "login-dialog");
-    }
 
     function clear(){
         var div = document.getElementById("bigdiv");
@@ -918,11 +953,7 @@ $( document ).ready(function() {
             qna1();
         }
         else if (current_state == "qna2"){
-            if (filter_change){
-                current_state = "qna1";
-                reshape();
-            }
-            else qna2();
+            qna2();
         }
         else if (current_state == "qnapost"){
             if (filter_change){
@@ -936,11 +967,7 @@ $( document ).ready(function() {
             photo();
         } 
         else if (current_state == "photo2") {
-            if (filter_change) {
-                current_state = "photo";
-                reshape();
-            } 
-            else photo2();
+            photo2();
         } 
         else if (current_state == "photo_specific") {
             if (filter_change) {
@@ -956,6 +983,7 @@ $( document ).ready(function() {
 
     filter.addEventListener("change", function(){
         reshape(true);
+        idol = $("#filter").val();
     });
 
     $("#photo").click(function () {
@@ -1006,42 +1034,56 @@ $( document ).ready(function() {
         reshape();
     });
 
-    $('#contents').on("click", "#enterans", function(){
-
-        var comment_input = document.getElementById("comment_input").value;
-        var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
-        newcomment.set({
-            content: comment_input,
-            author : "이시하",
-            selected : false
-        })
-
-        f_qnaanswer += 1;
-        
-        var update = {};
-        update['/qna/' + f_key + '/answer'] = f_qnaanswer; 
-
-        firebase.database().ref().update(update);
+    $('#main').click(function(){
+        current_state = "main";
         reshape();
     });
 
+    $('#contents').on("click", "#enterans", function(){
+        var comment_input = document.getElementById("comment_input").value;
+        var current_author = firebase.database().ref('/qna/'+f_key+'/author');
+        console.log(current_author);
+        console.log(current_user);
+        if(current_author == current_user) alert("You can't answer your own question");
+        else{
+            var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
+            newcomment.set({
+                content: comment_input,
+                author : current_user,
+                selected : false
+            })
+
+            f_qnaanswer += 1;
+            
+            var update = {};
+            update['/qna/' + f_key + '/answer'] = f_qnaanswer; 
+
+            firebase.database().ref().update(update);
+            reshape();
+        }
+    });
+
     $('#contents').on("click" , "#submitqna", function() {
-        qnanum++;
-        var title = document.getElementById("qnaTitle").value;
-        var content = document.getElementById("qnaContents").value;
-        var newqna = firebase.database().ref('/qna').push();
-        var date = new Date().toLocaleDateString();
-        newqna.set({
-            no : qnanum,
-            title: title,
-            author : "김주호",
-            answer: 0,
-            date: date,
-            content: content,
-            selected : false
-        });
-        current_state = "qna1";
-        reshape();
+        if (idol=="All") alert("Choose an idol");
+        else{
+            qnanum++;
+            var title = document.getElementById("qnaTitle").value;
+            var content = document.getElementById("qnaContents").value;
+            var newqna = firebase.database().ref('/qna').push();
+            var date = new Date().toLocaleDateString();
+            newqna.set({
+                no : qnanum,
+                title: title,
+                author : current_user,
+                idol : idol,
+                answer: 0,
+                date: date,
+                content: content,
+                selected : false
+            });
+            current_state = "qna1";
+            reshape();
+        }
     });
 
     $('#login_popup').dialog({
@@ -1068,32 +1110,35 @@ $( document ).ready(function() {
         console.log(current_user);
     })
 
-
     $("#contents").on("click", "#submitphoto", function () {
-        var photo = document.getElementById("image").files[0];
-        var storageRef = firebase.storage().ref();
-        storageRef
-            .child(`images/${photo.name}`)
-            .put(photo)
-            .then((snapshot) => {
-            console.log("Uploaded.");
+        if (idol=="All") alert("Choose an idol");
+        else{
+            var photo = document.getElementById("image").files[0];
+            var storageRef = firebase.storage().ref();
+            storageRef
+                .child(`images/${photo.name}`)
+                .put(photo)
+                .then((snapshot) => {
+                console.log("Uploaded.");
+                });
+            var photourl = "images/" + photo.name;
+            var title = document.getElementById("photoTitle").value;
+            var content = document.getElementById("photoContents").value;
+            var schedule = document.getElementById("schedule").value;
+            var newphoto = firebase.database().ref("/photo").push();
+            var date = new Date().toLocaleDateString();
+            newphoto.set({
+                title: title,
+                author: current_user,
+                idol: idol,
+                date: date,
+                content: content,
+                photourl: photourl,
+                schedule: schedule,
             });
-        var photourl = "images/" + photo.name;
-        var title = document.getElementById("photoTitle").value;
-        var content = document.getElementById("photoContents").value;
-        var schedule = document.getElementById("schedule").value;
-        var newphoto = firebase.database().ref("/photo").push();
-        var date = new Date().toLocaleDateString();
-        newphoto.set({
-            title: title,
-            author: "김주호",
-            date: date,
-            content: content,
-            photourl: photourl,
-            schedule: schedule,
-        });
-        current_state = "photo";
-        reshape();
+            current_state = "photo";
+            reshape();
+        }
         });
 
     $('#select').dialog({
@@ -1120,7 +1165,6 @@ $( document ).ready(function() {
 
     $('#contents').on("click", ".selectbtn", function(){
         selected_answer = $(this).parent().index();
-        console.log(parent);
         $("#select").dialog("open");
     });
 
