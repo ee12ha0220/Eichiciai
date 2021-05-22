@@ -21,7 +21,7 @@ $( document ).ready(function() {
     var f_qnaanswer;
     var selected_answer;
     var idol = $("#filter").val();
-    var current_user;
+    var current_user = "nologin";
 
     function getCommentData(){
         firebase.database().ref('/qna/'+f_key).once('value').then((snapshot) => {
@@ -140,7 +140,7 @@ $( document ).ready(function() {
         target_div.appendChild(div1);
     }
 
-    function getphotoData(div=None) {
+    function getphotoData(div) {
         firebase
             .database()
             .ref("/photo")
@@ -155,7 +155,7 @@ $( document ).ready(function() {
             for (var i = photonum - 1; i >= 0; i--) {
                 current = photoval[keyList[i]];
                 if (current.idol == idol || idol == "All") {
-                    if (current_state = "main") addphoto_main(div, current);
+                    if (current_state == "main") addphoto_main(div, current, keyList[i]);
                     else addphoto(current);
                 }
             }
@@ -249,38 +249,40 @@ $( document ).ready(function() {
             }
 
 
-        function addphoto_main(div, photoval) {
-        var target_div = document.getElementById("write-div");
-        var div_chunks = document.getElementById("photochunks");
-        var parent = document.getElementById("bigdiv");
-    
-        var div_img = document.createElement("div");
-        div_img.setAttribute("class", "image_main_idol_2");
-        var h2 = document.createElement("img");
-        h2.setAttribute("class", "photoheader");
-        var storage = firebase.storage().ref();
-        storage
-            .child(photoval.photourl)
-            .getDownloadURL()
-            .then(function (url) {
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = "blob";
-            xhr.onload = function (event) {
-                var blob = xhr.response;
-            };
-            xhr.open("GET", url);
-            xhr.send();
-            h2.src = url;
-            return url;
-            })
-            .then((url) => {
-            var img = new Image();
-            img.onload = function () {
-                h2.setAttribute("class", "image_main_idol_2");
-            };
-            img.src = url;
-    
-            div.appendChild(h2);
+        function addphoto_main(div, photoval, keyval) {
+            var div0 = document.createElement("div");
+            div0.setAttribute("style", "display:inline-block");
+            var h2 = document.createElement("img");
+            var hidden = document.createElement("div");
+            hidden.setAttribute("style", "display:none");
+            hidden.innerHTML = keyval;
+
+            h2.setAttribute("class", "image_main_idol_2");
+            var storage = firebase.storage().ref();
+            storage
+                .child(photoval.photourl)
+                .getDownloadURL()
+                .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                    var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                h2.src = url;
+                return url;
+                })
+                .then((url) => {
+                var img = new Image();
+                img.onload = function () {
+                    h2.setAttribute("class", "image_main_idol_2");
+                };
+                img.src = url;
+        
+                div0.appendChild(h2);
+                div0.appendChild(hidden);
+                div.appendChild(div0);
             });
         
         //div.appendChild(div_img)
@@ -360,51 +362,69 @@ $( document ).ready(function() {
         div0.setAttribute("style", "float:left; width:80%;")
 
         var div1 = document.createElement("div");
-        imageadder(div1, "BTS_main_big.jpg", "img0", "image_main_idol_1");
-        div0.appendChild(div1);
 
-        var div2 = document.createElement("div");
-        div2.setAttribute("style", "text-align:center; width:1000px;");
-        var text1 = document.createTextNode("Hot photos & videos");
+        firebase.database().ref('/idolinfo/'+idol).once('value').then((snapshot) => {
+            var storage = firebase.storage().ref();
+            var src = snapshot.val().mainphoto;
+            var img0 = document.createElement("img");
+            storage.child(src).getDownloadURL().then(function (url){
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                    var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                img0.src = url;
+                img0.setAttribute("class", "image_main_idol_1");
+                return url;
+            })
+            div1.appendChild(img0);
+            div0.appendChild(div1);
 
-        div2.appendChild(text1); 
-        div0.appendChild(div2);
+            var div2 = document.createElement("div");
+            div2.setAttribute("style", "text-align:center; width:1000px;");
+            var text1 = document.createTextNode("Hot photos & videos");
 
-        var div3 = document.createElement("div");
-        div3.setAttribute("style", "width:1020px;");
+            div2.appendChild(text1); 
+            div0.appendChild(div2);
 
-        getphotoData(div3);
-        div0.appendChild(div3);
-        
-        div.appendChild(div0);
+            var div3 = document.createElement("div");
+            div3.setAttribute("style", "width:1020px;");
 
-        var div4 = document.createElement("div");
-        div4.setAttribute("style", "float:left; width: 20%;");
-        
-        var div5 = document.createElement("div");
-        div5.setAttribute("style", "text-align:center");
-        var text2 = document.createTextNode("Notice");
-        div5.appendChild(text2);
-        div4.appendChild(div5);
+            getphotoData(div3);
+            div0.appendChild(div3);
+            
+            div.appendChild(div0);
 
-        var div6 = document.createElement("div");
-        div6.setAttribute("style", "background:white");
+            var div4 = document.createElement("div");
+            div4.setAttribute("style", "float:left; width: 20%;");
+            
+            var div5 = document.createElement("div");
+            div5.setAttribute("style", "text-align:center");
+            var text2 = document.createTextNode("Notice");
+            div5.appendChild(text2);
+            div4.appendChild(div5);
 
-        var list = document.createElement("ul");
-        var li1 = document.createElement("li");
-        
-        li1.innerHTML = "one";
-        var li2 = document.createElement("li");
-        li2.innerHTML = "two";
-        
-        list.appendChild(li1);
-        list.appendChild(li2);
-        
-        div6.appendChild(list);
-        div4.appendChild(div6);
+            var div6 = document.createElement("div");
+            div6.setAttribute("style", "background:white");
 
-        div.appendChild(div4);
-        parent.appendChild(div);
+            var list = document.createElement("ul");
+            var li1 = document.createElement("li");
+            
+            li1.innerHTML = "one";
+            var li2 = document.createElement("li");
+            li2.innerHTML = "two";
+            
+            list.appendChild(li1);
+            list.appendChild(li2);
+            
+            div6.appendChild(list);
+            div4.appendChild(div6);
+
+            div.appendChild(div4);
+            parent.appendChild(div);
+        });
     }
 
     function imageadder(parent_div, img_src, img_alt, img_class){
@@ -502,7 +522,7 @@ $( document ).ready(function() {
 
         var div2 = document.createElement("div");
         var input1 = document.createElement("input");
-        input1.setAttribute("value", "Enter a Title...");
+        input1.setAttribute("placeholder", "Enter a Title...");
         input1.setAttribute("style", "width: 98%;margin-bottom: 10px;height: 30px;margin-top: 8px");
         input1.setAttribute("ID", "qnaTitle");
 
@@ -511,7 +531,7 @@ $( document ).ready(function() {
 
         var div3 = document.createElement("div");
         var input2 = document.createElement("input");
-        input2.setAttribute("value", "Enter a Question...");
+        input2.setAttribute("placeholder", "Enter a Question...");
         input2.setAttribute("style", "width: 98%; height: 430px");
         input2.setAttribute("ID", "qnaContents");
 
@@ -806,6 +826,7 @@ $( document ).ready(function() {
     
         parent.appendChild(div);
         }
+
         function specific_photo(content) {
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
@@ -945,8 +966,8 @@ $( document ).ready(function() {
         if (current_state == "main"){
             var curr = document.getElementById("main");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
-            if (selected_filter == "BTS") idolmain();
-            else main();
+            if (selected_filter == "All") main();
+            else idolmain();
         }
         else if (current_state == "qna1"){
             qna1();
@@ -974,15 +995,14 @@ $( document ).ready(function() {
                 reshape();
             } 
             else {
-                console.log();
                 specific_photo(photo_content);
             }
         }
     }
 
     filter.addEventListener("change", function(){
-        reshape(true);
         idol = $("#filter").val();
+        reshape(true);
     });
 
     $("#photo").click(function () {
@@ -992,8 +1012,15 @@ $( document ).ready(function() {
 
     $("#contents").on("click", ".photo_button", function () {
         current_state = "photo_specific";
-        console.log();
+        console.log( $(this).parent().children());
         reshape(false, $(this).parent().children());
+    });
+
+    $("#contents").on("click", ".image_main_idol_2", function(){
+        current_state = "photo_specific";
+        var key = $(this).parent().children().text();
+        //firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>
+        //reshape(false, $(this).parent().children());
     });
 
     $("#contents").on("click", ".photo_button_title", function () {
@@ -1001,8 +1028,11 @@ $( document ).ready(function() {
     });
 
     $("#contents").on("click", "#write_button_photo", function () {
-        current_state = "photo2";
-        reshape();
+        if (current_user == "nologin") alert("Please log-in")
+        else{
+            current_state = "photo2";
+            reshape();
+        }
     });
 
 
@@ -1029,8 +1059,11 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click", "#write_button", function(){
-        current_state = "qna2";
-        reshape();
+        if (current_user == "nologin") alert("Please log-in")
+        else{
+            current_state = "qna2";
+            reshape();
+        }
     });
 
     $('#main').click(function(){
@@ -1039,27 +1072,31 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click", "#enterans", function(){
-        var comment_input = document.getElementById("comment_input").value;
-        var current_author = firebase.database().ref('/qna/'+f_key+'/author');
-        console.log(current_author);
-        console.log(current_user);
-        if(current_author == current_user) alert("You can't answer your own question");
+        if (current_user == "nologin") alert("Please log-in")
         else{
-            var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
-            newcomment.set({
-                content: comment_input,
-                author : current_user,
-                selected : false
-            })
+            var comment_input = document.getElementById("comment_input").value;
+            firebase.database().ref('/qna/'+f_key+'/author').once('value').then((snapshot) => {
+                console.log(snapshot.val());
+                if (snapshot.val() == current_user) alert("You can't answer your own question");
+                else{
+                    var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
+                    newcomment.set({
+                        content: comment_input,
+                        author : current_user,
+                        selected : false
+                    })
 
-            f_qnaanswer += 1;
-            
-            var update = {};
-            update['/qna/' + f_key + '/answer'] = f_qnaanswer; 
+                    f_qnaanswer += 1;
+                    
+                    var update = {};
+                    update['/qna/' + f_key + '/answer'] = f_qnaanswer; 
 
-            firebase.database().ref().update(update);
-            reshape();
-        }
+                    firebase.database().ref().update(update);
+                    reshape();
+                }
+        });
+        }   
+        
     });
 
     $('#contents').on("click" , "#submitqna", function() {
@@ -1097,8 +1134,7 @@ $( document ).ready(function() {
     });
     $("#login_popup").dialog( "option", "width", 500 );
 
-    $('#login').click(function() {
-        console.log('login_button clicked');
+    $('#nav1').on("click", "#login", function() {
         $('#login_popup').dialog("open");
     })
 
@@ -1106,8 +1142,51 @@ $( document ).ready(function() {
         var logininput = document.getElementById('login_id');
         current_user = logininput.value;
         $('#login_popup').dialog("close");
-        console.log(current_user);
+        var login_id = document.getElementById("login_id");
+        var passwd = document.getElementById("passwd");
+        login_id.value = "";
+        passwd.value = "";
+        
+        var parent = document.getElementById("nav1");
+        var btn = document.getElementById("login");
+        parent.removeChild(btn);
+
+        var target = document.getElementById("back");
+        var logout = document.createElement("button");
+        logout.setAttribute("style", "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px");
+        logout.setAttribute("ID", "logout");
+        logout.innerHTML = "LOGOUT";
+
+        var img = document.createElement("img");
+        img.setAttribute("style", "float:right; margin-right:20px");
+        img.setAttribute("alt", "user-img");
+        var usr = document.createElement("a");
+        usr.setAttribute("style", "float:right; margin-right:20px");
+        usr.setAttribute("ID", "username");
+        usr.innerHTML = current_user;
+        
+        parent.insertBefore(logout, target);
+        //parent.insertBefore(img, target);
+        parent.insertBefore(usr, target);
     })
+
+    $("#nav1").on("click", "#logout", function() {
+        current_user = "nologin";
+        var parent = document.getElementById("nav1");
+        var btn = document.getElementById("logout");
+        var usr = document.getElementById("username");
+
+        parent.removeChild(btn);
+        parent.removeChild(usr);
+
+        var target = document.getElementById("back");
+        var login = document.createElement("button");
+        login.setAttribute("style", "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px");
+        login.setAttribute("ID", "login");
+        login.innerHTML = "LOGIN";
+
+        parent.insertBefore(login, target);
+    });
 
     $("#contents").on("click", "#submitphoto", function () {
         if (idol=="All") alert("Choose an idol");
