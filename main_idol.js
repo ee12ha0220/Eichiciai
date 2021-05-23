@@ -55,6 +55,22 @@ $( document ).ready(function() {
         });
     }
 
+    function getnoticeData() {
+        firebase.database().ref('/notice').once('value').then((snapshot) => {
+        var noticeval = snapshot.val();
+        if (noticeval == null) return;
+        var keyList = Object.keys(noticeval);
+        noticenum = keyList.length;
+        var current;
+
+
+        for(var i=noticenum-1; i>=0; i--){
+            current = noticeval[keyList[i]];
+            if (current.idol == idol || idol == "All") addnotice(current);
+        }
+        });
+    }
+
     function addqna(qnaval) {
         var target_div = document.getElementById("write-div");
         var parent = document.getElementById("bigdiv");
@@ -91,6 +107,41 @@ $( document ).ready(function() {
         div1.appendChild(h2);
         div1.appendChild(h3);
         div1.appendChild(h4);
+        div1.appendChild(h5);
+
+        parent.insertBefore(div1, target_div);
+    }
+
+    function addnotice(qnaval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class","qnaline");
+        div1.setAttribute("style", "text-align:center;");
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h1.innerHTML = qnaval.no;
+
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "notice");
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;cursor:pointer;")
+        h2.innerHTML = qnaval.title;
+
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+        h3.innerHTML = qnaval.author;
+
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+        h5.innerHTML = qnaval.date;
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
         div1.appendChild(h5);
 
         parent.insertBefore(div1, target_div);
@@ -427,7 +478,9 @@ $( document ).ready(function() {
 
             var div2 = document.createElement("div");
             div2.setAttribute("style", "text-align:center; width:1000px;");
-            var text1 = document.createTextNode("Hot photos & videos");
+            var text1 = document.createElement("p");
+            text1.setAttribute("style", "font-family: Roboto, serif");
+            text1.innerHTML = "Hot Photos & Videos";
 
             div2.appendChild(text1); 
             div0.appendChild(div2);
@@ -445,29 +498,88 @@ $( document ).ready(function() {
             
             var div5 = document.createElement("div");
             div5.setAttribute("style", "text-align:center");
-            var text2 = document.createTextNode("Notice");
+            var text2 = document.createElement("p");
+            text2.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;text-decoration : underline;");
+            text2.innerHTML = "Notice";
             div5.appendChild(text2);
             div4.appendChild(div5);
 
             var div6 = document.createElement("div");
-            div6.setAttribute("style", "background:white");
+            div6.setAttribute("style", "background:white;height: 300px");
+            div6.setAttribute("ID", "notice_list");
 
-            var list = document.createElement("ul");
-            var li1 = document.createElement("li");
+            getnoticeData_mainpage();
+            // var list = document.createElement("ul");
+            // var li1 = document.createElement("li");
             
-            li1.innerHTML = "one";
-            var li2 = document.createElement("li");
-            li2.innerHTML = "two";
+            // li1.innerHTML = "one";
+            // var li2 = document.createElement("li");
+            // li2.innerHTML = "two";
             
-            list.appendChild(li1);
-            list.appendChild(li2);
+            // list.appendChild(li1);
+            // list.appendChild(li2);
             
-            div6.appendChild(list);
+            //div6.appendChild(list);
             div4.appendChild(div6);
+
+            var div7 = document.createElement("div");
+            div7.setAttribute("style", "text-align:center");
+            var text3 = document.createElement("p");
+            text3.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;text-decoration : underline;");
+            text3.innerHTML = "Schedule";
+            div7.appendChild(text3);
+            div4.appendChild(div7);
+
+            var div8 = document.createElement("div");
+            div8.setAttribute("style", "background:white;height: 500px;margin-bottom: 20px");
+
+            var list2 = document.createElement("ul");
+            var li3 = document.createElement("li");
+            
+            li3.innerHTML = "one";
+            var li4 = document.createElement("li");
+            li4.innerHTML = "two";
+            
+            list2.appendChild(li3);
+            list2.appendChild(li4);
+            
+            div8.appendChild(list2);
+            div4.appendChild(div8);
 
             div.appendChild(div4);
             parent.appendChild(div);
         });
+    }
+
+    function getnoticeData_mainpage(){
+        firebase.database().ref('/notice').once('value').then((snapshot) => {
+            var noticeval = snapshot.val();
+            if (noticeval == null) return;
+            var keyList = Object.keys(noticeval);
+            noticenum = keyList.length;
+            var current;
+
+            for(var i = noticenum-1; i>=0; i--){
+                current = noticeval[keyList[i]];
+                if (current.idol == idol || idol == "All") addnotice_mainpage(current);
+            }
+
+            
+        })
+    }
+
+    function addnotice_mainpage(noticeval){
+        var parent = document.getElementById("notice_list");
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align: left; margin-left: 10px; margin-right: 5px;");
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "font-family: Roboto, serif;margin-top: 5px;");
+        h1.innerHTML = "※ " + noticeval.title;
+
+        div1.appendChild(h1);
+        parent.appendChild(div1);
+
     }
 
     function imageadder(parent_div, img_src, img_alt, img_class){
@@ -485,7 +597,7 @@ $( document ).ready(function() {
         div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px;");
@@ -598,7 +710,7 @@ $( document ).ready(function() {
         div.setAttribute("ID", "bigdiv");
 
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
 
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px;");
@@ -694,6 +806,74 @@ $( document ).ready(function() {
 
         getCommentData();
         //reshape();
+    }
+
+    function noticepost(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Notice");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","qnaline");
+        div2.setAttribute("style", "border-bottom:4px solid #2B5A89");
+
+        var qnano = document.createElement("div");
+        qnano.setAttribute("class", "qnaheader");
+        qnano.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
+        qnano.innerHTML = "Notice No."+f_qna.no;
+        
+
+        var qnaauthor = document.createElement("div");
+        qnaauthor.setAttribute("class", "qnaheader");
+        qnaauthor.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
+        qnaauthor.innerHTML = f_qna.author;
+
+
+        div2.appendChild(qnano);
+        div2.appendChild(qnaauthor);
+        
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("class", "qnaline");
+        div3.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+        var qnatitle = document.createElement("div");
+        qnatitle.setAttribute("class", "qnaheader");
+        qnatitle.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
+        qnatitle.innerHTML = f_qna.title;
+
+        var qnatime = document.createElement("div");
+        qnatime.setAttribute("class", "qnaheader");
+        qnatime.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
+        qnatime.innerHTML = f_qna.date;
+
+        div3.appendChild(qnatitle);
+        div3.appendChild(qnatime);
+
+
+        var div4 = document.createElement("div");
+        div4.innerHTML = f_qna.content;
+        div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;border-bottom:2px solid #2B5A89;padding-bottom: 20px;");
+
+
+        div.appendChild(div2);
+        div.appendChild(div3);
+        div.appendChild(div4);
+
+        parent.appendChild(div);
+
     }
 
 
@@ -974,6 +1154,58 @@ $( document ).ready(function() {
         parent.appendChild(div);
         }
 
+    function notice_page(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Notice");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","qnaline_ori");
+
+        var h1 = document.createElement("h5");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h1.innerHTML ="No.";
+
+        var h2 = document.createElement("h5");
+        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
+        h2.innerHTML = "Title";
+
+        var h3 = document.createElement("h5");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+        h3.innerHTML = "Author";
+
+        var h5 = document.createElement("h5");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+        h5.innerHTML = "Date";
+
+        div2.appendChild(h1);
+        div2.appendChild(h2);
+        div2.appendChild(h3);
+        div2.appendChild(h5);
+
+        div.appendChild(div2);
+        
+        parent.appendChild(div);
+
+        getnoticeData();
+    }
+
 
     function clear(){
         var div = document.getElementById("bigdiv");
@@ -1145,6 +1377,17 @@ $( document ).ready(function() {
             }
             else qnapost();
         }
+        else if (current_state == "noticepost"){
+            black_qna();
+            black_photo();
+            var curr = document.getElementById("notice");
+            curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
+            if (filter_change){
+                current_state = "notice";
+                reshape();
+            }
+            else noticepost();
+        }
 
         else if (current_state == "photo") {
             blue_photo();
@@ -1170,6 +1413,13 @@ $( document ).ready(function() {
         else if (current_state == "goto"){
             blue_photo();
             gotophoto(options.pval,options.src);
+        }
+        else if (current_state == "notice"){
+            black_photo();
+            black_qna();
+            var curr = document.getElementById("notice");
+            curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
+            notice_page();
         }
     }
 
@@ -1255,6 +1505,27 @@ $( document ).ready(function() {
         reshape();
     });
 
+    $('#notice').click(function(){
+        current_state = "notice";
+        reshape();
+    });
+
+    $('#contents').on("click", ".notice", function(){
+        index = $(this).parent().index();
+        firebase.database().ref('/notice').once('value').then((snapshot) => {
+            var qnaval = snapshot.val()
+            var keyList = Object.keys(qnaval);
+            index = keyList.length - index + 1;
+            var currentkey = keyList[index];
+            console.log(qnaval[currentkey].no);
+            f_qna = qnaval[currentkey];
+            f_key = currentkey;
+            
+            current_state = "noticepost";
+            reshape();
+        });
+    });
+
     $('#contents').on("click", "#enterans", function(){
         if (current_user == "nologin") alert("Please log-in")
         else{
@@ -1322,6 +1593,12 @@ $( document ).ready(function() {
         $('#login_popup').dialog("open");
     })
 
+    $('#login_popup').keypress(function(key){
+        if(key.which == 13){
+          $('#login-ok').click();
+        }
+      })
+
     $('#login-ok').click(function(){
         var logininput = document.getElementById('login_id');
         current_user = logininput.value;
@@ -1345,7 +1622,7 @@ $( document ).ready(function() {
         img.setAttribute("style", "float:right; margin-right:20px");
         img.setAttribute("alt", "user-img");
         var usr = document.createElement("a");
-        usr.setAttribute("style", "float:right; margin-right:20px");
+        usr.setAttribute("style", "float:right; margin-right:20px;cursor:pointer;");
         usr.setAttribute("ID", "username");
         usr.innerHTML = current_user;
         
@@ -1402,6 +1679,26 @@ $( document ).ready(function() {
             reshape();
         }
         });
+
+    $('#my_page').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        show: {
+            duration: 0
+        },
+        hide: {
+            duration: 0
+        },
+        title: "My Page"
+    });
+    $("#my_page").dialog( "option", "width", 400 );
+    $("#my_page").dialog( "option", "height", 400 );
+
+    $("#nav1").on("click", "#username", function(){
+        var my_page_id = document.getElementById("my_page_id");
+        my_page_id.innerHTML = "ID : " + current_user;
+        $('#my_page').dialog("open");
+    })
 
     $('#select').dialog({
         autoOpen: false,
