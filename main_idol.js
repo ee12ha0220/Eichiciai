@@ -63,7 +63,6 @@ $( document ).ready(function() {
         noticenum = keyList.length;
         var current;
 
-
         for(var i=noticenum-1; i>=0; i--){
             current = noticeval[keyList[i]];
             if (current.idol == idol || idol == "All") addnotice(current);
@@ -195,7 +194,59 @@ $( document ).ready(function() {
         target_div.appendChild(div1);
     }
 
-    function getphotoData_main(div, target) {
+    function getswiperData(div){
+        firebase
+            .database()
+            .ref("/photo")
+            .once("value")
+            .then((snapshot) => {
+                var photoval = snapshot.val();
+                if (photoval == null) return;
+                var keyList = Object.keys(photoval);
+                var randList = []
+                photonum = keyList.length;
+
+                for (var i=0; i<3;i++){
+                    rand = Math.floor(Math.random()*photonum);
+                    if (randList.indexOf(rand) === -1) randList.push(rand);
+                    else i--;
+                }
+
+                for (var i=0; i<3; i++){
+                    current = photoval[keyList[randList[i]]];
+                    readphoto(div, current, keyList[randList[i]]);
+                }
+            });
+    }
+
+    function readphoto(div, photoval, keyval){
+        var storage = firebase.storage().ref();
+        var hidden = document.createElement("div");
+        hidden.setAttribute("style", "display:none");
+        hidden.innerHTML = keyval;
+        storage
+            .child(photoval.photourl)
+            .getDownloadURL()
+            .then(function (url) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.onload = function (event) {
+                var blob = xhr.response;
+            };
+            xhr.open("GET", url);
+            xhr.send();
+            var swipe_page = document.createElement("div");
+            swipe_page.setAttribute("class", "swiper-slide");
+            var img = document.createElement("img");
+            img.setAttribute("src", url);
+            img.setAttribute("style", "width: 1200px;height: 400px; object-fit: cover;");
+            swipe_page.appendChild(img);
+            swipe_page.appendChild(hidden);
+            div.appendChild(swipe_page);
+            })
+    }
+
+    function getidolData(div, target) {
         firebase
             .database()
             .ref("/idolinfo")
@@ -209,29 +260,33 @@ $( document ).ready(function() {
     
             for (var i = 0; i < photonum; i++) {
                 current = photoval[keyList[i]];
-                var storage = firebase.storage().ref();
-                storage.child(current.mainphoto).getDownloadURL().then(function (url){
-                    var xhr = new XMLHttpRequest();
-                    xhr.responseType = "blob";
-                    xhr.onload = function (event) {
-                        var blob = xhr.response;
-                    };
-                    xhr.open("GET", url);
-                    xhr.send();
-                    var div0 = document.createElement("div");
-                    div0.setAttribute("style", "display:inline-block");
-                    var hidden = document.createElement("div");
-                    hidden.setAttribute("style", "display:none");
-                    hidden.innerHTML = current.name;
-                    var img = document.createElement("img");
-                    img.setAttribute("src", url);
-                    img.setAttribute("class", "image_main");
-                    div0.appendChild(img);
-                    div0.appendChild(hidden);
-                    div.insertBefore(div0, target);
-                });
+                addidol(div, current, target);
             }
             });
+    }
+
+    function addidol(div, current, target) {
+        var div0 = document.createElement("div");
+        div0.setAttribute("style", "display:inline-block");
+        var storage = firebase.storage().ref();
+        storage.child(current.mainphoto).getDownloadURL().then(function (url){
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.onload = function (event) {
+                var blob = xhr.response;
+            };
+            xhr.open("GET", url);
+            xhr.send();
+            var img = document.createElement("img");
+            img.setAttribute("src", url);
+            img.setAttribute("class", "image_main");
+            div0.appendChild(img);
+            var hidden = document.createElement("div");
+            hidden.setAttribute("style", "display:none");
+            hidden.innerHTML = current.name;
+            div0.appendChild(hidden);
+            div.insertBefore(div0, target);
+        });
     }
 
     function getphotoData(div) {
@@ -340,7 +395,6 @@ $( document ).ready(function() {
             div1.appendChild(h_content);
         
             div_chunks.appendChild(div1);
-            // parent.insertBefore(div1, target_div);
             }
 
 
@@ -379,10 +433,6 @@ $( document ).ready(function() {
                 div0.appendChild(hidden);
                 div.appendChild(div0);
             });
-        
-        //div.appendChild(div_img)
-        
-        
         }
 
     function main() {
@@ -394,31 +444,7 @@ $( document ).ready(function() {
         swipe.setAttribute("class", "swiper-container mySwiper");
         var swipe_wrapper = document.createElement("div");
         swipe_wrapper.setAttribute("class", "swiper-wrapper");
-        var swipe1 = document.createElement("div");
-        swipe1.setAttribute("class", "swiper-slide");
-        var swipe2 = document.createElement("div");
-        swipe2.setAttribute("class", "swiper-slide");
-        var swipe3 = document.createElement("div");
-        swipe3.setAttribute("class", "swiper-slide");
-        var swipe4 = document.createElement("div");
-        swipe4.setAttribute("class", "swiper-slide");
-        var swipe5 = document.createElement("div");
-        swipe5.setAttribute("class", "swiper-slide");
-        var text1 = document.createTextNode("slide1");
-        var text2 = document.createTextNode("slide2");
-        var text3 = document.createTextNode("slide3");
-        var text4 = document.createTextNode("slide4");
-        var text5 = document.createTextNode("slide5");
-        swipe1.appendChild(text1);
-        swipe2.appendChild(text2);
-        swipe3.appendChild(text3);
-        swipe4.appendChild(text4);
-        swipe5.appendChild(text5);
-        swipe_wrapper.appendChild(swipe1);
-        swipe_wrapper.appendChild(swipe2);
-        swipe_wrapper.appendChild(swipe3);
-        swipe_wrapper.appendChild(swipe4);
-        swipe_wrapper.appendChild(swipe5);
+        getswiperData(swipe_wrapper);
         swipe.appendChild(swipe_wrapper);
         var pagination = document.createElement("div");
         pagination.setAttribute("class", "swiper-pagination");
@@ -435,7 +461,7 @@ $( document ).ready(function() {
         btn.appendChild(plus);
         myidol.appendChild(btn);
 
-        getphotoData_main(myidol, btn);
+        getidolData(myidol, btn);
 
         div0.appendChild(myidol);
         parent.appendChild(div0);
@@ -1444,6 +1470,16 @@ $( document ).ready(function() {
         var key = $(this).parent().children().text();
         var src = $(this).attr('src');
         
+        firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>{
+            var photoval = snapshot.val();
+            reshape({pval: photoval, src: src});
+        });
+    });
+
+    $("#contents").on("click", ".swiper-slide", function(){
+        current_state = "goto";
+        var key = $(this).children().text();
+        var src = $(this).children()[0].src;
         firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>{
             var photoval = snapshot.val();
             reshape({pval: photoval, src: src});
