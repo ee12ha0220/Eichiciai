@@ -1287,7 +1287,7 @@ $( document ).ready(function() {
     });
 
     $("#yes").click(function(){
-        $("#select").dialog("close");
+        $("#select").dialog("close"); 
         $("#select2").dialog("open");
 
         firebase.database().ref('/qna/'+f_key).once('value').then((snapshot) => {
