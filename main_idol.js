@@ -144,6 +144,45 @@ $( document ).ready(function() {
         target_div.appendChild(div1);
     }
 
+    function getphotoData_main(div, target) {
+        firebase
+            .database()
+            .ref("/idolinfo")
+            .once("value")
+            .then((snapshot) => {
+            var photoval = snapshot.val();
+            if (photoval == null) return;
+            var keyList = Object.keys(photoval);
+            photonum = keyList.length;
+            var current;
+    
+            for (var i = 0; i < photonum; i++) {
+                current = photoval[keyList[i]];
+                var storage = firebase.storage().ref();
+                storage.child(current.mainphoto).getDownloadURL().then(function (url){
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = "blob";
+                    xhr.onload = function (event) {
+                        var blob = xhr.response;
+                    };
+                    xhr.open("GET", url);
+                    xhr.send();
+                    var div0 = document.createElement("div");
+                    div0.setAttribute("style", "display:inline-block");
+                    var hidden = document.createElement("div");
+                    hidden.setAttribute("style", "display:none");
+                    hidden.innerHTML = current.name;
+                    var img = document.createElement("img");
+                    img.setAttribute("src", url);
+                    img.setAttribute("class", "image_main");
+                    div0.appendChild(img);
+                    div0.appendChild(hidden);
+                    div.insertBefore(div0, target);
+                });
+            }
+            });
+    }
+
     function getphotoData(div) {
         firebase
             .database()
@@ -190,6 +229,7 @@ $( document ).ready(function() {
             var h2 = document.createElement("img");
             h2.setAttribute("class", "photoheader");
             var storage = firebase.storage().ref();
+            console.log(storage.child(photoval.photourl));
             storage
                 .child(photoval.photourl)
                 .getDownloadURL()
@@ -337,15 +377,14 @@ $( document ).ready(function() {
         var myidol = document.createElement("div");
         myidol.setAttribute("style", "text-align:center;")
 
-        imageadder(myidol, "yuqi.PNG", "img1", "image_main");
-        imageadder(myidol, "yuqi.PNG", "img2", "image_main");
-        imageadder(myidol, "yuqi.PNG", "img3", "image_main");
-
         var btn = document.createElement("button");
+        btn.setAttribute("ID", "main_btn");
         btn.setAttribute("style", "width:280px; height:200px; vertical-align:top; margin-top:20px; font-size:50px");
         var plus = document.createTextNode("+");
         btn.appendChild(plus);
         myidol.appendChild(btn);
+
+        getphotoData_main(myidol, btn);
 
         div0.appendChild(myidol);
         parent.appendChild(div0);
@@ -452,10 +491,6 @@ $( document ).ready(function() {
         strong1.setAttribute("style", "font-size:40px;");
 
         var text1 = document.createTextNode("QnA Board");
-        //text1.setAttribute("style", "font-family: Roboto, serif");
-        // var strong1 = document.createElement("h1");
-        // strong1.innerHTML = "QnA Board";
-        // strong1.setAttribute("style", "font-family: Roboto, serif");
 
         strong1.appendChild(text1);
         div1.appendChild(strong1);
@@ -619,14 +654,6 @@ $( document ).ready(function() {
 
 
         var div5 = document.createElement("div");
-
-        // var qnaedit = document.createElement("p");
-        // qnaedit.setAttribute("style", "display: inline-block; margin-right: 15px; cursor: pointer");
-        // qnaedit.innerHTML = "edit";
-
-        // var qnadelete = document.createElement("p");
-        // qnadelete.setAttribute("style", "display: inline-block; margin-right: 20px; cursor: pointer");
-        // qnadelete.innerHTML = "delete";
 
         var leaveans = document.createElement("input");
         leaveans.setAttribute("ID", "comment_input");
@@ -837,6 +864,8 @@ $( document ).ready(function() {
         }
 
         function specific_photo(content) {
+        console.log(content[1].firstChild.width);
+        console.log(content[1].firstChild.height);
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
@@ -985,7 +1014,107 @@ $( document ).ready(function() {
         t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
     }
 
-    function reshape(filter_change = false, photo_content = ""){
+    function gotophoto(content, src) {
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+        var div_chunks = document.createElement("div");
+        div_chunks.setAttribute("ID", "photochunks");
+        div_chunks.setAttribute(
+            "style",
+            "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+        );
+        var div1 = document.createElement("div");
+        div1.setAttribute(
+            "style",
+            "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+        );
+    
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
+    
+        var text1 = document.createTextNode("Photo Board");
+    
+        strong1.appendChild(text1);
+    
+        div1.appendChild(strong1);
+    
+        div.appendChild(div1);
+    
+        var div3 = document.createElement("div");
+        div3.setAttribute("ID", "write-div");
+    
+        var div_content = document.createElement("div");
+        div_content.setAttribute(
+            "style",
+            "display : flex; flex-direction: column;"
+        );
+        var schedule_div = document.createElement("div");
+        schedule_div.setAttribute("style", "display : flex;height:40px;font-family: Roboto, serif;");
+        var schedule = document.createElement("STRONG");
+        schedule.setAttribute(
+            "style",
+            "font-size: 30px;position: absolute; right: 20px"
+        );
+        schedule.innerHTML = "schedule: " + content.schedule;
+    
+        var img = document.createElement("img");
+        img.setAttribute("src", src);
+        var w = img.width;
+        var h = img.height;
+        img.setAttribute("style", "width: " + w + "px; height: " +
+        h +"px" )
+    
+        var header = document.createElement("div");
+        header.setAttribute("style", "display : flex;");
+        var contents = document.createElement("div");
+        contents.setAttribute("style", "display : flex;");
+    
+        var title = document.createElement("div");
+        title.setAttribute("style", "font-size: 30px");
+        title.innerHTML = "Title: " + content.title;
+        var author = document.createElement("div");
+        author.setAttribute(
+            "style",
+            "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+        );
+        author.innerHTML = content.author;
+        var date = document.createElement("div");
+        date.setAttribute(
+            "style",
+            "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+        );
+        date.innerHTML = "Date: " + content.date;
+        var content_html = document.createElement("div");
+        content_html.setAttribute("style", "font-size: 30px");
+        content_html.innerHTML = content.content;
+    
+        header.appendChild(title);
+        header.appendChild(date);
+        schedule_div.appendChild(schedule);
+        contents.appendChild(content_html);
+        contents.appendChild(author);
+        div_content.appendChild(header);
+    
+        div_content.appendChild(schedule_div);
+        div_content.appendChild(img);
+    
+        div_content.appendChild(contents);
+    
+        div3.appendChild(div_content);
+    
+        div.appendChild(div_chunks);
+        div.appendChild(div3);
+    
+        parent.appendChild(div);
+    }
+
+    function reshape(options){
+        options = options || {};
+        var defaults = {filter_change: false, photo_content: "", pval: "", src: ""};
+        for (var prop in defaults)  {
+            options[prop] = typeof options[prop] !== 'undefined' ? options[prop] : defaults[prop];
+        }
         clear();
         resetmenu();
         selected_filter = $("#filter").val();
@@ -1010,7 +1139,7 @@ $( document ).ready(function() {
         else if (current_state == "qnapost"){
             blue_qna();
             black_photo();
-            if (filter_change){
+            if (options.filter_change){
                 current_state = "qna1";
                 reshape();
             }
@@ -1030,19 +1159,23 @@ $( document ).ready(function() {
         else if (current_state == "photo_specific") {
             blue_photo();
             black_qna();
-            if (filter_change) {
+            if (options.filter_change) {
                 current_state = "photo";
                 reshape();
             } 
             else {
-                specific_photo(photo_content);
+                specific_photo(options.photo_content);
             }
+        }
+        else if (current_state == "goto"){
+            blue_photo();
+            gotophoto(options.pval,options.src);
         }
     }
 
     filter.addEventListener("change", function(){
         idol = $("#filter").val();
-        reshape(true);
+        reshape({filter_change: true});
     });
 
     $("#photo").click(function () {
@@ -1053,14 +1186,25 @@ $( document ).ready(function() {
     $("#contents").on("click", ".photo_button", function () {
         current_state = "photo_specific";
         console.log( $(this).parent().children());
-        reshape(false, $(this).parent().children());
+        reshape({photo_content: $(this).parent().children()});
     });
 
     $("#contents").on("click", ".image_main_idol_2", function(){
-        current_state = "photo_specific";
+        current_state = "goto";
         var key = $(this).parent().children().text();
-        //firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>
-        //reshape(false, $(this).parent().children());
+        var src = $(this).attr('src');
+        
+        firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>{
+            var photoval = snapshot.val();
+            reshape({pval: photoval, src: src});
+        });
+    });
+
+    $("#contents").on("click", ".image_main", function(){
+        var temp = $(this).parent().children().text();
+        $("#filter option[value=" + temp + "]").prop('selected', true);
+        idol = $("#filter").val();
+        reshape({filter_change: true});
     });
 
     $("#contents").on("click", ".photo_button_title", function () {
