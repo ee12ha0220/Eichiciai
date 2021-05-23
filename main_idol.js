@@ -184,7 +184,7 @@ $( document ).ready(function() {
             .child(photoval.photourl)
             .getDownloadURL()
             .then(function (url) {
-            var xhr = new XMLHttpRequest();
+            var xhr = new XMLHttpRequest(); 
             xhr.responseType = "blob";
             xhr.onload = function (event) {
                 var blob = xhr.response;
