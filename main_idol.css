@@ -171,3 +171,6 @@ select {
   height: 400px;
   width: 200px;
 }
+.event-hidden {
+  display: none;
+}

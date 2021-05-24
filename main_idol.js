@@ -16,6 +16,7 @@ $(document).ready(function () {
   var qnanum = 0;
   var current_state = "main";
   var selected_filter;
+  var f_key_p;
 
   function getqnaData() {
     firebase
@@ -713,19 +714,268 @@ $(document).ready(function () {
 
     div3.appendChild(div_content);
 
-    var btn = document.createElement("button");
-    btn.setAttribute("ID", "write_button_photo");
-    btn.setAttribute(
+    var div5 = document.createElement("div");
+    var leavecomment = document.createElement("input");
+    leavecomment.setAttribute("ID", "comment_input_photo");
+    leavecomment.setAttribute(
       "style",
-      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+      "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
     );
-    btn.innerHTML = "Write";
 
-    div3.appendChild(btn);
+    var entercomment = document.createElement("button");
+    entercomment.setAttribute("ID", "entercomment");
+    entercomment.setAttribute(
+      "style",
+      "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+    );
+    entercomment.innerHTML = "Enter";
+
+    div5.appendChild(leavecomment);
+    div5.appendChild(entercomment);
+    // div5.appendChild(qnaedit);
+    // div5.appendChild(qnadelete);
+
+    var div6 = document.createElement("div");
+    div6.setAttribute("class", "commentline");
+    div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+    var commentnum = document.createElement("h4");
+    commentnum.setAttribute("style", "font-family: Roboto, serif;");
+    // commentnum.innerHTML = "Comments (" + comment + ")";
+    commentnum.innerHTML = "Comments(2)";
+
+    var text1 = document.createElement("p");
+    text1.setAttribute(
+      "style",
+      "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+    );
+    text1.setAttribute("ID", "history");
+    text1.innerHTML = "History";
+
+    div6.appendChild(commentnum);
+    div6.appendChild(text1);
+
+    var div7 = document.createElement("div");
+    div7.setAttribute("ID", "photo_comments");
+
+    div3.appendChild(div5);
+    div3.appendChild(div6);
+    div3.appendChild(div7);
+
+    parent.appendChild(div);
+
+    // getCommentData();
+    //reshape();
+
     div.appendChild(div_chunks);
     div.appendChild(div3);
 
     parent.appendChild(div);
+  }
+  function getCommentData() {
+    firebase
+      .database()
+      .ref("/qna/" + f_key)
+      .once("value")
+      .then((snapshot) => {
+        var qnaval = snapshot.val();
+        if (qnaval.comments == null) return;
+        var keyList = Object.keys(qnaval.comments);
+        qnanum = keyList.length;
+        var current;
+        var state = qnaval.selected;
+
+        for (var i = qnanum - 1; i >= 0; i--) {
+          current = qnaval.comments[keyList[i]];
+          addcomment(current, state);
+        }
+      });
+  }
+  function addcomment(commentval, state) {
+    var target_div = document.getElementById("qna_comments");
+    var div1 = document.createElement("div");
+    div1.setAttribute("class", "qnaline");
+    div1.setAttribute("style", "height:auto");
+
+    var h1 = document.createElement("p");
+    if (commentval.selected == true) {
+      h1.setAttribute("style", "color:#2f80ed;width:20%");
+    } else h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+    h1.innerHTML = commentval.author;
+
+    var h2 = document.createElement("p");
+    if (commentval.selected == true) {
+      h2.setAttribute("style", "color:#2f80ed;width:60%");
+    } else h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+    h2.innerHTML = commentval.content;
+
+    var text1 = document.createElement("p");
+    text1.setAttribute(
+      "style",
+      "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+    );
+    text1.innerHTML = "History";
+
+    div1.appendChild(h1);
+    div1.appendChild(h2);
+    div1.appendChild(text1);
+
+    if (!state) {
+      var button1 = document.createElement("button");
+      button1.setAttribute("class", "selectbtn");
+      button1.setAttribute("style", "font-family: Roboto, serif;");
+      button1.innerHTML = "SELECT";
+      div1.appendChild(button1);
+    } else {
+      if (commentval.selected == true) {
+        var button1 = document.createElement("button");
+        button1.setAttribute("class", "selectedbtn");
+        button1.setAttribute("style", "font-family: Roboto, serif;");
+        button1.innerHTML = "SELECTED";
+        div1.appendChild(button1);
+      }
+    }
+
+    target_div.appendChild(div1);
+  }
+  function history() {
+    var parent = document.getElementById("contents");
+    var div = document.createElement("div");
+    div.setAttribute("ID", "bigdiv");
+
+    var div1 = document.createElement("div");
+    div1.setAttribute(
+      "style",
+      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+    );
+
+    var strong1 = document.createElement("STRONG");
+    strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+
+    var text1 = document.createTextNode("Comment History");
+
+    strong1.appendChild(text1);
+    div1.appendChild(strong1);
+    div.appendChild(div1);
+
+    var div2 = document.createElement("div");
+    div2.setAttribute("class", "qnaline");
+    div2.setAttribute("style", "border-bottom:4px solid black");
+
+    var h1 = document.createElement("h5");
+    h1.setAttribute("class", "qnaheader");
+    h1.setAttribute("style", "width: 10%");
+    h1.innerHTML = "User 91";
+
+    var h2 = document.createElement("h5");
+    h2.setAttribute("class", "qnaheader");
+    h2.setAttribute("style", "width: 40%");
+    h2.innerHTML = "";
+
+    var h3 = document.createElement("h5");
+    h3.setAttribute("class", "qnaheader");
+    h3.setAttribute("style", "width: 30%");
+    h3.innerHTML = "";
+
+    var h4 = document.createElement("h5");
+    h4.setAttribute("class", "qnaheader");
+    h4.setAttribute("style", "width: 15%;text-align: right");
+    h4.innerHTML = "5 Comments";
+
+    var h5 = document.createElement("h5");
+    h5.setAttribute("class", "qnaheader");
+    h5.setAttribute("style", "width: 5%;cursor:pointer");
+    h5.setAttribute("ID", "ban");
+    h5.innerHTML = 'Report <i class="fas fa-ban"></i>';
+
+    div2.appendChild(h1);
+    div2.appendChild(h2);
+    div2.appendChild(h3);
+    div2.appendChild(h4);
+    div2.appendChild(h5);
+
+    div.appendChild(div2);
+
+    var div3 = document.createElement("div");
+    div3.setAttribute("ID", "write-div");
+
+    // var siren = document.createElement("h5");
+    // siren.innerHTML = '<i class="fas fa-ban"></i>';
+
+    div.appendChild(div3);
+
+    // div.appendChild(siren);
+
+    parent.appendChild(div);
+
+    getqnaData();
+  }
+  function calendar() {
+    var parent = document.getElementById("contents");
+    var div = document.createElement("div");
+    div.setAttribute("ID", "bigdiv");
+    var div_calendar = document.createElement("div");
+    div_calendar.setAttribute("ID", "calendar1");
+
+    var div1 = document.createElement("div");
+    div1.setAttribute(
+      "style",
+      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+    );
+
+    div1.appendChild(div_calendar);
+
+    div.appendChild(div1);
+
+    parent.appendChild(div);
+    let calendarEl = document.getElementById("calendar1");
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      contentHeight: 600,
+      events: [
+        {
+          title: "BTS online concert",
+          start: "2021-05-16",
+          color: "#8b00ff",
+          idol: "1",
+        },
+        {
+          title: "BTS fan meeting",
+          start: "2021-05-14",
+          color: "#8b00ff",
+          idol: "1",
+        },
+        {
+          title: "G-IDLE online concert",
+          start: "2021-05-24",
+          color: "#e11900",
+          idol: "2",
+        },
+        {
+          title: "G-IDLE fan meeting",
+          start: "2021-05-19",
+          color: "#e11900",
+          idol: "2",
+        },
+      ],
+      eventDidMount: function (arg) {
+        var filter = document.getElementById("filter");
+        var val = filter.options[filter.selectedIndex].value;
+        // console.log(val);
+        // console.log("---------");
+        // console.log(arg.event.extendedProps.idol);
+        if (val === "All") {
+          arg.el.style.display = "auto";
+        } else if (arg.event.extendedProps.idol != val) {
+          arg.el.style.display = "none";
+        }
+      },
+    });
+
+    calendar.render();
+    $("#filter").on("change", function () {
+      calendar.refetchEvents();
+    });
   }
 
   function clear() {
@@ -781,9 +1031,30 @@ $(document).ready(function () {
         console.log();
         specific_photo(photo_content);
       }
+    } else if (current_state == "calendar") {
+      calendar();
+    } else if (current_state == "history") {
+      history();
     }
   }
+  function showPopup() {
+    var popupX = window.screen.width / 2 - 700 / 2;
 
+    var popupY = window.screen.height / 2 - 400 / 2;
+
+    window.open(
+      "ban_popup.html",
+      "",
+      "status=no, height=400, width=700, left=" +
+        popupX +
+        ", top=" +
+        popupY +
+        ", screenX=" +
+        popupX +
+        ", screenY= " +
+        popupY
+    );
+  }
   filter.addEventListener("change", function () {
     reshape(true);
   });
@@ -796,15 +1067,28 @@ $(document).ready(function () {
     current_state = "photo";
     reshape();
   });
+  $("#calendar").click(function () {
+    current_state = "calendar";
+    reshape();
+  });
   $("#contents").on("click", ".photo_button", function () {
     current_state = "photo_specific";
     console.log();
     reshape(false, $(this).parent().children());
   });
+
+  $("#contents").on("click", "#ban", function () {
+    showPopup();
+  });
+
   $("#contents").on("click", ".photo_button_title", function () {
     $(this).parent().children()[1].click();
   });
 
+  $("#contents").on("click", "#history", function () {
+    current_state = "history";
+    reshape();
+  });
   $("#contents").on("click", "#write_button", function () {
     current_state = "qna2";
     reshape();
@@ -831,6 +1115,26 @@ $(document).ready(function () {
     current_state = "qna1";
     reshape();
   });
+  //   $('#contents').on("click", "#entercomment", function(){
+  //     var comment_input = document.getElementById("comment_input_photo").value;
+  //     var current_author = firebase.database().ref('/photo/'+f_key+'/author');
+  //     console.log(current_author);
+  //     console.log(current_user);
+  //         var newcomment = firebase.database().ref('/photo/'+f_key+'/comments').push();
+  //         newcomment.set({
+  //             content: comment_input,
+  //             author : current_user,
+  //             selected : false
+  //         })
+
+  //         f_qnaanswer += 1;
+
+  //         var update = {};
+  //         update['/qna/' + f_key + '/answer'] = f_qnaanswer;
+
+  //         firebase.database().ref().update(update);
+  //         reshape();
+  // });
   $("#contents").on("click", "#submitphoto", function () {
     var photo = document.getElementById("image").files[0];
     var storageRef = firebase.storage().ref();
