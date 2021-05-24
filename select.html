@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Eichiciai</title>
+        <link href="./main_idol.css" rel="stylesheet" /> 
+        <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet"/>
+        <link href="jquery/css/ui-lightness/jquery-ui-1.10.0.custom.css" rel="stylesheet" />
+        <script src="jquery/js/jquery-1.9.0.min.js"></script>
+        <script src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase.js"></script>
+    </head>
+    <body>
+        <div id="first" style="text-align:center">
+            <div style="font-size:22px">Will you select user77's answer</div>
+            <div style="font-size:18px">After selection, you cannot edit or delete your question.</div>
+            <div>
+                <button id="yes"> Yes </button>
+                <button id="no"> No </button>
+            </div>
+        </div>
+            
+
+        <script>
+            $("#yes").click(function(){
+                var first = document.getElementById("first");
+                document.body.removeChild(first);
+
+                var div1 = document.createElement("div");
+                div1.setAttribute("style", "text-align:center");
+
+                var div2 = document.createElement("div");
+                div2.innerHTML = "Congrats! You’ve got 10 points for selecting the best answer.";
+                var div3 = document.createElement("div");
+                var text1 = document.createTextNode("user77 got 20 points also.");
+                var btn = document.createElement("button");
+                btn.setAttribute("style", "margin-left:20px")
+                btn.innerHTML = "No";
+                
+                div3.appendChild(text1);
+                div3.appendChild(btn);
+                div1.appendChild(div2); 
+                div1.appendChild(div3);
+                document.body.appendChild(div1);
+            });
+
+            $("#no").click(function(){
+                close();
+            });
+        </script>
+        
+    </body>
+</html>

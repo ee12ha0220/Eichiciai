@@ -16,7 +16,32 @@ $(document).ready(function () {
   var qnanum = 0;
   var current_state = "main";
   var selected_filter;
-  var f_key_photo;
+  var f_qna;
+  var f_key;
+  var f_qnaanswer;
+  var selected_answer;
+  var idol = $("#filter").val();
+  var current_user = "nologin";
+
+  function getCommentData() {
+    firebase
+      .database()
+      .ref("/qna/" + f_key)
+      .once("value")
+      .then((snapshot) => {
+        var qnaval = snapshot.val();
+        if (qnaval.comments == null) return;
+        var keyList = Object.keys(qnaval.comments);
+        qnanum = keyList.length;
+        var current;
+        var state = qnaval.selected;
+
+        for (var i = qnanum - 1; i >= 0; i--) {
+          current = qnaval.comments[keyList[i]];
+          addcomment(current, state);
+        }
+      });
+  }
 
   function getqnaData() {
     firebase
@@ -32,7 +57,7 @@ $(document).ready(function () {
 
         for (var i = qnanum - 1; i >= 0; i--) {
           current = qnaval[keyList[i]];
-          addqna(current);
+          if (current.idol == idol || idol == "All") addqna(current);
         }
       });
   }
@@ -42,29 +67,46 @@ $(document).ready(function () {
     var parent = document.getElementById("bigdiv");
     var div1 = document.createElement("div");
     div1.setAttribute("class", "qnaline");
+    div1.setAttribute("style", "text-align:center;");
+
     var h1 = document.createElement("p");
     h1.setAttribute("class", "qnaheader");
-    h1.setAttribute("style", "width: 10%");
+    h1.setAttribute(
+      "style",
+      "width: 10%;font-family: Roboto, serif;margin:auto;"
+    );
     h1.innerHTML = qnaval.no;
 
     var h2 = document.createElement("p");
-    h2.setAttribute("class", "qnaheader");
-    h2.setAttribute("style", "width: 40%");
+    h2.setAttribute("class", "question");
+    h2.setAttribute(
+      "style",
+      "width: 40%;font-family: Roboto, serif;margin:auto;"
+    );
     h2.innerHTML = qnaval.title;
 
     var h3 = document.createElement("p");
     h3.setAttribute("class", "qnaheader");
-    h3.setAttribute("style", "width: 25%");
+    h3.setAttribute(
+      "style",
+      "width: 25%;font-family: Roboto, serif;margin:auto;"
+    );
     h3.innerHTML = qnaval.author;
 
     var h4 = document.createElement("p");
     h4.setAttribute("class", "qnaheader");
-    h4.setAttribute("style", "width: 10%");
+    h4.setAttribute(
+      "style",
+      "width: 10%;font-family: Roboto, serif;margin:auto;"
+    );
     h4.innerHTML = qnaval.answer;
 
     var h5 = document.createElement("p");
     h5.setAttribute("class", "qnaheader");
-    h5.setAttribute("style", "width: 15%");
+    h5.setAttribute(
+      "style",
+      "width: 15%;font-family: Roboto, serif;margin:auto;"
+    );
     h5.innerHTML = qnaval.date;
 
     div1.appendChild(h1);
@@ -75,7 +117,56 @@ $(document).ready(function () {
 
     parent.insertBefore(div1, target_div);
   }
-  function getphotoData() {
+
+  function addcomment(commentval, state) {
+    var target_div = document.getElementById("qna_comments");
+    var div1 = document.createElement("div");
+    div1.setAttribute("class", "qnaline");
+    div1.setAttribute("style", "height:auto");
+
+    var h1 = document.createElement("p");
+    if (commentval.selected == true) {
+      h1.setAttribute("style", "color:#2f80ed;width:20%");
+    } else h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+    h1.innerHTML = commentval.author;
+
+    var h2 = document.createElement("p");
+    if (commentval.selected == true) {
+      h2.setAttribute("style", "color:#2f80ed;width:60%");
+    } else h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+    h2.innerHTML = commentval.content;
+
+    var text1 = document.createElement("p");
+    text1.setAttribute(
+      "style",
+      "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+    );
+    text1.innerHTML = "History";
+
+    div1.appendChild(h1);
+    div1.appendChild(h2);
+    div1.appendChild(text1);
+
+    if (!state) {
+      var button1 = document.createElement("button");
+      button1.setAttribute("class", "selectbtn");
+      button1.setAttribute("style", "font-family: Roboto, serif;");
+      button1.innerHTML = "SELECT";
+      div1.appendChild(button1);
+    } else {
+      if (commentval.selected == true) {
+        var button1 = document.createElement("button");
+        button1.setAttribute("class", "selectedbtn");
+        button1.setAttribute("style", "font-family: Roboto, serif;");
+        button1.innerHTML = "SELECTED";
+        div1.appendChild(button1);
+      }
+    }
+
+    target_div.appendChild(div1);
+  }
+
+  function getphotoData(div) {
     firebase
       .database()
       .ref("/photo")
@@ -89,10 +180,15 @@ $(document).ready(function () {
 
         for (var i = photonum - 1; i >= 0; i--) {
           current = photoval[keyList[i]];
-          addphoto(current);
+          if (current.idol == idol || idol == "All") {
+            if (current_state == "main")
+              addphoto_main(div, current, keyList[i]);
+            else addphoto(current);
+          }
         }
       });
   }
+
   function addphoto(photoval) {
     var target_div = document.getElementById("write-div");
     var div_chunks = document.getElementById("photochunks");
@@ -179,6 +275,45 @@ $(document).ready(function () {
     // parent.insertBefore(div1, target_div);
   }
 
+  function addphoto_main(div, photoval, keyval) {
+    var div0 = document.createElement("div");
+    div0.setAttribute("style", "display:inline-block");
+    var h2 = document.createElement("img");
+    var hidden = document.createElement("div");
+    hidden.setAttribute("style", "display:none");
+    hidden.innerHTML = keyval;
+
+    h2.setAttribute("class", "image_main_idol_2");
+    var storage = firebase.storage().ref();
+    storage
+      .child(photoval.photourl)
+      .getDownloadURL()
+      .then(function (url) {
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
+        xhr.onload = function (event) {
+          var blob = xhr.response;
+        };
+        xhr.open("GET", url);
+        xhr.send();
+        h2.src = url;
+        return url;
+      })
+      .then((url) => {
+        var img = new Image();
+        img.onload = function () {
+          h2.setAttribute("class", "image_main_idol_2");
+        };
+        img.src = url;
+
+        div0.appendChild(h2);
+        div0.appendChild(hidden);
+        div.appendChild(div0);
+      });
+
+    //div.appendChild(div_img)
+  }
+
   function main() {
     var parent = document.getElementById("contents");
     var div0 = document.createElement("div");
@@ -198,31 +333,16 @@ $(document).ready(function () {
     swipe4.setAttribute("class", "swiper-slide");
     var swipe5 = document.createElement("div");
     swipe5.setAttribute("class", "swiper-slide");
-    imageadder(swipe1, "BTS_main_big.jpg", "img1", "image_main_idol_main");
-    imageadder(
-      swipe2,
-      "g-idle_main_swipe.jpeg",
-      "img2",
-      "image_main_idol_main"
-    );
-    imageadder(swipe3, "BTS_main_swipe.jpeg", "img3", "image_main_idol_main");
-    imageadder(
-      swipe4,
-      "g-idle_main_swipe_2.jpeg",
-      "img4",
-      "image_main_idol_main"
-    );
-    imageadder(swipe5, "BTS_main_swipe_2.jpeg", "img5", "image_main_idol_main");
-    // var text1 = document.createTextNode("slide1");
-    // var text2 = document.createTextNode("slide2");
-    // var text3 = document.createTextNode("slide3");
-    // var text4 = document.createTextNode("slide4");
-    // var text5 = document.createTextNode("slide5");
-    // swipe1.appendChild(text1);
-    // swipe2.appendChild(text2);
-    // swipe3.appendChild(text3);
-    // swipe4.appendChild(text4);
-    // swipe5.appendChild(text5);
+    var text1 = document.createTextNode("slide1");
+    var text2 = document.createTextNode("slide2");
+    var text3 = document.createTextNode("slide3");
+    var text4 = document.createTextNode("slide4");
+    var text5 = document.createTextNode("slide5");
+    swipe1.appendChild(text1);
+    swipe2.appendChild(text2);
+    swipe3.appendChild(text3);
+    swipe4.appendChild(text4);
+    swipe5.appendChild(text5);
     swipe_wrapper.appendChild(swipe1);
     swipe_wrapper.appendChild(swipe2);
     swipe_wrapper.appendChild(swipe3);
@@ -269,56 +389,76 @@ $(document).ready(function () {
     div0.setAttribute("style", "float:left; width:80%;");
 
     var div1 = document.createElement("div");
-    imageadder(div1, "BTS_main_big.jpg", "img0", "image_main_idol_1");
-    div0.appendChild(div1);
 
-    var div2 = document.createElement("div");
-    div2.setAttribute("style", "text-align:center; width:1000px;");
-    var text1 = document.createTextNode("Hot photos & videos");
+    firebase
+      .database()
+      .ref("/idolinfo/" + idol)
+      .once("value")
+      .then((snapshot) => {
+        var storage = firebase.storage().ref();
+        var src = snapshot.val().mainphoto;
+        var img0 = document.createElement("img");
+        storage
+          .child(src)
+          .getDownloadURL()
+          .then(function (url) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.onload = function (event) {
+              var blob = xhr.response;
+            };
+            xhr.open("GET", url);
+            xhr.send();
+            img0.src = url;
+            img0.setAttribute("class", "image_main_idol_1");
+            return url;
+          });
+        div1.appendChild(img0);
+        div0.appendChild(div1);
 
-    div2.appendChild(text1);
-    div0.appendChild(div2);
+        var div2 = document.createElement("div");
+        div2.setAttribute("style", "text-align:center; width:1000px;");
+        var text1 = document.createTextNode("Hot photos & videos");
 
-    var div3 = document.createElement("div");
-    div3.setAttribute("style", "width:1020px;");
+        div2.appendChild(text1);
+        div0.appendChild(div2);
 
-    imageadder(div3, "BTS_main_big.jpg", "img1", "image_main_idol_2");
-    imageadder(div3, "BTS_main_big.jpg", "img2", "image_main_idol_2");
-    imageadder(div3, "BTS_main_big.jpg", "img3", "image_main_idol_2");
-    imageadder(div3, "BTS_main_big.jpg", "img4", "image_main_idol_2");
-    imageadder(div3, "BTS_main_big.jpg", "img5", "image_main_idol_2");
-    imageadder(div3, "BTS_main_big.jpg", "img6", "image_main_idol_2");
+        var div3 = document.createElement("div");
+        div3.setAttribute("style", "width:1020px;");
 
-    div0.appendChild(div3);
-    div.appendChild(div0);
+        getphotoData(div3);
+        div0.appendChild(div3);
 
-    var div4 = document.createElement("div");
-    div4.setAttribute("style", "float:left; width: 20%;");
+        div.appendChild(div0);
 
-    var div5 = document.createElement("div");
-    div5.setAttribute("style", "text-align:center");
-    var text2 = document.createTextNode("Notice");
-    div5.appendChild(text2);
-    div4.appendChild(div5);
+        var div4 = document.createElement("div");
+        div4.setAttribute("style", "float:left; width: 20%;");
 
-    var div6 = document.createElement("div");
-    div6.setAttribute("style", "background:white");
+        var div5 = document.createElement("div");
+        div5.setAttribute("style", "text-align:center");
+        var text2 = document.createTextNode("Notice");
+        div5.appendChild(text2);
+        div4.appendChild(div5);
 
-    var list = document.createElement("ul");
-    var li1 = document.createElement("li");
+        var div6 = document.createElement("div");
+        div6.setAttribute("style", "background:white");
 
-    li1.innerHTML = "one";
-    var li2 = document.createElement("li");
-    li2.innerHTML = "two";
+        var list = document.createElement("ul");
+        var li1 = document.createElement("li");
 
-    list.appendChild(li1);
-    list.appendChild(li2);
+        li1.innerHTML = "one";
+        var li2 = document.createElement("li");
+        li2.innerHTML = "two";
 
-    div6.appendChild(list);
-    div4.appendChild(div6);
+        list.appendChild(li1);
+        list.appendChild(li2);
 
-    div.appendChild(div4);
-    parent.appendChild(div);
+        div6.appendChild(list);
+        div4.appendChild(div6);
+
+        div.appendChild(div4);
+        parent.appendChild(div);
+      });
   }
 
   function imageadder(parent_div, img_src, img_alt, img_class) {
@@ -338,45 +478,63 @@ $(document).ready(function () {
     var div1 = document.createElement("div");
     div1.setAttribute(
       "style",
-      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+      "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
     );
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+    strong1.setAttribute("style", "font-size:40px;");
 
     var text1 = document.createTextNode("QnA Board");
+    //text1.setAttribute("style", "font-family: Roboto, serif");
+    // var strong1 = document.createElement("h1");
+    // strong1.innerHTML = "QnA Board";
+    // strong1.setAttribute("style", "font-family: Roboto, serif");
 
     strong1.appendChild(text1);
     div1.appendChild(strong1);
     div.appendChild(div1);
 
     var div2 = document.createElement("div");
-    div2.setAttribute("class", "qnaline");
-    div2.setAttribute("style", "border-bottom:4px solid black");
+    div2.setAttribute("class", "qnaline_ori");
 
     var h1 = document.createElement("h5");
     h1.setAttribute("class", "qnaheader");
-    h1.setAttribute("style", "width: 10%");
+    h1.setAttribute(
+      "style",
+      "width: 10%;font-family: Roboto, serif;margin:auto;"
+    );
     h1.innerHTML = "No.";
 
     var h2 = document.createElement("h5");
     h2.setAttribute("class", "qnaheader");
-    h2.setAttribute("style", "width: 40%");
+    h2.setAttribute(
+      "style",
+      "width: 40%;font-family: Roboto, serif;margin:auto;"
+    );
     h2.innerHTML = "Title";
 
     var h3 = document.createElement("h5");
     h3.setAttribute("class", "qnaheader");
-    h3.setAttribute("style", "width: 25%");
+    h3.setAttribute(
+      "style",
+      "width: 25%;font-family: Roboto, serif;margin:auto;"
+    );
     h3.innerHTML = "Author";
 
     var h4 = document.createElement("h5");
     h4.setAttribute("class", "qnaheader");
-    h4.setAttribute("style", "width: 10%");
+    h4.setAttribute(
+      "style",
+      "width: 10%;font-family: Roboto, serif;margin:auto;"
+    );
     h4.innerHTML = "Answer";
 
     var h5 = document.createElement("h5");
     h5.setAttribute("class", "qnaheader");
-    h5.setAttribute("style", "width: 15%");
+    h5.setAttribute(
+      "style",
+      "width: 15%;font-family: Roboto, serif;margin:auto;"
+    );
     h5.innerHTML = "Date";
 
     div2.appendChild(h1);
@@ -394,7 +552,7 @@ $(document).ready(function () {
     btn.setAttribute("ID", "write_button");
     btn.setAttribute(
       "style",
-      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
     );
     btn.innerHTML = "Write";
 
@@ -445,7 +603,7 @@ $(document).ready(function () {
     var btn = document.createElement("button");
     btn.setAttribute(
       "style",
-      "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6"
+      "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
     );
     btn.setAttribute("ID", "submitqna");
     btn.innerHTML = "Submit";
@@ -455,6 +613,133 @@ $(document).ready(function () {
 
     parent.appendChild(div);
   }
+
+  function qnapost() {
+    var parent = document.getElementById("contents");
+    var div = document.createElement("div");
+    div.setAttribute("ID", "bigdiv");
+
+    var div1 = document.createElement("div");
+    div1.setAttribute(
+      "style",
+      "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+    );
+
+    var strong1 = document.createElement("STRONG");
+    strong1.setAttribute("style", "font-size:40px;");
+
+    var text1 = document.createTextNode("QnA Board");
+
+    strong1.appendChild(text1);
+    div1.appendChild(strong1);
+    div.appendChild(div1);
+
+    var div2 = document.createElement("div");
+    div2.setAttribute("class", "qnaline");
+    div2.setAttribute("style", "border-bottom:4px solid #2B5A89");
+
+    var qnano = document.createElement("div");
+    qnano.setAttribute("class", "qnaheader");
+    qnano.setAttribute(
+      "style",
+      "width:50%; text-align:left;font-family: Roboto, serif;"
+    );
+    qnano.innerHTML = "Question No." + f_qna.no;
+
+    var qnaauthor = document.createElement("div");
+    qnaauthor.setAttribute("class", "qnaheader");
+    qnaauthor.setAttribute(
+      "style",
+      "width:50%;text-align: right;font-family: Roboto, serif;"
+    );
+    qnaauthor.innerHTML = f_qna.author;
+
+    div2.appendChild(qnano);
+    div2.appendChild(qnaauthor);
+
+    var div3 = document.createElement("div");
+    div3.setAttribute("class", "qnaline");
+    div3.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+    var qnatitle = document.createElement("div");
+    qnatitle.setAttribute("class", "qnaheader");
+    qnatitle.setAttribute(
+      "style",
+      "width:50%; text-align:left;font-family: Roboto, serif;"
+    );
+    qnatitle.innerHTML = f_qna.title;
+
+    var qnatime = document.createElement("div");
+    qnatime.setAttribute("class", "qnaheader");
+    qnatime.setAttribute(
+      "style",
+      "width:50%;text-align: right;font-family: Roboto, serif;"
+    );
+    qnatime.innerHTML = f_qna.date;
+
+    div3.appendChild(qnatitle);
+    div3.appendChild(qnatime);
+
+    var div4 = document.createElement("div");
+    div4.innerHTML = f_qna.content;
+    div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;");
+
+    var div5 = document.createElement("div");
+
+    // var qnaedit = document.createElement("p");
+    // qnaedit.setAttribute("style", "display: inline-block; margin-right: 15px; cursor: pointer");
+    // qnaedit.innerHTML = "edit";
+
+    // var qnadelete = document.createElement("p");
+    // qnadelete.setAttribute("style", "display: inline-block; margin-right: 20px; cursor: pointer");
+    // qnadelete.innerHTML = "delete";
+
+    var leaveans = document.createElement("input");
+    leaveans.setAttribute("ID", "comment_input");
+    leaveans.setAttribute(
+      "style",
+      "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+    );
+
+    var enterans = document.createElement("button");
+    enterans.setAttribute("ID", "enterans");
+    enterans.setAttribute(
+      "style",
+      "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+    );
+    enterans.innerHTML = "Enter";
+
+    div5.appendChild(leaveans);
+    div5.appendChild(enterans);
+    // div5.appendChild(qnaedit);
+    // div5.appendChild(qnadelete);
+
+    var div6 = document.createElement("div");
+    div6.setAttribute("class", "qnaline");
+    div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+    var answernum = document.createElement("h4");
+    answernum.setAttribute("style", "font-family: Roboto, serif;");
+    answernum.innerHTML = "Answers(" + f_qnaanswer + ")";
+
+    div6.appendChild(answernum);
+
+    var div7 = document.createElement("div");
+    div7.setAttribute("ID", "qna_comments");
+
+    div.appendChild(div2);
+    div.appendChild(div3);
+    div.appendChild(div4);
+    div.appendChild(div5);
+    div.appendChild(div6);
+    div.appendChild(div7);
+
+    parent.appendChild(div);
+
+    getCommentData();
+    //reshape();
+  }
+
   function photo() {
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
@@ -469,7 +754,7 @@ $(document).ready(function () {
     var div1 = document.createElement("div");
     div1.setAttribute(
       "style",
-      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+      "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
     );
 
     var strong1 = document.createElement("STRONG");
@@ -480,7 +765,7 @@ $(document).ready(function () {
     var small1 = document.createElement("SMALL");
     small1.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray"
+      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
 
     var text2 = document.createTextNode("By Schedule");
@@ -488,7 +773,7 @@ $(document).ready(function () {
     var small2 = document.createElement("SMALL");
     small2.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray"
+      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
 
     var text3 = document.createTextNode("Latest");
@@ -496,7 +781,7 @@ $(document).ready(function () {
     var small3 = document.createElement("SMALL");
     small3.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;"
+      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
 
     var text4 = document.createTextNode("Hottest");
@@ -519,7 +804,7 @@ $(document).ready(function () {
     btn.setAttribute("ID", "write_button_photo");
     btn.setAttribute(
       "style",
-      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #7ac3e6"
+      "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
     );
     btn.innerHTML = "Write";
 
@@ -556,7 +841,10 @@ $(document).ready(function () {
     var div1 = document.createElement("div");
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size: 40px");
+    strong1.setAttribute(
+      "style",
+      "font-size: 40px;font-family: Roboto, serif;"
+    );
     strong1.innerHTML = "Upload a photo!";
 
     div1.appendChild(strong1);
@@ -610,7 +898,7 @@ $(document).ready(function () {
     var btn = document.createElement("button");
     btn.setAttribute(
       "style",
-      "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color:#7ac3e6"
+      "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
     );
     btn.setAttribute("ID", "submitphoto");
     btn.innerHTML = "Submit";
@@ -620,6 +908,7 @@ $(document).ready(function () {
 
     parent.appendChild(div);
   }
+
   function specific_photo(content) {
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
@@ -634,11 +923,11 @@ $(document).ready(function () {
     var div1 = document.createElement("div");
     div1.setAttribute(
       "style",
-      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+      "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
     );
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size:40px;");
+    strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
 
     var text1 = document.createTextNode("Photo Board");
 
@@ -657,7 +946,10 @@ $(document).ready(function () {
       "display : flex; flex-direction: column;"
     );
     var schedule_div = document.createElement("div");
-    schedule_div.setAttribute("style", "display : flex;height:40px");
+    schedule_div.setAttribute(
+      "style",
+      "display : flex;height:40px;font-family: Roboto, serif;"
+    );
     var schedule = document.createElement("STRONG");
     schedule.setAttribute(
       "style",
@@ -687,13 +979,13 @@ $(document).ready(function () {
     var author = document.createElement("div");
     author.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px"
+      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
     );
     author.innerHTML = content[3].innerHTML;
     var date = document.createElement("div");
     date.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px"
+      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
     );
     date.innerHTML = "Date: " + content[4].innerHTML;
     var content_html = document.createElement("div");
@@ -762,81 +1054,10 @@ $(document).ready(function () {
     div3.appendChild(div6);
     div3.appendChild(div7);
 
-    parent.appendChild(div);
-
-    // getCommentData();
-    //reshape();
-
     div.appendChild(div_chunks);
     div.appendChild(div3);
 
     parent.appendChild(div);
-  }
-  function getCommentData() {
-    firebase
-      .database()
-      .ref("/qna/" + f_key)
-      .once("value")
-      .then((snapshot) => {
-        var qnaval = snapshot.val();
-        if (qnaval.comments == null) return;
-        var keyList = Object.keys(qnaval.comments);
-        qnanum = keyList.length;
-        var current;
-        var state = qnaval.selected;
-
-        for (var i = qnanum - 1; i >= 0; i--) {
-          current = qnaval.comments[keyList[i]];
-          addcomment(current, state);
-        }
-      });
-  }
-  function addcomment(commentval, state) {
-    var target_div = document.getElementById("qna_comments");
-    var div1 = document.createElement("div");
-    div1.setAttribute("class", "qnaline");
-    div1.setAttribute("style", "height:auto");
-
-    var h1 = document.createElement("p");
-    if (commentval.selected == true) {
-      h1.setAttribute("style", "color:#2f80ed;width:20%");
-    } else h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
-    h1.innerHTML = commentval.author;
-
-    var h2 = document.createElement("p");
-    if (commentval.selected == true) {
-      h2.setAttribute("style", "color:#2f80ed;width:60%");
-    } else h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
-    h2.innerHTML = commentval.content;
-
-    var text1 = document.createElement("p");
-    text1.setAttribute(
-      "style",
-      "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
-    );
-    text1.innerHTML = "History";
-
-    div1.appendChild(h1);
-    div1.appendChild(h2);
-    div1.appendChild(text1);
-
-    if (!state) {
-      var button1 = document.createElement("button");
-      button1.setAttribute("class", "selectbtn");
-      button1.setAttribute("style", "font-family: Roboto, serif;");
-      button1.innerHTML = "SELECT";
-      div1.appendChild(button1);
-    } else {
-      if (commentval.selected == true) {
-        var button1 = document.createElement("button");
-        button1.setAttribute("class", "selectedbtn");
-        button1.setAttribute("style", "font-family: Roboto, serif;");
-        button1.innerHTML = "SELECTED";
-        div1.appendChild(button1);
-      }
-    }
-
-    target_div.appendChild(div1);
   }
   function history() {
     var parent = document.getElementById("contents");
@@ -977,7 +1198,6 @@ $(document).ready(function () {
       calendar.refetchEvents();
     });
   }
-
   function clear() {
     var div = document.getElementById("bigdiv");
     var parent = document.getElementById("contents");
@@ -987,17 +1207,52 @@ $(document).ready(function () {
   function resetmenu() {
     var temp;
     temp = document.getElementById("main");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
     temp = document.getElementById("notice");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
     temp = document.getElementById("hot");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
     temp = document.getElementById("shop");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
     temp = document.getElementById("calendar");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
     temp = document.getElementById("wiki");
-    temp.setAttribute("style", "cursor:pointer");
+    temp.setAttribute(
+      "style",
+      "cursor:pointer;border-right:2px solid #666666;"
+    );
+  }
+
+  function blue_qna() {
+    var t_qna = document.getElementById("qna");
+    t_qna.setAttribute("style", "color: #1087FF;cursor:pointer;");
+  }
+  function black_qna() {
+    var t_qna = document.getElementById("qna");
+    t_qna.setAttribute("style", "color: #000000;cursor:pointer;");
+  }
+  function blue_photo() {
+    var t_photo = document.getElementById("photo");
+    t_photo.setAttribute("style", "color: #1087FF;cursor:pointer;");
+  }
+  function black_photo() {
+    var t_photo = document.getElementById("photo");
+    t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
   }
 
   function reshape(filter_change = false, photo_content = "") {
@@ -1005,38 +1260,67 @@ $(document).ready(function () {
     resetmenu();
     selected_filter = $("#filter").val();
     if (current_state == "main") {
+      black_photo();
+      black_qna();
       var curr = document.getElementById("main");
-      curr.setAttribute("style", "background-color: #4767ff; cursor:pointer");
-      if (selected_filter == "BTS") idolmain();
-      else main();
+      curr.setAttribute(
+        "style",
+        "border-right: solid 4px #1087ff; cursor:pointer"
+      );
+      if (selected_filter == "All") main();
+      else idolmain();
     } else if (current_state == "qna1") {
       qna1();
+      blue_qna();
+      black_photo();
     } else if (current_state == "qna2") {
+      qna2();
+      blue_qna();
+      black_photo();
+    } else if (current_state == "qnapost") {
+      blue_qna();
+      black_photo();
       if (filter_change) {
         current_state = "qna1";
         reshape();
-      } else qna2();
+      } else qnapost();
     } else if (current_state == "photo") {
+      blue_photo();
+      black_qna();
       photo();
     } else if (current_state == "photo2") {
-      if (filter_change) {
-        current_state = "photo";
-        reshape();
-      } else photo2();
+      blue_photo();
+      black_qna();
+      photo2();
+    } else if (current_state == "calendar") {
+      blue_photo();
+      black_qna();
+      calendar();
+    } else if (current_state == "history") {
+      blue_photo();
+      black_qna();
+      history();
     } else if (current_state == "photo_specific") {
+      blue_photo();
+      black_qna();
       if (filter_change) {
         current_state = "photo";
         reshape();
       } else {
-        console.log();
         specific_photo(photo_content);
       }
-    } else if (current_state == "calendar") {
-      calendar();
-    } else if (current_state == "history") {
-      history();
     }
   }
+
+  filter.addEventListener("change", function () {
+    idol = $("#filter").val();
+    reshape(true);
+  });
+
+  $("#photo").click(function () {
+    current_state = "photo";
+    reshape();
+  });
   function showPopup() {
     var popupX = window.screen.width / 2 - 700 / 2;
 
@@ -1055,110 +1339,299 @@ $(document).ready(function () {
         popupY
     );
   }
-  filter.addEventListener("change", function () {
-    reshape(true);
-  });
 
-  $("#qna").click(function () {
-    current_state = "qna1";
-    reshape();
-  });
-  $("#photo").click(function () {
-    current_state = "photo";
-    reshape();
-  });
   $("#calendar").click(function () {
     current_state = "calendar";
     reshape();
   });
+  $("#contents").on("click", "#history", function () {
+    current_state = "history";
+    reshape();
+  });
+  $("#contents").on("click", "#ban", function () {
+    showPopup();
+  });
+
   $("#contents").on("click", ".photo_button", function () {
     current_state = "photo_specific";
-    console.log();
+    console.log($(this).parent().children());
     reshape(false, $(this).parent().children());
   });
 
-  $("#contents").on("click", "#ban", function () {
-    showPopup();
+  $("#contents").on("click", ".image_main_idol_2", function () {
+    current_state = "photo_specific";
+    var key = $(this).parent().children().text();
+    //firebase.database().ref('/photo/'+key).once('value').then((snapshot) =>
+    //reshape(false, $(this).parent().children());
   });
 
   $("#contents").on("click", ".photo_button_title", function () {
     $(this).parent().children()[1].click();
   });
 
-  $("#contents").on("click", "#history", function () {
-    current_state = "history";
-    reshape();
-  });
-  $("#contents").on("click", "#write_button", function () {
-    current_state = "qna2";
-    reshape();
-  });
   $("#contents").on("click", "#write_button_photo", function () {
-    current_state = "photo2";
-    reshape();
+    if (current_user == "nologin") alert("Please log-in");
+    else {
+      current_state = "photo2";
+      reshape();
+    }
   });
 
-  $("#contents").on("click", "#submitqna", function () {
-    qnanum++;
-    var title = document.getElementById("qnaTitle").value;
-    var content = document.getElementById("qnaContents").value;
-    var newqna = firebase.database().ref("/qna").push();
-    var date = new Date().toLocaleDateString();
-    newqna.set({
-      no: qnanum,
-      title: title,
-      author: "김주호",
-      answer: 0,
-      date: date,
-      content: content,
-    });
+  $("#contents").on("click", ".question", function () {
+    index = $(this).parent().index();
+    firebase
+      .database()
+      .ref("/qna")
+      .once("value")
+      .then((snapshot) => {
+        var qnaval = snapshot.val();
+        var keyList = Object.keys(qnaval);
+        index = keyList.length - index + 1;
+        var currentkey = keyList[index];
+        console.log(qnaval[currentkey].no);
+        f_qna = qnaval[currentkey];
+        f_key = currentkey;
+        f_qnaanswer = qnaval[currentkey].answer;
+
+        current_state = "qnapost";
+        reshape();
+      });
+  });
+
+  $("#qna").click(function () {
     current_state = "qna1";
     reshape();
   });
-  $("#contents").on("click", "#entercomment", function () {
-    var comment_input = document.getElementById("comment_input_photo").value;
-    console.log(current_user);
-    var newcomment = firebase
-      .database()
-      .ref("/photo/" + f_key_photo + "/comments")
-      .push();
-    newcomment.set({
-      content: comment_input,
-      author: current_user,
-    });
 
-    f_total_comments += 1;
+  $("#contents").on("click", "#write_button", function () {
+    if (current_user == "nologin") alert("Please log-in");
+    else {
+      current_state = "qna2";
+      reshape();
+    }
+  });
 
-    var update = {};
-    update["/qna/" + f_key_photo + "/answer"] = f_qnaanswer;
-
-    firebase.database().ref().update(update);
+  $("#main").click(function () {
+    current_state = "main";
     reshape();
   });
-  $("#contents").on("click", "#submitphoto", function () {
-    var photo = document.getElementById("image").files[0];
-    var storageRef = firebase.storage().ref();
-    storageRef
-      .child(`images/${photo.name}`)
-      .put(photo)
-      .then((snapshot) => {
-        console.log("Uploaded.");
+
+  $("#contents").on("click", "#enterans", function () {
+    if (current_user == "nologin") alert("Please log-in");
+    else {
+      var comment_input = document.getElementById("comment_input").value;
+      firebase
+        .database()
+        .ref("/qna/" + f_key + "/author")
+        .once("value")
+        .then((snapshot) => {
+          console.log(snapshot.val());
+          if (snapshot.val() == current_user)
+            alert("You can't answer your own question");
+          else {
+            var newcomment = firebase
+              .database()
+              .ref("/qna/" + f_key + "/comments")
+              .push();
+            newcomment.set({
+              content: comment_input,
+              author: current_user,
+              selected: false,
+            });
+
+            f_qnaanswer += 1;
+
+            var update = {};
+            update["/qna/" + f_key + "/answer"] = f_qnaanswer;
+
+            firebase.database().ref().update(update);
+            reshape();
+          }
+        });
+    }
+  });
+
+  $("#contents").on("click", "#submitqna", function () {
+    if (idol == "All") alert("Choose an idol");
+    else {
+      qnanum++;
+      var title = document.getElementById("qnaTitle").value;
+      var content = document.getElementById("qnaContents").value;
+      var newqna = firebase.database().ref("/qna").push();
+      var date = new Date().toLocaleDateString();
+      newqna.set({
+        no: qnanum,
+        title: title,
+        author: current_user,
+        idol: idol,
+        answer: 0,
+        date: date,
+        content: content,
+        selected: false,
       });
-    var photourl = "images/" + photo.name;
-    var title = document.getElementById("photoTitle").value;
-    var content = document.getElementById("photoContents").value;
-    var schedule = document.getElementById("schedule").value;
-    var newphoto = firebase.database().ref("/photo").push();
-    var date = new Date().toLocaleDateString();
-    newphoto.set({
-      title: title,
-      author: "김주호",
-      date: date,
-      content: content,
-      photourl: photourl,
-      schedule: schedule,
-    });
-    current_state = "photo";
+      current_state = "qna1";
+      reshape();
+    }
+  });
+
+  $("#login_popup").dialog({
+    autoOpen: false,
+    dialogClass: "dialog_title",
+    show: {
+      duration: 0,
+    },
+    hide: {
+      duration: 0,
+    },
+  });
+  $("#login_popup").dialog("option", "width", 500);
+
+  $("#nav1").on("click", "#login", function () {
+    $("#login_popup").dialog("open");
+  });
+
+  $("#login-ok").click(function () {
+    var logininput = document.getElementById("login_id");
+    current_user = logininput.value;
+    $("#login_popup").dialog("close");
+    var login_id = document.getElementById("login_id");
+    var passwd = document.getElementById("passwd");
+    login_id.value = "";
+    passwd.value = "";
+
+    var parent = document.getElementById("nav1");
+    var btn = document.getElementById("login");
+    parent.removeChild(btn);
+
+    var target = document.getElementById("back");
+    var logout = document.createElement("button");
+    logout.setAttribute(
+      "style",
+      "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px"
+    );
+    logout.setAttribute("ID", "logout");
+    logout.innerHTML = "LOGOUT";
+
+    var img = document.createElement("img");
+    img.setAttribute("style", "float:right; margin-right:20px");
+    img.setAttribute("alt", "user-img");
+    var usr = document.createElement("a");
+    usr.setAttribute("style", "float:right; margin-right:20px");
+    usr.setAttribute("ID", "username");
+    usr.innerHTML = current_user;
+
+    parent.insertBefore(logout, target);
+    //parent.insertBefore(img, target);
+    parent.insertBefore(usr, target);
+  });
+
+  $("#nav1").on("click", "#logout", function () {
+    current_user = "nologin";
+    var parent = document.getElementById("nav1");
+    var btn = document.getElementById("logout");
+    var usr = document.getElementById("username");
+
+    parent.removeChild(btn);
+    parent.removeChild(usr);
+
+    var target = document.getElementById("back");
+    var login = document.createElement("button");
+    login.setAttribute(
+      "style",
+      "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px"
+    );
+    login.setAttribute("ID", "login");
+    login.innerHTML = "LOGIN";
+
+    parent.insertBefore(login, target);
+  });
+
+  $("#contents").on("click", "#submitphoto", function () {
+    if (idol == "All") alert("Choose an idol");
+    else {
+      var photo = document.getElementById("image").files[0];
+      var storageRef = firebase.storage().ref();
+      storageRef
+        .child(`images/${photo.name}`)
+        .put(photo)
+        .then((snapshot) => {
+          console.log("Uploaded.");
+        });
+      var photourl = "images/" + photo.name;
+      var title = document.getElementById("photoTitle").value;
+      var content = document.getElementById("photoContents").value;
+      var schedule = document.getElementById("schedule").value;
+      var newphoto = firebase.database().ref("/photo").push();
+      var date = new Date().toLocaleDateString();
+      newphoto.set({
+        title: title,
+        author: current_user,
+        idol: idol,
+        date: date,
+        content: content,
+        photourl: photourl,
+        schedule: schedule,
+      });
+      current_state = "photo";
+      reshape();
+    }
+  });
+
+  $("#select").dialog({
+    autoOpen: false,
+    dialogClass: "dialog_title",
+    show: {
+      duration: 0,
+    },
+    hide: {
+      duration: 0,
+    },
+  });
+  $("#select").dialog("option", "width", 650);
+
+  $("#select2").dialog({
+    autoOpen: false,
+    show: {
+      duration: 0,
+    },
+    hide: {
+      duration: 0,
+    },
+  });
+
+  $("#contents").on("click", ".selectbtn", function () {
+    selected_answer = $(this).parent().index();
+    $("#select").dialog("open");
+  });
+
+  $("#yes").click(function () {
+    $("#select").dialog("close");
+    $("#select2").dialog("open");
+
+    firebase
+      .database()
+      .ref("/qna/" + f_key)
+      .once("value")
+      .then((snapshot) => {
+        var qnaval = snapshot.val();
+        var keyList = Object.keys(qnaval.comments);
+        var currentkey = keyList[keyList.length - Number(selected_answer) - 1];
+
+        var update = {};
+        update["/qna/" + f_key + "/selected"] = true;
+        update[
+          "/qna/" + f_key + "/comments/" + currentkey + "/selected"
+        ] = true;
+        firebase.database().ref().update(update);
+      });
+  });
+
+  $("#no").click(function () {
+    $("#select").dialog("close");
+  });
+
+  $("#close").click(function () {
+    $("#select2").dialog("close");
     reshape();
   });
   reshape();
