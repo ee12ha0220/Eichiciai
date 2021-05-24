@@ -16,7 +16,7 @@ $(document).ready(function () {
   var qnanum = 0;
   var current_state = "main";
   var selected_filter;
-  var f_key_p;
+  var f_key_photo;
 
   function getqnaData() {
     firebase
@@ -1115,26 +1115,26 @@ $(document).ready(function () {
     current_state = "qna1";
     reshape();
   });
-  //   $('#contents').on("click", "#entercomment", function(){
-  //     var comment_input = document.getElementById("comment_input_photo").value;
-  //     var current_author = firebase.database().ref('/photo/'+f_key+'/author');
-  //     console.log(current_author);
-  //     console.log(current_user);
-  //         var newcomment = firebase.database().ref('/photo/'+f_key+'/comments').push();
-  //         newcomment.set({
-  //             content: comment_input,
-  //             author : current_user,
-  //             selected : false
-  //         })
+  $("#contents").on("click", "#entercomment", function () {
+    var comment_input = document.getElementById("comment_input_photo").value;
+    console.log(current_user);
+    var newcomment = firebase
+      .database()
+      .ref("/photo/" + f_key_photo + "/comments")
+      .push();
+    newcomment.set({
+      content: comment_input,
+      author: current_user,
+    });
 
-  //         f_qnaanswer += 1;
+    f_total_comments += 1;
 
-  //         var update = {};
-  //         update['/qna/' + f_key + '/answer'] = f_qnaanswer;
+    var update = {};
+    update["/qna/" + f_key_photo + "/answer"] = f_qnaanswer;
 
-  //         firebase.database().ref().update(update);
-  //         reshape();
-  // });
+    firebase.database().ref().update(update);
+    reshape();
+  });
   $("#contents").on("click", "#submitphoto", function () {
     var photo = document.getElementById("image").files[0];
     var storageRef = firebase.storage().ref();
