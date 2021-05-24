@@ -175,11 +175,13 @@ $( document ).ready(function() {
         div1.appendChild(text1);
         
         if (!state){
-            var button1 = document.createElement("button");
-            button1.setAttribute("class", "selectbtn");
-            button1.setAttribute("style", "font-family: Roboto, serif;");
-            button1.innerHTML = "SELECT";
-            div1.appendChild(button1);
+            if (f_qna.author == current_user){
+                var button1 = document.createElement("button");
+                button1.setAttribute("class", "selectbtn");
+                button1.setAttribute("style", "font-family: Roboto, serif;");
+                button1.innerHTML = "SELECT";
+                div1.appendChild(button1);
+            }
         }
         else {
             if (commentval.selected == true){
@@ -335,7 +337,6 @@ $( document ).ready(function() {
             var h2 = document.createElement("img");
             h2.setAttribute("class", "photoheader");
             var storage = firebase.storage().ref();
-            console.log(storage.child(photoval.photourl));
             storage
                 .child(photoval.photourl)
                 .getDownloadURL()
@@ -1070,8 +1071,6 @@ $( document ).ready(function() {
         }
 
         function specific_photo(content) {
-        console.log(content[1].firstChild.width);
-        console.log(content[1].firstChild.height);
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
@@ -1368,6 +1367,8 @@ $( document ).ready(function() {
     }
 
     function reshape(options){
+        console.log(current_state);
+        console.log(idol);
         options = options || {};
         var defaults = {filter_change: false, photo_content: "", pval: "", src: ""};
         for (var prop in defaults)  {
@@ -1408,7 +1409,7 @@ $( document ).ready(function() {
             black_photo();
             var curr = document.getElementById("notice");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
-            if (filter_change){
+            if (options.filter_change){
                 current_state = "notice";
                 reshape();
             }
@@ -1450,8 +1451,18 @@ $( document ).ready(function() {
     }
 
     filter.addEventListener("change", function(){
-        idol = $("#filter").val();
-        reshape({filter_change: true});
+        if (current_state == "qna2" || current_state == "photo2"){
+            var temp = $("#filter").val();
+            if (temp == "All"){
+                $("#filter option[value=" + idol + "]").prop('selected', true);
+                alert("You can't select All when posting");
+            }
+            else idol = temp;
+        }
+        else{
+            idol = $("#filter").val();
+            reshape({filter_change: true});
+        }
     });
 
     $("#photo").click(function () {
@@ -1461,7 +1472,6 @@ $( document ).ready(function() {
 
     $("#contents").on("click", ".photo_button", function () {
         current_state = "photo_specific";
-        console.log( $(this).parent().children());
         reshape({photo_content: $(this).parent().children()});
     });
 
@@ -1499,6 +1509,7 @@ $( document ).ready(function() {
 
     $("#contents").on("click", "#write_button_photo", function () {
         if (current_user == "nologin") alert("Please log-in")
+        else if (idol == "All") alert("Please select an Idol")
         else{
             current_state = "photo2";
             reshape();
@@ -1507,13 +1518,11 @@ $( document ).ready(function() {
 
 
     $('#contents').on("click", ".question", function(){
-        index = $(this).parent().index();
+        var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase.database().ref('/qna').once('value').then((snapshot) => {
             var qnaval = snapshot.val()
             var keyList = Object.keys(qnaval);
-            index = keyList.length - index + 1;
-            var currentkey = keyList[index];
-            console.log(qnaval[currentkey].no);
+            var currentkey = keyList[question_no];
             f_qna = qnaval[currentkey];
             f_key = currentkey;
             f_qnaanswer = qnaval[currentkey].answer;
@@ -1530,6 +1539,7 @@ $( document ).ready(function() {
 
     $('#contents').on("click", "#write_button", function(){
         if (current_user == "nologin") alert("Please log-in")
+        else if (idol=="All") alert("Please select an Idol");
         else{
             current_state = "qna2";
             reshape();
@@ -1547,13 +1557,11 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click", ".notice", function(){
-        index = $(this).parent().index();
+        var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase.database().ref('/notice').once('value').then((snapshot) => {
             var qnaval = snapshot.val()
             var keyList = Object.keys(qnaval);
-            index = keyList.length - index + 1;
-            var currentkey = keyList[index];
-            console.log(qnaval[currentkey].no);
+            var currentkey = keyList[question_no];
             f_qna = qnaval[currentkey];
             f_key = currentkey;
             
@@ -1567,7 +1575,6 @@ $( document ).ready(function() {
         else{
             var comment_input = document.getElementById("comment_input").value;
             firebase.database().ref('/qna/'+f_key+'/author').once('value').then((snapshot) => {
-                console.log(snapshot.val());
                 if (snapshot.val() == current_user) alert("You can't answer your own question");
                 else{
                     var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
@@ -1591,26 +1598,23 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click" , "#submitqna", function() {
-        if (idol=="All") alert("Choose an idol");
-        else{
-            qnanum++;
-            var title = document.getElementById("qnaTitle").value;
-            var content = document.getElementById("qnaContents").value;
-            var newqna = firebase.database().ref('/qna').push();
-            var date = new Date().toLocaleDateString();
-            newqna.set({
-                no : qnanum,
-                title: title,
-                author : current_user,
-                idol : idol,
-                answer: 0,
-                date: date,
-                content: content,
-                selected : false
-            });
-            current_state = "qna1";
-            reshape();
-        }
+        qnanum++;
+        var title = document.getElementById("qnaTitle").value;
+        var content = document.getElementById("qnaContents").value;
+        var newqna = firebase.database().ref('/qna').push();
+        var date = new Date().toLocaleDateString();
+        newqna.set({
+            no : qnanum,
+            title: title,
+            author : current_user,
+            idol : idol,
+            answer: 0,
+            date: date,
+            content: content,
+            selected : false
+        });
+        current_state = "qna1";
+        reshape();
     });
 
     $('#login_popup').dialog({
@@ -1665,6 +1669,7 @@ $( document ).ready(function() {
         parent.insertBefore(logout, target);
         //parent.insertBefore(img, target);
         parent.insertBefore(usr, target);
+        reshape();
     })
 
     $("#nav1").on("click", "#logout", function() {
@@ -1683,37 +1688,34 @@ $( document ).ready(function() {
         login.innerHTML = "LOGIN";
 
         parent.insertBefore(login, target);
+        reshape();
     });
 
     $("#contents").on("click", "#submitphoto", function () {
-        if (idol=="All") alert("Choose an idol");
-        else{
-            var photo = document.getElementById("image").files[0];
-            var storageRef = firebase.storage().ref();
-            storageRef
-                .child(`images/${photo.name}`)
-                .put(photo)
-                .then((snapshot) => {
-                console.log("Uploaded.");
-                });
-            var photourl = "images/" + photo.name;
-            var title = document.getElementById("photoTitle").value;
-            var content = document.getElementById("photoContents").value;
-            var schedule = document.getElementById("schedule").value;
-            var newphoto = firebase.database().ref("/photo").push();
-            var date = new Date().toLocaleDateString();
-            newphoto.set({
-                title: title,
-                author: current_user,
-                idol: idol,
-                date: date,
-                content: content,
-                photourl: photourl,
-                schedule: schedule,
+        var photo = document.getElementById("image").files[0];
+        var storageRef = firebase.storage().ref();
+        storageRef
+            .child(`images/${photo.name}`)
+            .put(photo)
+            .then((snapshot) => {
             });
-            current_state = "photo";
-            reshape();
-        }
+        var photourl = "images/" + photo.name;
+        var title = document.getElementById("photoTitle").value;
+        var content = document.getElementById("photoContents").value;
+        var schedule = document.getElementById("schedule").value;
+        var newphoto = firebase.database().ref("/photo").push();
+        var date = new Date().toLocaleDateString();
+        newphoto.set({
+            title: title,
+            author: current_user,
+            idol: idol,
+            date: date,
+            content: content,
+            photourl: photourl,
+            schedule: schedule,
+        });
+        current_state = "photo";
+        reshape();
         });
 
     $('#my_page').dialog({
@@ -1759,6 +1761,7 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click", ".selectbtn", function(){
+        var author_of_question = $(this).parent().children()[3].innerHTML;
         selected_answer = $(this).parent().index();
         $("#select").dialog("open");
     });
