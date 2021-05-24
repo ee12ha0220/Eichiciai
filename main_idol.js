@@ -14,11 +14,20 @@ $( document ).ready(function() {
     firebase.initializeApp(firebaseConfig);
 
     var qnanum = 0;
+    var freenum = 0;
     var current_state = "main";
     var selected_filter;
     var f_qna;
     var f_key;
     var f_qnaanswer;
+
+    var n_qna;
+    var n_key;
+
+    var fr_qna;
+    var fr_key;
+    var fr_freecomments;
+
     var selected_answer;
     var idol = $("#filter").val();
     var current_user = "nologin";
@@ -35,6 +44,22 @@ $( document ).ready(function() {
             for(var i=qnanum-1; i>=0; i--){
                 current = qnaval.comments[keyList[i]];
                 addcomment(current, state);
+            }
+        });
+    }
+
+    function getFreeCommentData(){
+        firebase.database().ref('/free/'+fr_key).once('value').then((snapshot) => {
+            var freeval = snapshot.val();
+            if (freeval.comments == null) return;
+            var keyList = Object.keys(freeval.comments);
+            freenum = keyList.length;
+            var current;
+            var state = freeval.selected;
+    
+            for(var i=freenum-1; i>=0; i--){
+                current = freeval.comments[keyList[i]];
+                addfreecomment(current, state);
             }
         });
     }
@@ -66,6 +91,21 @@ $( document ).ready(function() {
         for(var i=noticenum-1; i>=0; i--){
             current = noticeval[keyList[i]];
             if (current.idol == idol || idol == "All") addnotice(current);
+        }
+        });
+    }
+
+    function getfreeData() {
+        firebase.database().ref('/free').once('value').then((snapshot) => {
+        var freeval = snapshot.val();
+        if (freeval == null) return;
+        var keyList = Object.keys(freeval);
+        freenum = keyList.length;
+        var current;
+
+        for(var i=freenum-1; i>=0; i--){
+            current = freeval[keyList[i]];
+            if (current.idol == idol || idol == "All") addfree(current);
         }
         });
     }
@@ -146,6 +186,48 @@ $( document ).ready(function() {
         parent.insertBefore(div1, target_div);
     }
 
+    function addfree(qnaval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class","qnaline");
+        div1.setAttribute("style", "text-align:center;");
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h1.innerHTML = qnaval.no;
+
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "free_post_title");
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;cursor:pointer;")
+        h2.innerHTML = qnaval.title;
+
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+        h3.innerHTML = qnaval.author;
+
+        var h4 = document.createElement("p");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h4.innerHTML = qnaval.commentsnum;
+        console.log(qnaval.comments);
+
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+        h5.innerHTML = qnaval.date;
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
+        div1.appendChild(h4);
+        div1.appendChild(h5);
+
+        parent.insertBefore(div1, target_div);
+    }
+
     function addcomment(commentval, state) {
         var target_div = document.getElementById("qna_comments");
         var div1 = document.createElement("div");
@@ -190,6 +272,32 @@ $( document ).ready(function() {
                 div1.appendChild(button1);
             }
         }
+
+        target_div.appendChild(div1);
+    }
+
+    function addfreecomment(commentval, state) {
+        var target_div = document.getElementById("free_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class","qnaline");
+        div1.setAttribute("style", "height:auto")
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+        h1.innerHTML = commentval.author;    
+        
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 80%;font-family: Roboto, serif;");
+        h2.innerHTML = commentval.content;
+
+        var text1 = document.createElement("p");
+        text1.setAttribute("style", "width: 20%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;");
+        text1.innerHTML = "History";
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(text1);
+        
 
         target_div.appendChild(div1);
     }
@@ -730,6 +838,50 @@ $( document ).ready(function() {
         parent.appendChild(div);
     }
 
+    function free_write(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size: 40px");
+        strong1.innerHTML = "Write a Free Post!";
+
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        var input1 = document.createElement("input");
+        input1.setAttribute("placeholder", "Enter a Title...");
+        input1.setAttribute("style", "width: 98%;margin-bottom: 10px;height: 30px;margin-top: 8px");
+        input1.setAttribute("ID", "freeTitle");
+
+        div2.appendChild(input1);
+        div.appendChild(div2);
+
+        var div3 = document.createElement("div");
+        var input2 = document.createElement("input");
+        input2.setAttribute("placeholder", "Enter your free thoughts...");
+        input2.setAttribute("style", "width: 98%; height: 430px");
+        input2.setAttribute("ID", "freeContents");
+
+        div3.appendChild(input2);
+        div.appendChild(div3);
+
+        var div4 = document.createElement("div");
+        var btn = document.createElement("button");
+        btn.setAttribute("style", "float:right; margin-top:10px; font-size:20px; margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
+        btn.setAttribute("ID", "submitfree");
+        btn.innerHTML = "Submit";
+        
+        div4.appendChild(btn);
+        div.appendChild(div4);
+
+        parent.appendChild(div);
+    }
+
     function qnapost(){
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
@@ -858,13 +1010,13 @@ $( document ).ready(function() {
         var qnano = document.createElement("div");
         qnano.setAttribute("class", "qnaheader");
         qnano.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
-        qnano.innerHTML = "Notice No."+f_qna.no;
+        qnano.innerHTML = "Notice No."+n_qna.no;
         
 
         var qnaauthor = document.createElement("div");
         qnaauthor.setAttribute("class", "qnaheader");
         qnaauthor.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
-        qnaauthor.innerHTML = f_qna.author;
+        qnaauthor.innerHTML = n_qna.author;
 
 
         div2.appendChild(qnano);
@@ -878,19 +1030,19 @@ $( document ).ready(function() {
         var qnatitle = document.createElement("div");
         qnatitle.setAttribute("class", "qnaheader");
         qnatitle.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
-        qnatitle.innerHTML = f_qna.title;
+        qnatitle.innerHTML = n_qna.title;
 
         var qnatime = document.createElement("div");
         qnatime.setAttribute("class", "qnaheader");
         qnatime.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
-        qnatime.innerHTML = f_qna.date;
+        qnatime.innerHTML = n_qna.date;
 
         div3.appendChild(qnatitle);
         div3.appendChild(qnatime);
 
 
         var div4 = document.createElement("div");
-        div4.innerHTML = f_qna.content;
+        div4.innerHTML = n_qna.content;
         div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;border-bottom:2px solid #2B5A89;padding-bottom: 20px;");
 
 
@@ -900,6 +1052,110 @@ $( document ).ready(function() {
 
         parent.appendChild(div);
 
+    }
+
+    function freepost(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Free Board");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","qnaline");
+        div2.setAttribute("style", "border-bottom:4px solid #2B5A89");
+
+        var qnano = document.createElement("div");
+        qnano.setAttribute("class", "qnaheader");
+        qnano.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
+        qnano.innerHTML = "Free No."+fr_qna.no;
+        
+
+        var qnaauthor = document.createElement("div");
+        qnaauthor.setAttribute("class", "qnaheader");
+        qnaauthor.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
+        qnaauthor.innerHTML = fr_qna.author;
+
+
+        div2.appendChild(qnano);
+        div2.appendChild(qnaauthor);
+        
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("class", "qnaline");
+        div3.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+        var qnatitle = document.createElement("div");
+        qnatitle.setAttribute("class", "qnaheader");
+        qnatitle.setAttribute("style", "width:50%; text-align:left;font-family: Roboto, serif;");
+        qnatitle.innerHTML = fr_qna.title;
+
+        var qnatime = document.createElement("div");
+        qnatime.setAttribute("class", "qnaheader");
+        qnatime.setAttribute("style", "width:50%;text-align: right;font-family: Roboto, serif;");
+        qnatime.innerHTML = fr_qna.date;
+
+        div3.appendChild(qnatitle);
+        div3.appendChild(qnatime);
+
+
+        var div4 = document.createElement("div");
+        div4.innerHTML = fr_qna.content;
+        div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;");
+
+
+
+        var div5 = document.createElement("div");
+
+        var leaveans = document.createElement("input");
+        leaveans.setAttribute("ID", "free_comment_input");
+        leaveans.setAttribute("style", "height: 80px;width: 88%;margin-left:20px;margin-top:30px");
+
+        var enterans = document.createElement("button");
+        enterans.setAttribute("ID", "fr_entercomment");
+        enterans.setAttribute("style", "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;")
+        enterans.innerHTML = "Enter";
+
+        div5.appendChild(leaveans);
+        div5.appendChild(enterans);
+        // div5.appendChild(qnaedit);
+        // div5.appendChild(qnadelete);
+
+
+        var div6 = document.createElement("div");
+        div6.setAttribute("class", "qnaline");
+        div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+        var answernum = document.createElement("h4");
+        answernum.setAttribute("style", "font-family: Roboto, serif;")
+        answernum.innerHTML = "Comments("+fr_freecomments+")";
+        
+        div6.appendChild(answernum);
+
+        var div7 = document.createElement("div");
+        div7.setAttribute("ID", "free_comments");
+
+        div.appendChild(div2);
+        div.appendChild(div3);
+        div.appendChild(div4);
+        div.appendChild(div5);
+        div.appendChild(div6);
+        div.appendChild(div7);
+
+        parent.appendChild(div);
+
+        getFreeCommentData();
+        //reshape();
     }
 
 
@@ -1180,6 +1436,75 @@ $( document ).ready(function() {
         parent.appendChild(div);
         }
 
+    function free_page(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Free Board");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","qnaline_ori");
+
+        var h1 = document.createElement("h5");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h1.innerHTML ="No.";
+
+        var h2 = document.createElement("h5");
+        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
+        h2.innerHTML = "Title";
+
+        var h3 = document.createElement("h5");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+        h3.innerHTML = "Author";
+
+        var h4 = document.createElement("h5");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+        h4.innerHTML = "Comments";
+
+        var h5 = document.createElement("h5");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+        h5.innerHTML = "Date";
+
+        div2.appendChild(h1);
+        div2.appendChild(h2);
+        div2.appendChild(h3);
+        div2.appendChild(h4);
+        div2.appendChild(h5);
+
+        div.appendChild(div2);
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("ID", "write-div");
+
+        var btn = document.createElement("button");
+        btn.setAttribute("ID", "free_write_button");
+        btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
+        btn.innerHTML = "Write";
+
+        div3.appendChild(btn);
+        div.appendChild(div3);
+        
+        parent.appendChild(div);
+
+        getfreeData();
+    }
+
     function notice_page(){
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
@@ -1270,6 +1595,14 @@ $( document ).ready(function() {
     function black_photo(){
         var t_photo = document.getElementById("photo");
         t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
+    }
+    function blue_free(){
+        var t_free = document.getElementById("free");
+        t_free.setAttribute("style", "color: #1087FF;cursor:pointer;");
+    }
+    function black_free(){
+        var t_free = document.getElementById("free");
+        t_free.setAttribute("style", "color: #000000;cursor:pointer;");
     }
 
     function gotophoto(content, src) {
@@ -1379,6 +1712,7 @@ $( document ).ready(function() {
         if (current_state == "main"){
             black_photo();
             black_qna();
+            black_free();
             var curr = document.getElementById("main");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             if (selected_filter == "All") main();
@@ -1388,15 +1722,18 @@ $( document ).ready(function() {
             qna1();
             blue_qna();
             black_photo();
+            black_free();
         }
         else if (current_state == "qna2"){
             qna2();
             blue_qna();
             black_photo();
+            black_free();
         }
         else if (current_state == "qnapost"){
             blue_qna();
             black_photo();
+            black_free();
             if (options.filter_change){
                 current_state = "qna1";
                 reshape();
@@ -1406,6 +1743,7 @@ $( document ).ready(function() {
         else if (current_state == "noticepost"){
             black_qna();
             black_photo();
+            black_free();
             var curr = document.getElementById("notice");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             if (filter_change){
@@ -1418,16 +1756,19 @@ $( document ).ready(function() {
         else if (current_state == "photo") {
             blue_photo();
             black_qna();
+            black_free();
             photo();
         } 
         else if (current_state == "photo2") {
             blue_photo();
             black_qna();
+            black_free();
             photo2();
         } 
         else if (current_state == "photo_specific") {
             blue_photo();
             black_qna();
+            black_free();
             if (options.filter_change) {
                 current_state = "photo";
                 reshape();
@@ -1443,9 +1784,32 @@ $( document ).ready(function() {
         else if (current_state == "notice"){
             black_photo();
             black_qna();
+            black_free();
             var curr = document.getElementById("notice");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             notice_page();
+        }
+        else if (current_state == "free"){
+            black_photo();
+            black_qna();
+            blue_free();
+            free_page();
+        }
+        else if (current_state == "free_write"){
+            black_photo();
+            black_qna();
+            blue_free();
+            free_write();
+        }
+        else if (current_state == "freepost"){
+            black_qna();
+            black_photo();
+            blue_free();
+            if (options.filter_change){
+                current_state = "notice";
+                reshape();
+            }
+            else freepost();
         }
     }
 
@@ -1536,6 +1900,14 @@ $( document ).ready(function() {
         }
     });
 
+    $('#contents').on("click", "#free_write_button", function(){
+        if (current_user == "nologin") alert("Please log-in")
+        else{
+            current_state = "free_write";
+            reshape();
+        }
+    });
+
     $('#main').click(function(){
         current_state = "main";
         reshape();
@@ -1546,18 +1918,40 @@ $( document ).ready(function() {
         reshape();
     });
 
+    $('#free').click(function(){
+        current_state = "free";
+        reshape();
+    });
+
     $('#contents').on("click", ".notice", function(){
         index = $(this).parent().index();
         firebase.database().ref('/notice').once('value').then((snapshot) => {
-            var qnaval = snapshot.val()
-            var keyList = Object.keys(qnaval);
+            var noticeval = snapshot.val()
+            var keyList = Object.keys(noticeval);
             index = keyList.length - index + 1;
             var currentkey = keyList[index];
-            console.log(qnaval[currentkey].no);
-            f_qna = qnaval[currentkey];
-            f_key = currentkey;
+            console.log(noticeval[currentkey].no);
+            n_qna = noticeval[currentkey];
+            n_key = currentkey;
             
             current_state = "noticepost";
+            reshape();
+        });
+    });
+
+    $('#contents').on("click", ".free_post_title", function(){
+        index = $(this).parent().index();
+        firebase.database().ref('/free').once('value').then((snapshot) => {
+            var freeval = snapshot.val()
+            var keyList = Object.keys(freeval);
+            index = keyList.length - index + 1;
+            var currentkey = keyList[index];
+            console.log(freeval[currentkey].no);
+            fr_qna = freeval[currentkey];
+            fr_key = currentkey;
+            fr_freecomments = freeval[currentkey].commentsnum;
+            
+            current_state = "freepost";
             reshape();
         });
     });
@@ -1590,6 +1984,31 @@ $( document ).ready(function() {
         
     });
 
+    $('#contents').on("click", "#fr_entercomment", function(){
+        if (current_user == "nologin") alert("Please log-in")
+        else{
+            var free_comment_input = document.getElementById("free_comment_input").value;
+            firebase.database().ref('/free/'+fr_key+'/author').once('value').then((snapshot) => {
+                console.log(snapshot.val());
+                var newcomment = firebase.database().ref('/free/'+fr_key+'/comments').push();
+                newcomment.set({
+                    content: free_comment_input,
+                    author : current_user,
+                })
+
+                fr_freecomments += 1;
+                
+                var update = {};
+                update['/free/' + fr_key + '/commentsnum'] = fr_freecomments; 
+
+                firebase.database().ref().update(update);
+                reshape();
+        
+        });
+        }   
+        
+    });
+
     $('#contents').on("click" , "#submitqna", function() {
         if (idol=="All") alert("Choose an idol");
         else{
@@ -1609,6 +2028,28 @@ $( document ).ready(function() {
                 selected : false
             });
             current_state = "qna1";
+            reshape();
+        }
+    });
+
+    $('#contents').on("click" , "#submitfree", function() {
+        if (idol=="All") alert("Choose an idol");
+        else{
+            freenum++;
+            var title = document.getElementById("freeTitle").value;
+            var content = document.getElementById("freeContents").value;
+            var newqna = firebase.database().ref('/free').push();
+            var date = new Date().toLocaleDateString();
+            newqna.set({
+                no : freenum,
+                title: title,
+                author : current_user,
+                idol : idol,
+                commentsnum: 0,
+                date: date,
+                content: content,
+            });
+            current_state = "free";
             reshape();
         }
     });
