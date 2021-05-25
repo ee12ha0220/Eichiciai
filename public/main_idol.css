@@ -1,5 +1,4 @@
 .swiper-container {
-<<<<<<< HEAD
     border: 3px solid black;
     margin-top: 10px;
     margin-left: 20px;
@@ -7,13 +6,6 @@
     height: 500px;
     cursor: pointer;
     }
-=======
-  border: 3px solid black;
-  margin-top: 20px;
-  width: 90%;
-  height: 400px;
-}
->>>>>>> 2677b22060b58509e460c3a1a0c2b0b48368df5d
 .swiper-slide {
   text-align: center;
   font-size: 18px;
@@ -114,19 +106,12 @@ select {
 }
 
 .image_main {
-<<<<<<< HEAD
     margin-top: 20px;
     width: 280px;
     height: 200px;
     margin-right: 20px;
     border-radius:10px;
     cursor: pointer;
-=======
-  margin-top: 20px;
-  width: 280px;
-  height: 200px;
-  margin-right: 20px;
->>>>>>> 2677b22060b58509e460c3a1a0c2b0b48368df5d
 }
 
 .image_main_idol_1 {
@@ -138,7 +123,6 @@ select {
 }
 
 .image_main_idol_2 {
-<<<<<<< HEAD
     width: 320px;
     height: 250px;
     margin-right: 20px;
@@ -147,14 +131,6 @@ select {
     object-fit: cover;
     border-radius:10px;
     cursor: pointer;
-=======
-  width: 320px;
-  height: 250px;
-  margin-right: 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  object-fit: cover;
->>>>>>> 2677b22060b58509e460c3a1a0c2b0b48368df5d
 }
 .image_main_idol_main {
   width: 320px;
@@ -274,7 +250,6 @@ select {
   text-decoration: underline;
 }
 
-<<<<<<< HEAD
 .free_post_title{
     width: 40%;
     font-family: Roboto, serif;
@@ -318,14 +293,3 @@ select {
     margin-top: 5px; 
     padding: 8px;
 }
-=======
-.sliderContentText {
-  position: relative;
-  transition: left 1s;
-  left: 0;
-}
-
-.sliderContentText.moveleft {
-  left: 50px;
-}
->>>>>>> 2677b22060b58509e460c3a1a0c2b0b48368df5d
