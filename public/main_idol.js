@@ -1966,6 +1966,25 @@ $( document ).ready(function() {
         parent.appendChild(div);
     }
 
+    function showPopup() {
+        var popupX = window.screen.width / 2 - 700 / 2;
+
+        var popupY = window.screen.height / 2 - 400 / 2;
+
+        window.open(
+            "ban_popup.html",
+            "",
+            "status=no, height=400, width=700, left=" +
+            popupX +
+            ", top=" +
+            popupY +
+            ", screenX=" +
+            popupX +
+            ", screenY= " +
+            popupY
+        );
+        }
+
     function reshape(options){
         console.log(current_state);
         console.log(idol);
