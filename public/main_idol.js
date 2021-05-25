@@ -14,6 +14,7 @@ $(document).ready(function () {
   firebase.initializeApp(firebaseConfig);
 
   var qnanum = 0;
+  var photonum = 0;
   var current_state = "main";
   var selected_filter;
   var f_qna;
@@ -1913,7 +1914,7 @@ $(document).ready(function () {
     var strong1 = document.createElement("STRONG");
     strong1.setAttribute("style", "font-size:40px; margin-right:50px");
 
-    var text1 = document.createTextNode("Comment History");
+    var text1 = document.createTextNode("User History");
 
     strong1.appendChild(text1);
     div1.appendChild(strong1);
@@ -1996,43 +1997,43 @@ $(document).ready(function () {
       events: [
         {
           title: "BTS 'Butter' group teaser 1",
-          start: "2021-05-10",
+          start: "2021-05-10T12:00:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS 'Butter' group teaser 2",
-          start: "2021-05-18",
+          start: "2021-05-18T12:00:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS 'Butter' Comeback Showcase",
-          start: "2021-05-21",
-          color: "#e11900",
+          start: "2021-05-21T15:00:00",
+          color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS BBMA",
-          start: "2021-05-24",
-          color: "#e11900",
+          start: "2021-05-24T18:00:00",
+          color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "G-IDLE Minnie Web Drama Poster",
-          start: "2021-05-21",
+          start: "2021-05-21T19:00:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
         {
           title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
-          start: "2021-05-22",
+          start: "2021-05-22T14:00:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
         {
           title: "G-IDLE Minnie Bazzar Magazine",
-          start: "2021-05-24",
+          start: "2021-05-24T21:00:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
@@ -2048,6 +2049,14 @@ $(document).ready(function () {
         } else if (arg.event.extendedProps.idol != val) {
           arg.el.style.display = "none";
         }
+      },
+      eventClick: function (info) {
+        var schedule = document.getElementById("schedule_id");
+        schedule.innerHTML = "Schedule : " + info.event.title;
+        var date = document.getElementById("date_id");
+        date.innerHTML = "Date : " + info.event.start;
+
+        $("#calendar_popup").dialog("open");
       },
     });
 
@@ -2768,6 +2777,7 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", "#submitphoto", function () {
+    photonum++;
     var photo = document.getElementById("image").files[0];
     var storageRef = firebase.storage().ref();
     storageRef
@@ -2779,22 +2789,26 @@ $(document).ready(function () {
     var content = document.getElementById("photoContents").value;
     var schedule = document.getElementById("schedule").value;
     var newphoto = firebase.database().ref("/photo").push();
-    // var history = firebase.database().ref("/history").push();
+    var history = firebase
+      .database()
+      .ref("/history/" + current_user)
+      .push();
     var date = new Date().toLocaleDateString();
     newphoto.set({
       title: title,
       author: current_user,
       idol: idol,
       date: date,
+      commentnum: 0,
       content: content,
       photourl: photourl,
       schedule: schedule,
     });
-    // history.set({
-    //   id: id,
-    //   author: current_user,
-    //   type: "photo",
-    // });
+    history.set({
+      type: "photo",
+      title: title,
+      index: photonum,
+    });
     current_state = "photo";
     reshape();
   });
@@ -2811,6 +2825,21 @@ $(document).ready(function () {
   });
   $("#ban_popup").dialog("option", "width", 850);
   $("#ban_popup").dialog("option", "height", 500);
+
+  $("#calendar_popup").dialog({
+    autoOpen: false,
+    dialogClass: "dialog_title",
+    show: {
+      duration: 0,
+    },
+    hide: {
+      duration: 0,
+    },
+    title: "Calendar",
+  });
+  $("#calendar_popup").dialog("option", "width", 700);
+  $("#calendar_popup").dialog("option", "height", 200);
+
   $("#my_page").dialog({
     autoOpen: false,
     dialogClass: "dialog_title",
