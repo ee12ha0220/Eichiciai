@@ -1931,11 +1931,12 @@ $(document).ready(function () {
         var div3 = document.createElement("div");
         div3.setAttribute("style", "display: flex");
 
+        
 
         var div4 = document.createElement("div");
         div4.setAttribute("style", "width:25%;");            
         var img1 = document.createElement("img");
-        img1.setAttribute("src", '../images/bts_emoticon1.jpg');
+        //img1.setAttribute("src", '../images/bts_emoticon1.jpg');
         img1.setAttribute("height", "280");
         img1.setAttribute("style", "margin-left: 20px; margin-top: 10px");
         var img1_title = document.createElement("h4");
@@ -1952,16 +1953,10 @@ $(document).ready(function () {
         img1_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
         img1_btn_div.appendChild(img1_btn);
 
-
-        div4.appendChild(img1);
-        div4.appendChild(img1_title);
-        div4.appendChild(img1_cost);
-        div4.appendChild(img1_btn_div);
-
         var div5 = document.createElement("div");
         div5.setAttribute("style", "width:25%;");
         var img2 = document.createElement("img");
-        img2.setAttribute("src", '../images/bts_emoticon2.jpg');
+        //img2.setAttribute("src", '../images/bts_emoticon2.jpg');
         img2.setAttribute("height", "280");
         img2.setAttribute("style", "margin-left: 38px; margin-top: 10px");
         var img2_title = document.createElement("h4");
@@ -1978,16 +1973,10 @@ $(document).ready(function () {
         img2_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
         img2_btn_div.appendChild(img2_btn);
 
-        div5.appendChild(img2);
-        div5.appendChild(img2_title);
-        div5.appendChild(img2_cost);
-        div5.appendChild(img2_btn_div);
-
-
         var div6 = document.createElement("div");
         div6.setAttribute("style", "width:25%;");
         var img3 = document.createElement("img");
-        img3.setAttribute("src", '../images/bts_emoticon3.jpg');
+        //img3.setAttribute("src", '../images/bts_emoticon3.jpg');
         img3.setAttribute("height", "280");
         img3.setAttribute("style", "margin-left: 38px; margin-top: 10px");
         var img3_title = document.createElement("h4");
@@ -2004,16 +1993,13 @@ $(document).ready(function () {
         img3_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
         img3_btn_div.appendChild(img3_btn);
 
-        div6.appendChild(img3);
-        div6.appendChild(img3_title);
-        div6.appendChild(img3_cost);
-        div6.appendChild(img3_btn_div);
+        
 
 
         var div7 = document.createElement("div");
         div7.setAttribute("style", "width:25%;margin-right:20px");
         var img4 = document.createElement("img");
-        img4.setAttribute("src", '../images/bts_emoticon4.jpg');
+        //img4.setAttribute("src", '../images/bts_emoticon4.jpg');
         img4.setAttribute("height", "280");
         img4.setAttribute("style", "margin-left: 38px; margin-top: 10px");
         var img4_title = document.createElement("h4");
@@ -2029,6 +2015,115 @@ $(document).ready(function () {
         img4_btn.setAttribute("ID", "img4_btn");
         img4_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
         img4_btn_div.appendChild(img4_btn);
+
+        firebase
+        .database()
+        .ref("/shop/" + "1")
+        .once("value")
+        .then((snapshot) => {
+            var storage = firebase.storage().ref();
+            var src = snapshot.val().src;
+            storage
+            .child(src)
+            .getDownloadURL()
+            .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                img1.src = url;
+                return url;
+            });
+        });
+
+        firebase
+        .database()
+        .ref("/shop/" + "2")
+        .once("value")
+        .then((snapshot) => {
+            var storage = firebase.storage().ref();
+            var src = snapshot.val().src;
+            storage
+            .child(src)
+            .getDownloadURL()
+            .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                img2.src = url;
+                return url;
+            });
+        });
+
+        firebase
+        .database()
+        .ref("/shop/" + "3")
+        .once("value")
+        .then((snapshot) => {
+            var storage = firebase.storage().ref();
+            var src = snapshot.val().src;
+            storage
+            .child(src)
+            .getDownloadURL()
+            .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                img3.src = url;
+                return url;
+            });
+        });
+
+        firebase
+        .database()
+        .ref("/shop/" + "4")
+        .once("value")
+        .then((snapshot) => {
+            var storage = firebase.storage().ref();
+            var src = snapshot.val().src;
+            storage
+            .child(src)
+            .getDownloadURL()
+            .then(function (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.responseType = "blob";
+                xhr.onload = function (event) {
+                var blob = xhr.response;
+                };
+                xhr.open("GET", url);
+                xhr.send();
+                img4.src = url;
+                return url;
+            });
+        });
+
+        div4.appendChild(img1);
+        div4.appendChild(img1_title);
+        div4.appendChild(img1_cost);
+        div4.appendChild(img1_btn_div);
+
+        div5.appendChild(img2);
+        div5.appendChild(img2_title);
+        div5.appendChild(img2_cost);
+        div5.appendChild(img2_btn_div);
+
+        div6.appendChild(img3);
+        div6.appendChild(img3_title);
+        div6.appendChild(img3_cost);
+        div6.appendChild(img3_btn_div);
+
+
 
         div7.appendChild(img4);
         div7.appendChild(img4_title);
@@ -2565,10 +2660,6 @@ $(document).ready(function () {
 
     $("#calendar").click(function () {
         current_state = "calendar";
-        reshape();
-    });
-    $("#shop").click(function () {
-        current_state = "shop";
         reshape();
     });
     $("#contents").on("click", "#history", function () {
