@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Report page</title>
+  </head>
+  <body style="background-color: #e3eaf1">
+    <div id="content">
+      <div id="contents">
+        <h1>Why do you want to report User 91?</h1>
+        <label style="font-size: 30px"
+          ><input
+            id="1"
+            type="checkbox"
+            name="report"
+            value="1"
+            style="width: 25px; height: 25px"
+          />
+          Insulting comments</label
+        ><br />
+        <label style="font-size: 30px"
+          ><input
+            id="2"
+            type="checkbox"
+            name="report"
+            value="2"
+            style="width: 25px; height: 25px"
+          />
+          Improper nickname</label
+        ><br />
+        <label style="font-size: 30px"
+          ><input
+            id="3"
+            type="checkbox"
+            name="report"
+            value="3"
+            style="width: 25px; height: 25px"
+          />
+          Spamming on the board</label
+        ><br />
+        <label style="font-size: 30px"
+          ><input
+            id="4"
+            type="checkbox"
+            name="report"
+            value="4"
+            style="width: 25px; height: 25px"
+          />
+          etc...</label
+        ><br />
+        <input
+          type="text"
+          id="etc"
+          name="etc"
+          required
+          minlength="1"
+          size="75"
+          style="height: 25px; margin-left: 35px"
+        /><br />
+        <button
+          id="confirm"
+          style="
+            float: right;
+            margin-top: 10px;
+            font-size: 20px;
+            margin-right: 20px;
+            background-color: #2b5a89;
+            font-family: Roboto, serif;
+            border-radius: 10px;
+            color: white;
+          "
+          type="button"
+        >
+          Confirm
+        </button>
+        <input
+          type="button"
+          value="Cancel"
+          style="
+            float: right;
+            margin-top: 10px;
+            font-size: 20px;
+            margin-right: 20px;
+            background-color: #2b5a89;
+            font-family: Roboto, serif;
+            border-radius: 10px;
+            color: white;
+          "
+          onClick="window.close()"
+        />
+      </div>
+    </div>
+  </body>
+  <script src="jquery/js/jquery-1.9.0.min.js"></script>
+  <script src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var confirm = document.getElementById("confirm");
+      function clear() {
+        var div = document.getElementById("contents");
+        var parent = document.getElementById("content");
+        parent.removeChild(div);
+      }
+      confirm.onclick = function () {
+        var result1 = $("#1").prop("checked");
+        var result2 = $("#2").prop("checked");
+        var result3 = $("#3").prop("checked");
+        var result4 = $("#4").prop("checked");
+        console.log(result1);
+        console.log(result2);
+        console.log(result3);
+        console.log(result4);
+
+        if (result1 || result2 || result3 || result4) {
+          clear();
+          var result = document.createElement("h1");
+          var parent = document.getElementById("content");
+          parent.setAttribute("style", "text-align:center; height: 100%");
+          result.setAttribute("style", "position:absolute; top:38% ;left:5%");
+          result.innerHTML = "Report for User91 is successfully submitted!";
+          parent.appendChild(result);
+        } else {
+          alert("Please check any reason why you want to report.");
+        }
+      };
+    });
+  </script>
+</html>
