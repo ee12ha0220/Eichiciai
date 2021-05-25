@@ -1994,7 +1994,7 @@ $( document ).ready(function() {
                 newcomment.set({
                     content: free_comment_input,
                     author : current_user,
-                })
+                }) 
 
                 fr_freecomments += 1;
                 
