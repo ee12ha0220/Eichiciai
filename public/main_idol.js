@@ -711,45 +711,39 @@ $( document ).ready(function() {
             div.appendChild(div0);
 
             var div4 = document.createElement("div");
-            div4.setAttribute("style", "float:left; width: 20%;");
+            div4.setAttribute("style", "float:left; width: 20%;margin-top:20px");
             
             var div5 = document.createElement("div");
-            div5.setAttribute("style", "text-align:center; border-top : 3px black solid");
+            div5.setAttribute("style", "text-align:center; border-top : 3px #1087FF solid;border-bottom : 3px #666666 solid");
             var text2 = document.createElement("p");
-            text2.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;text-decoration : underline;");
+            text2.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;line-height:5px");
             text2.innerHTML = "Notice";
             div5.appendChild(text2);
             div4.appendChild(div5);
 
             var div6 = document.createElement("div");
-            div6.setAttribute("style", "background:white;height: 300px");
+            div6.setAttribute("style", "background:#E3EAF1;height: 300px");
             div6.setAttribute("ID", "notice_list");
 
             getnoticeData_mainpage();
             div4.appendChild(div6);
 
             var div7 = document.createElement("div");
-            div7.setAttribute("style", "text-align:center");
+            div7.setAttribute("style", "text-align:center; margin-top:20px;border-top : 3px #1087FF solid;border-bottom : 3px #666666 solid");
             var text3 = document.createElement("p");
-            text3.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;text-decoration : underline;");
+            text3.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;line-height:5px");
             text3.innerHTML = "Schedule";
             div7.appendChild(text3);
             div4.appendChild(div7);
 
             var div8 = document.createElement("div");
-            div8.setAttribute("style", "background:white;height: 500px;margin-bottom: 20px");
+            div8.setAttribute("style", "background:#E3EAF1;height: 500px;");
 
-            var list2 = document.createElement("ul");
-            var li3 = document.createElement("li");
-            
-            li3.innerHTML = "one";
-            var li4 = document.createElement("li");
-            li4.innerHTML = "two";
-            
-            list2.appendChild(li3);
-            list2.appendChild(li4);
-            
-            div8.appendChild(list2);
+            var text4 = document.createTextNode("one");
+            var text5 = document.createTextNode("two");
+
+            div8.appendChild(text4);
+            div8.appendChild(text5);
             div4.appendChild(div8);
 
             div.appendChild(div4);
@@ -777,10 +771,10 @@ $( document ).ready(function() {
     function addnotice_mainpage(noticeval){
         var parent = document.getElementById("notice_list");
         var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align: left; margin-left: 10px; margin-right: 5px;");
+        div1.setAttribute("style", "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;");
 
         var h1 = document.createElement("p");
-        h1.innerHTML = "※ " + noticeval.title;
+        h1.innerHTML = "• " + noticeval.title;
         h1.setAttribute("class", "main_notice");
         div1.appendChild(h1);
         var div2 = document.createElement("div");

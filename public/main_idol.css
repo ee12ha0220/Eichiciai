@@ -229,10 +229,21 @@ select {
 .main_notice{
     font-family: Roboto, serif;
     margin-top: 5px; 
-    cursor: pointer
+    cursor: pointer;
+    padding: 8px;
 }
 
 .main_notice:hover{
     color : blue;
     text-decoration : underline;
+}
+
+.sliderContentText {
+    position: relative;
+    transition: left 1s;
+    left: 0;
+}
+
+.sliderContentText.moveleft {
+    left: 50px;
 }
