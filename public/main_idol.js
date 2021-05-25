@@ -2046,6 +2046,7 @@ $( document ).ready(function() {
             }
         }
         else if (current_state == "goto"){
+            current_state = "photo_specific";
             blue_photo();
             gotophoto(options.pval,options.src);
         }
