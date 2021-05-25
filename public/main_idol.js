@@ -14,6 +14,7 @@ $(document).ready(function () {
     firebase.initializeApp(firebaseConfig);
 
     var qnanum = 0;
+    var freenum = 0;
     var current_state = "main";
     var selected_filter;
     var f_qna;
