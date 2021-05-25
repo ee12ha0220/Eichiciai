@@ -14,7 +14,6 @@ $( document ).ready(function() {
     firebase.initializeApp(firebaseConfig);
 
     var qnanum = 0;
-    var freenum = 0;
     var current_state = "main";
     var selected_filter;
     var f_qna;
@@ -27,6 +26,10 @@ $( document ).ready(function() {
     var fr_qna;
     var fr_key;
     var fr_freecomments;
+
+    var f_photo;
+    var f_key_photo;
+    var f_total_commentnum;
 
     var selected_answer;
     var idol = $("#filter").val();
@@ -46,6 +49,25 @@ $( document ).ready(function() {
                 addcomment(current, state);
             }
         });
+    }
+
+    function getCommentData_photo() {
+        firebase
+            .database()
+            .ref("/photo/" + f_key_photo)
+            .once("value")
+            .then((snapshot) => {
+            var photoval = snapshot.val();
+            if (photoval.comments == null) return;
+            var keyList = Object.keys(photoval.comments);
+            photonum = keyList.length;
+            var current;
+    
+            for (var i = photonum - 1; i >= 0; i--) {
+                current = photoval.comments[keyList[i]];
+                addcomment_photo(current);
+            }
+            });
     }
 
     function getFreeCommentData(){
@@ -185,6 +207,66 @@ $( document ).ready(function() {
 
         parent.insertBefore(div1, target_div);
     }
+    
+    function addcomment_photo(commentval) {
+        var target_div = document.getElementById("photo_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        div1.setAttribute("style", "height:auto;margin-left:0px;margin-right:0px");
+    
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+        h1.innerHTML = commentval.author;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+        h2.innerHTML = commentval.content;
+    
+        var text1 = document.createElement("p");
+        text1.setAttribute("ID", "history");
+        text1.setAttribute(
+            "style",
+            "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+        );
+        text1.innerHTML = "History";
+    
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(text1);
+    
+        target_div.appendChild(div1);
+    }
+    
+    function addcomment_photo_new(commentval) {
+        var target_div = document.getElementById("photo_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        div1.setAttribute("style", "height:auto;margin-left:0px;margin-right:0px");
+    
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+        h1.innerHTML = commentval.author;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+        h2.innerHTML = commentval.content;
+    
+        var text1 = document.createElement("p");
+        text1.setAttribute("ID", "history");
+        text1.setAttribute(
+            "style",
+            "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+        );
+        text1.innerHTML = "History";
+    
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(text1);
+    
+        console.log(target_div);
+        console.log(target_div.firstChild);
+        target_div.insertBefore(div1, target_div.firstChild);
+    }
 
     function addfree(qnaval) {
         var target_div = document.getElementById("write-div");
@@ -257,11 +339,13 @@ $( document ).ready(function() {
         div1.appendChild(text1);
         
         if (!state){
-            var button1 = document.createElement("button");
-            button1.setAttribute("class", "selectbtn");
-            button1.setAttribute("style", "font-family: Roboto, serif;");
-            button1.innerHTML = "SELECT";
-            div1.appendChild(button1);
+            if (f_qna.author == current_user){
+                var button1 = document.createElement("button");
+                button1.setAttribute("class", "selectbtn");
+                button1.setAttribute("style", "font-family: Roboto, serif;");
+                button1.innerHTML = "SELECT";
+                div1.appendChild(button1);
+            }
         }
         else {
             if (commentval.selected == true){
@@ -443,7 +527,6 @@ $( document ).ready(function() {
             var h2 = document.createElement("img");
             h2.setAttribute("class", "photoheader");
             var storage = firebase.storage().ref();
-            console.log(storage.child(photoval.photourl));
             storage
                 .child(photoval.photourl)
                 .getDownloadURL()
@@ -1326,8 +1409,6 @@ $( document ).ready(function() {
         }
 
         function specific_photo(content) {
-        console.log(content[1].firstChild.width);
-        console.log(content[1].firstChild.height);
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
@@ -1436,126 +1517,126 @@ $( document ).ready(function() {
         parent.appendChild(div);
         }
 
-    function free_page(){
-        var parent = document.getElementById("contents");
-        var div = document.createElement("div");
-        div.setAttribute("ID", "bigdiv");
-
-        var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
-
-        var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px;");
-
-        var text1 = document.createTextNode("Free Board");
-
-        strong1.appendChild(text1);
-        div1.appendChild(strong1);
-        div.appendChild(div1);
-
-        var div2 = document.createElement("div");
-        div2.setAttribute("class","qnaline_ori");
-
-        var h1 = document.createElement("h5");
-        h1.setAttribute("class", "qnaheader");
-        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
-        h1.innerHTML ="No.";
-
-        var h2 = document.createElement("h5");
-        h2.setAttribute("class", "qnaheader");
-        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
-        h2.innerHTML = "Title";
-
-        var h3 = document.createElement("h5");
-        h3.setAttribute("class", "qnaheader");
-        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
-        h3.innerHTML = "Author";
-
-        var h4 = document.createElement("h5");
-        h4.setAttribute("class", "qnaheader");
-        h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
-        h4.innerHTML = "Comments";
-
-        var h5 = document.createElement("h5");
-        h5.setAttribute("class", "qnaheader");
-        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
-        h5.innerHTML = "Date";
-
-        div2.appendChild(h1);
-        div2.appendChild(h2);
-        div2.appendChild(h3);
-        div2.appendChild(h4);
-        div2.appendChild(h5);
-
-        div.appendChild(div2);
-
-        var div3 = document.createElement("div");
-        div3.setAttribute("ID", "write-div");
-
-        var btn = document.createElement("button");
-        btn.setAttribute("ID", "free_write_button");
-        btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
-        btn.innerHTML = "Write";
-
-        div3.appendChild(btn);
-        div.appendChild(div3);
-        
-        parent.appendChild(div);
-
-        getfreeData();
-    }
-
-    function notice_page(){
-        var parent = document.getElementById("contents");
-        var div = document.createElement("div");
-        div.setAttribute("ID", "bigdiv");
-
-        var div1 = document.createElement("div");
-        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
-
-        var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px;");
-
-        var text1 = document.createTextNode("Notice");
-
-        strong1.appendChild(text1);
-        div1.appendChild(strong1);
-        div.appendChild(div1);
-
-        var div2 = document.createElement("div");
-        div2.setAttribute("class","qnaline_ori");
-
-        var h1 = document.createElement("h5");
-        h1.setAttribute("class", "qnaheader");
-        h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
-        h1.innerHTML ="No.";
-
-        var h2 = document.createElement("h5");
-        h2.setAttribute("class", "qnaheader");
-        h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
-        h2.innerHTML = "Title";
-
-        var h3 = document.createElement("h5");
-        h3.setAttribute("class", "qnaheader");
-        h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
-        h3.innerHTML = "Author";
-
-        var h5 = document.createElement("h5");
-        h5.setAttribute("class", "qnaheader");
-        h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
-        h5.innerHTML = "Date";
-
-        div2.appendChild(h1);
-        div2.appendChild(h2);
-        div2.appendChild(h3);
-        div2.appendChild(h5);
-
-        div.appendChild(div2);
-        
-        parent.appendChild(div);
-
-        getnoticeData();
-    }
+        function free_page(){
+            var parent = document.getElementById("contents");
+            var div = document.createElement("div");
+            div.setAttribute("ID", "bigdiv");
+    
+            var div1 = document.createElement("div");
+            div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+    
+            var strong1 = document.createElement("STRONG");
+            strong1.setAttribute("style", "font-size:40px;");
+    
+            var text1 = document.createTextNode("Free Board");
+    
+            strong1.appendChild(text1);
+            div1.appendChild(strong1);
+            div.appendChild(div1);
+    
+            var div2 = document.createElement("div");
+            div2.setAttribute("class","qnaline_ori");
+    
+            var h1 = document.createElement("h5");
+            h1.setAttribute("class", "qnaheader");
+            h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+            h1.innerHTML ="No.";
+    
+            var h2 = document.createElement("h5");
+            h2.setAttribute("class", "qnaheader");
+            h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
+            h2.innerHTML = "Title";
+    
+            var h3 = document.createElement("h5");
+            h3.setAttribute("class", "qnaheader");
+            h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+            h3.innerHTML = "Author";
+    
+            var h4 = document.createElement("h5");
+            h4.setAttribute("class", "qnaheader");
+            h4.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+            h4.innerHTML = "Comments";
+    
+            var h5 = document.createElement("h5");
+            h5.setAttribute("class", "qnaheader");
+            h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+            h5.innerHTML = "Date";
+    
+            div2.appendChild(h1);
+            div2.appendChild(h2);
+            div2.appendChild(h3);
+            div2.appendChild(h4);
+            div2.appendChild(h5);
+    
+            div.appendChild(div2);
+    
+            var div3 = document.createElement("div");
+            div3.setAttribute("ID", "write-div");
+    
+            var btn = document.createElement("button");
+            btn.setAttribute("ID", "free_write_button");
+            btn.setAttribute("style", "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;");
+            btn.innerHTML = "Write";
+    
+            div3.appendChild(btn);
+            div.appendChild(div3);
+            
+            parent.appendChild(div);
+    
+            getfreeData();
+        }
+    
+        function notice_page(){
+            var parent = document.getElementById("contents");
+            var div = document.createElement("div");
+            div.setAttribute("ID", "bigdiv");
+    
+            var div1 = document.createElement("div");
+            div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+    
+            var strong1 = document.createElement("STRONG");
+            strong1.setAttribute("style", "font-size:40px;");
+    
+            var text1 = document.createTextNode("Notice");
+    
+            strong1.appendChild(text1);
+            div1.appendChild(strong1);
+            div.appendChild(div1);
+    
+            var div2 = document.createElement("div");
+            div2.setAttribute("class","qnaline_ori");
+    
+            var h1 = document.createElement("h5");
+            h1.setAttribute("class", "qnaheader");
+            h1.setAttribute("style", "width: 10%;font-family: Roboto, serif;margin:auto;")
+            h1.innerHTML ="No.";
+    
+            var h2 = document.createElement("h5");
+            h2.setAttribute("class", "qnaheader");
+            h2.setAttribute("style", "width: 40%;font-family: Roboto, serif;margin:auto;")
+            h2.innerHTML = "Title";
+    
+            var h3 = document.createElement("h5");
+            h3.setAttribute("class", "qnaheader");
+            h3.setAttribute("style", "width: 35%;font-family: Roboto, serif;margin:auto;")
+            h3.innerHTML = "Author";
+    
+            var h5 = document.createElement("h5");
+            h5.setAttribute("class", "qnaheader");
+            h5.setAttribute("style", "width: 15%;font-family: Roboto, serif;margin:auto;")
+            h5.innerHTML = "Date";
+    
+            div2.appendChild(h1);
+            div2.appendChild(h2);
+            div2.appendChild(h3);
+            div2.appendChild(h5);
+    
+            div.appendChild(div2);
+            
+            parent.appendChild(div);
+    
+            getnoticeData();
+        }
 
 
     function clear(){
@@ -1596,6 +1677,7 @@ $( document ).ready(function() {
         var t_photo = document.getElementById("photo");
         t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
     }
+
     function blue_free(){
         var t_free = document.getElementById("free");
         t_free.setAttribute("style", "color: #1087FF;cursor:pointer;");
@@ -1701,6 +1783,8 @@ $( document ).ready(function() {
     }
 
     function reshape(options){
+        console.log(current_state);
+        console.log(idol);
         options = options || {};
         var defaults = {filter_change: false, photo_content: "", pval: "", src: ""};
         for (var prop in defaults)  {
@@ -1746,7 +1830,7 @@ $( document ).ready(function() {
             black_free();
             var curr = document.getElementById("notice");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
-            if (filter_change){
+            if (options.filter_change){
                 current_state = "notice";
                 reshape();
             }
@@ -1814,8 +1898,18 @@ $( document ).ready(function() {
     }
 
     filter.addEventListener("change", function(){
-        idol = $("#filter").val();
-        reshape({filter_change: true});
+        if (current_state == "qna2" || current_state == "photo2"){
+            var temp = $("#filter").val();
+            if (temp == "All"){
+                $("#filter option[value=" + idol + "]").prop('selected', true);
+                alert("You can't select All when posting");
+            }
+            else idol = temp;
+        }
+        else{
+            idol = $("#filter").val();
+            reshape({filter_change: true});
+        }
     });
 
     $("#photo").click(function () {
@@ -1825,7 +1919,6 @@ $( document ).ready(function() {
 
     $("#contents").on("click", ".photo_button", function () {
         current_state = "photo_specific";
-        console.log( $(this).parent().children());
         reshape({photo_content: $(this).parent().children()});
     });
 
@@ -1863,6 +1956,7 @@ $( document ).ready(function() {
 
     $("#contents").on("click", "#write_button_photo", function () {
         if (current_user == "nologin") alert("Please log-in")
+        else if (idol == "All") alert("Please select an Idol")
         else{
             current_state = "photo2";
             reshape();
@@ -1871,13 +1965,11 @@ $( document ).ready(function() {
 
 
     $('#contents').on("click", ".question", function(){
-        index = $(this).parent().index();
+        var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase.database().ref('/qna').once('value').then((snapshot) => {
             var qnaval = snapshot.val()
             var keyList = Object.keys(qnaval);
-            index = keyList.length - index + 1;
-            var currentkey = keyList[index];
-            console.log(qnaval[currentkey].no);
+            var currentkey = keyList[question_no];
             f_qna = qnaval[currentkey];
             f_key = currentkey;
             f_qnaanswer = qnaval[currentkey].answer;
@@ -1894,6 +1986,7 @@ $( document ).ready(function() {
 
     $('#contents').on("click", "#write_button", function(){
         if (current_user == "nologin") alert("Please log-in")
+        else if (idol=="All") alert("Please select an Idol");
         else{
             current_state = "qna2";
             reshape();
@@ -1961,7 +2054,6 @@ $( document ).ready(function() {
         else{
             var comment_input = document.getElementById("comment_input").value;
             firebase.database().ref('/qna/'+f_key+'/author').once('value').then((snapshot) => {
-                console.log(snapshot.val());
                 if (snapshot.val() == current_user) alert("You can't answer your own question");
                 else{
                     var newcomment = firebase.database().ref('/qna/'+f_key+'/comments').push();
@@ -2010,31 +2102,27 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click" , "#submitqna", function() {
-        if (idol=="All") alert("Choose an idol");
-        else{
-            qnanum++;
-            var title = document.getElementById("qnaTitle").value;
-            var content = document.getElementById("qnaContents").value;
-            var newqna = firebase.database().ref('/qna').push();
-            var date = new Date().toLocaleDateString();
-            newqna.set({
-                no : qnanum,
-                title: title,
-                author : current_user,
-                idol : idol,
-                answer: 0,
-                date: date,
-                content: content,
-                selected : false
-            });
-            current_state = "qna1";
-            reshape();
-        }
+        qnanum++;
+        var title = document.getElementById("qnaTitle").value;
+        var content = document.getElementById("qnaContents").value;
+        var newqna = firebase.database().ref('/qna').push();
+        var date = new Date().toLocaleDateString();
+        newqna.set({
+            no : qnanum,
+            title: title,
+            author : current_user,
+            idol : idol,
+            answer: 0,
+            date: date,
+            content: content,
+            selected : false
+        });
+        current_state = "qna1";
+        reshape();
     });
 
     $('#contents').on("click" , "#submitfree", function() {
-        if (idol=="All") alert("Choose an idol");
-        else{
+
             freenum++;
             var title = document.getElementById("freeTitle").value;
             var content = document.getElementById("freeContents").value;
@@ -2051,7 +2139,6 @@ $( document ).ready(function() {
             });
             current_state = "free";
             reshape();
-        }
     });
 
     $('#login_popup').dialog({
@@ -2106,6 +2193,7 @@ $( document ).ready(function() {
         parent.insertBefore(logout, target);
         //parent.insertBefore(img, target);
         parent.insertBefore(usr, target);
+        reshape();
     })
 
     $("#nav1").on("click", "#logout", function() {
@@ -2124,37 +2212,34 @@ $( document ).ready(function() {
         login.innerHTML = "LOGIN";
 
         parent.insertBefore(login, target);
+        reshape();
     });
 
     $("#contents").on("click", "#submitphoto", function () {
-        if (idol=="All") alert("Choose an idol");
-        else{
-            var photo = document.getElementById("image").files[0];
-            var storageRef = firebase.storage().ref();
-            storageRef
-                .child(`images/${photo.name}`)
-                .put(photo)
-                .then((snapshot) => {
-                console.log("Uploaded.");
-                });
-            var photourl = "images/" + photo.name;
-            var title = document.getElementById("photoTitle").value;
-            var content = document.getElementById("photoContents").value;
-            var schedule = document.getElementById("schedule").value;
-            var newphoto = firebase.database().ref("/photo").push();
-            var date = new Date().toLocaleDateString();
-            newphoto.set({
-                title: title,
-                author: current_user,
-                idol: idol,
-                date: date,
-                content: content,
-                photourl: photourl,
-                schedule: schedule,
+        var photo = document.getElementById("image").files[0];
+        var storageRef = firebase.storage().ref();
+        storageRef
+            .child(`images/${photo.name}`)
+            .put(photo)
+            .then((snapshot) => {
             });
-            current_state = "photo";
-            reshape();
-        }
+        var photourl = "images/" + photo.name;
+        var title = document.getElementById("photoTitle").value;
+        var content = document.getElementById("photoContents").value;
+        var schedule = document.getElementById("schedule").value;
+        var newphoto = firebase.database().ref("/photo").push();
+        var date = new Date().toLocaleDateString();
+        newphoto.set({
+            title: title,
+            author: current_user,
+            idol: idol,
+            date: date,
+            content: content,
+            photourl: photourl,
+            schedule: schedule,
+        });
+        current_state = "photo";
+        reshape();
         });
 
     $('#my_page').dialog({
@@ -2200,6 +2285,7 @@ $( document ).ready(function() {
     });
 
     $('#contents').on("click", ".selectbtn", function(){
+        var author_of_question = $(this).parent().children()[3].innerHTML;
         selected_answer = $(this).parent().index();
         $("#select").dialog("open");
     });

@@ -2076,19 +2076,6 @@ $( document ).ready(function() {
         
     });
 
-    $("#contents").on("click", "#entercomment", function () {
-        if (current_user == "nologin") alert("Please log-in");
-        else {
-            var comment_input = document.getElementById("comment_input_photo").value;
-            var newcomment = firebase
-            .database()
-            .ref("/photo/" + f_key_photo + "/comments")
-            .push();
-            newcomment.set({
-            content: comment_input,
-            author: current_user,
-        });
-
     $('#contents').on("click", "#fr_entercomment", function(){
         if (current_user == "nologin") alert("Please log-in")
         else{
