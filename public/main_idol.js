@@ -2046,7 +2046,13 @@ $(document).ready(function () {
         parent.appendChild(div);
     }
 
+    function SNS_page() {
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
 
+        parent.appendChild(div);
+    }
 
     function history() {
         var parent = document.getElementById("contents");
@@ -2271,6 +2277,14 @@ $(document).ready(function () {
         var t_free = document.getElementById("free");
         t_free.setAttribute("style", "color: #000000;cursor:pointer;");
     }
+    function blue_SNS() {
+        var t_SNS = document.getElementById("SNS");
+        t_SNS.setAttribute("style", "color: #1087FF;cursor:pointer;");
+    }
+    function black_SNS() {
+        var t_SNS = document.getElementById("SNS");
+        t_SNS.setAttribute("style", "color: #000000;cursor:pointer;");
+    }
 
     function gotophoto(content, src) {
         var parent = document.getElementById("contents");
@@ -2394,6 +2408,7 @@ $(document).ready(function () {
         black_photo();
         black_qna();
         black_free();
+        black_SNS();
         var curr = document.getElementById("main");
         curr.setAttribute(
             "style",
@@ -2406,15 +2421,18 @@ $(document).ready(function () {
         blue_qna();
         black_photo();
         black_free();
+        black_SNS();
         } else if (current_state == "qna2") {
         qna2();
         blue_qna();
         black_photo();
         black_free();
+        black_SNS();
         } else if (current_state == "qnapost") {
         blue_qna();
         black_photo();
         black_free();
+        black_SNS();
         if (options.filter_change) {
             current_state = "qna1";
             reshape();
@@ -2423,6 +2441,7 @@ $(document).ready(function () {
         black_qna();
         black_photo();
         black_free();
+        black_SNS();
         var curr = document.getElementById("notice");
         curr.setAttribute(
             "style",
@@ -2436,16 +2455,19 @@ $(document).ready(function () {
         blue_photo();
         black_qna();
         black_free();
+        black_SNS();
         photo();
         } else if (current_state == "photo2") {
         blue_photo();
         black_qna();
         black_free();
+        black_SNS();
         photo2();
         } else if (current_state == "photo_specific") {
         blue_photo();
         black_qna();
         black_free();
+        black_SNS();
         if (options.filter_change) {
             current_state = "photo";
             reshape();
@@ -2460,6 +2482,7 @@ $(document).ready(function () {
         black_photo();
         black_qna();
         black_free();
+        black_SNS();
         var curr = document.getElementById("notice");
         curr.setAttribute(
             "style",
@@ -2470,16 +2493,19 @@ $(document).ready(function () {
         black_photo();
         black_qna();
         blue_free();
+        black_SNS();
         free_page();
         } else if (current_state == "free_write") {
         black_photo();
         black_qna();
         blue_free();
+        black_SNS();
         free_write();
         } else if (current_state == "freepost") {
         black_qna();
         black_photo();
         blue_free();
+        black_SNS();
         if (options.filter_change) {
             current_state = "free";
             reshape();
@@ -2488,17 +2514,20 @@ $(document).ready(function () {
         black_photo();
         black_qna();
         black_free();
+        black_SNS();
         calendar();
         } else if (current_state == "history") {
         black_photo();
         black_qna();
         black_free();
+        black_SNS();
         history();
         }
         else if (current_state == "shop") {
             black_photo();
             black_qna();
             black_free();
+            black_SNS();
             var curr = document.getElementById("shop");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             shop_page();
@@ -2507,9 +2536,17 @@ $(document).ready(function () {
             black_photo();
             black_qna();
             black_free();
+            black_SNS();
             var curr = document.getElementById("shop");
             curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
             shop_page();
+        } 
+        else if (current_state == "SNS") {
+            black_photo();
+            black_qna();
+            black_free();
+            blue_SNS();
+            SNS_page();
         } 
     }
 
@@ -2675,6 +2712,11 @@ $(document).ready(function () {
 
     $("#free").click(function () {
         current_state = "free";
+        reshape();
+    });
+
+    $("#SNS").click(function () {
+        current_state = "SNS";
         reshape();
     });
 
