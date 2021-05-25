@@ -137,76 +137,6 @@ $(document).ready(function () {
           });
       }
 
-      function addhistory(qnaval) {
-        var target_div = document.getElementById("write-div");
-        var parent = document.getElementById("bigdiv");
-        var div1 = document.createElement("div");
-        div1.setAttribute("class", "qnaline");
-        // div1.setAttribute("style", "justify-content: flex-start");
-    
-        // var h1 = document.createElement("p");
-        // h1.setAttribute("class", "qnaheader");
-        // h1.setAttribute(
-        //   "style",
-        //   "width: 10%;font-family: Roboto, serif;margin:auto;"
-        // );
-        // h1.innerHTML = qnaval.no;
-    
-        var h2 = document.createElement("p");
-        h2.setAttribute("class", "history_specific");
-        h2.setAttribute(
-          "style",
-          "width: 60%;font-family: Roboto, serif;margin-left:20px"
-        );
-        if (
-          qnaval.type == "photocomment" ||
-          qnaval.type == "qnacomment" ||
-          qnaval.type == "freecomment"
-        ) {
-          h2.innerHTML = qnaval.content;
-        } else {
-          h2.innerHTML = qnaval.title;
-        }
-    
-        var h3 = document.createElement("p");
-        h3.setAttribute("class", "qnaheader");
-        h3.setAttribute(
-          "style",
-          "width: 25%;font-family: Roboto, serif;text-align:right;margin-right:20px"
-        );
-        h3.innerHTML = qnaval.date;
-    
-        var h4 = document.createElement("p");
-        h4.setAttribute("class", "qnaheader");
-        h4.setAttribute(
-          "style",
-          "width: 10%;font-family: Roboto, serif;margin:auto;display:none"
-        );
-        if (qnaval.type == "photocomment" || qnaval.type == "qnacomment") {
-          h4.innerHTML = qnaval.question_key;
-        } else if (qnaval.type == "freecomment") {
-          h4.innerHTML = qnaval.free_key;
-        } else {
-          h4.innerHTML = qnaval.index;
-        }
-    
-        var h5 = document.createElement("p");
-        h5.setAttribute("class", "qnaheader");
-        h5.setAttribute(
-          "style",
-          "width: 15%;font-family: Roboto, serif;margin:auto;display:none"
-        );
-        h5.innerHTML = qnaval.type;
-    
-        // div1.appendChild(h1);
-        div1.appendChild(h2);
-        div1.appendChild(h3);
-        div1.appendChild(h4);
-        div1.appendChild(h5);
-    
-        parent.insertBefore(div1, target_div);
-      }
-
     function getnoticeData() {
         firebase
         .database()
@@ -375,6 +305,76 @@ $(document).ready(function () {
 
         parent.insertBefore(div1, target_div);
     }
+
+    function addhistory(qnaval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        // div1.setAttribute("style", "justify-content: flex-start");
+    
+        // var h1 = document.createElement("p");
+        // h1.setAttribute("class", "qnaheader");
+        // h1.setAttribute(
+        //   "style",
+        //   "width: 10%;font-family: Roboto, serif;margin:auto;"
+        // );
+        // h1.innerHTML = qnaval.no;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "history_specific");
+        h2.setAttribute(
+          "style",
+          "width: 60%;font-family: Roboto, serif;margin-left:20px"
+        );
+        if (
+          qnaval.type == "photocomment" ||
+          qnaval.type == "qnacomment" ||
+          qnaval.type == "freecomment"
+        ) {
+          h2.innerHTML = qnaval.content;
+        } else {
+          h2.innerHTML = qnaval.title;
+        }
+    
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute(
+          "style",
+          "width: 25%;font-family: Roboto, serif;text-align:right;margin-right:20px"
+        );
+        h3.innerHTML = qnaval.date;
+    
+        var h4 = document.createElement("p");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute(
+          "style",
+          "width: 10%;font-family: Roboto, serif;margin:auto;display:none"
+        );
+        if (qnaval.type == "photocomment" || qnaval.type == "qnacomment") {
+          h4.innerHTML = qnaval.question_key;
+        } else if (qnaval.type == "freecomment") {
+          h4.innerHTML = qnaval.free_key;
+        } else {
+          h4.innerHTML = qnaval.index;
+        }
+    
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute(
+          "style",
+          "width: 15%;font-family: Roboto, serif;margin:auto;display:none"
+        );
+        h5.innerHTML = qnaval.type;
+    
+        // div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
+        div1.appendChild(h4);
+        div1.appendChild(h5);
+    
+        parent.insertBefore(div1, target_div);
+      }
 
     function addnotice(qnaval) {
         var target_div = document.getElementById("write-div");
@@ -1975,127 +1975,138 @@ $(document).ready(function () {
         var div_chunks = document.createElement("div");
         div_chunks.setAttribute("ID", "photochunks");
         div_chunks.setAttribute(
-        "style",
-        "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+          "style",
+          "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
         );
-
+    
         var div1 = document.createElement("div");
         div1.setAttribute(
-        "style",
-        "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+          "style",
+          "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
         );
-
+    
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
-
+    
         var text1 = document.createTextNode("Photo Board");
-
+    
         strong1.appendChild(text1);
-
+    
         div1.appendChild(strong1);
-
+    
         div.appendChild(div1);
-
+    
         var div3 = document.createElement("div");
         div3.setAttribute("ID", "write-div");
-
+        div3.setAttribute("style", "margin-left:20px;margin-right:20px;");
         var div_content = document.createElement("div");
         div_content.setAttribute(
-        "style",
-        "display : flex; flex-direction: column;"
+          "style",
+          "display : flex; flex-direction: column;"
         );
         var schedule_div = document.createElement("div");
+        schedule_div.setAttribute("class", "qnaline");
         schedule_div.setAttribute(
-        "style",
-        "display : flex;height:40px;font-family: Roboto, serif;"
+          "style",
+          "display : flex;height:40px;font-family: Roboto, serif;border-bottom:0px"
         );
-        var schedule = document.createElement("STRONG");
+        var schedule = document.createElement("div");
         schedule.setAttribute(
-        "style",
-        "font-size: 30px;position: absolute; right: 20px"
+          "style",
+          "font-size: 18px;position: absolute; right: 35px;font-family: Roboto, serif;"
         );
         schedule.innerHTML = content[0].innerHTML;
-
+    
         var img = document.createElement("img");
         img.setAttribute("src", content[1].firstChild.src);
         img.setAttribute(
-        "style",
-        "width: " +
+          "style",
+          "width: " +
             content[1].firstChild.width +
             "px; height: " +
             content[1].firstChild.height +
             "px"
         );
-
+    
         var header = document.createElement("div");
-        header.setAttribute("style", "display : flex;");
+        header.setAttribute("class", "qnaline");
+        header.setAttribute(
+          "style",
+          "display : flex;border-bottom:4px solid #2B5A89;margin:0px"
+        );
         var contents = document.createElement("div");
         contents.setAttribute("style", "display : flex;");
-
+    
         var title = document.createElement("div");
-        title.setAttribute("style", "font-size: 30px");
+        title.setAttribute(
+          "style",
+          "font-size: 18px;margin-left:10px;font-family: Roboto, serif"
+        );
         title.innerHTML = "Title: " + content[2].innerHTML;
         var author = document.createElement("div");
         author.setAttribute(
-        "style",
-        "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+          "style",
+          "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
         );
         author.innerHTML = content[3].innerHTML;
         var date = document.createElement("div");
         date.setAttribute(
-        "style",
-        "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+          "style",
+          "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
         );
         date.innerHTML = "Date: " + content[4].innerHTML;
         var content_html = document.createElement("div");
-        content_html.setAttribute("style", "font-size: 30px");
+        content_html.setAttribute(
+          "style",
+          "font-size: 30px;font-family: Roboto, serif;margin-left:10px"
+        );
         content_html.innerHTML = content[5].innerHTML;
-
+    
         header.appendChild(title);
         header.appendChild(date);
         schedule_div.appendChild(schedule);
         contents.appendChild(content_html);
         contents.appendChild(author);
         div_content.appendChild(header);
-
+    
         div_content.appendChild(schedule_div);
         div_content.appendChild(img);
-
+    
         div_content.appendChild(contents);
-
+    
         div3.appendChild(div_content);
-
+    
         var div5 = document.createElement("div");
         var leavecomment = document.createElement("input");
         leavecomment.setAttribute("ID", "comment_input_photo");
         leavecomment.setAttribute(
-        "style",
-        "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+          "style",
+          "height: 80px;width: 90%;margin-left:15px;margin-top:30px"
         );
-
+    
         var entercomment = document.createElement("button");
         entercomment.setAttribute("ID", "entercomment");
         entercomment.setAttribute(
-        "style",
-        "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+          "style",
+          "height:86px;width:86px;margin-left:20px;font-family: Roboto, serif;"
         );
         entercomment.innerHTML = "Enter";
-
+    
         div5.appendChild(leavecomment);
         div5.appendChild(entercomment);
         // div5.appendChild(qnaedit);
         // div5.appendChild(qnadelete);
-
+    
         var div6 = document.createElement("div");
         div6.setAttribute("class", "commentline");
         div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
-
+    
         var commentnum = document.createElement("h4");
         commentnum.setAttribute("style", "font-family: Roboto, serif;");
         commentnum.setAttribute("ID", "comment_number");
         commentnum.innerHTML = "Comments (" + f_total_commentnum + ")";
         // commentnum.innerHTML = "Comments(2)";
-
+    
         // var text1 = document.createElement("p");
         // text1.setAttribute(
         //   "style",
@@ -2103,23 +2114,23 @@ $(document).ready(function () {
         // );
         // text1.setAttribute("ID", "history");
         // text1.innerHTML = "History";
-
+    
         div6.appendChild(commentnum);
         // div6.appendChild(text1);
-
+    
         var div7 = document.createElement("div");
         div7.setAttribute("ID", "photo_comments");
-
+    
         div3.appendChild(div5);
         div3.appendChild(div6);
         div3.appendChild(div7);
-
+    
         div.appendChild(div_chunks);
         div.appendChild(div3);
-
+    
         parent.appendChild(div);
         getCommentData_photo();
-    }
+      }
 
     function free_page() {
         var parent = document.getElementById("contents");
@@ -2521,163 +2532,172 @@ $(document).ready(function () {
 
 
 
-    function history() {
+    function history(author) {
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
-
+    
         var div1 = document.createElement("div");
         div1.setAttribute(
-        "style",
-        "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+          "style",
+          "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
         );
-
+    
         var strong1 = document.createElement("STRONG");
         strong1.setAttribute("style", "font-size:40px; margin-right:50px");
-
-        var text1 = document.createTextNode("Comment History");
-
+    
+        var text1 = document.createTextNode("User History");
+    
         strong1.appendChild(text1);
         div1.appendChild(strong1);
         div.appendChild(div1);
-
+    
         var div2 = document.createElement("div");
         div2.setAttribute("class", "qnaline");
         div2.setAttribute("style", "border-bottom:4px solid black");
-
+    
         var h1 = document.createElement("h5");
         h1.setAttribute("class", "qnaheader");
         h1.setAttribute("style", "width: 10%");
-        h1.innerHTML = "User 91";
-
+        h1.innerHTML = author;
+    
         var h2 = document.createElement("h5");
         h2.setAttribute("class", "qnaheader");
         h2.setAttribute("style", "width: 40%");
         h2.innerHTML = "";
-
+    
         var h3 = document.createElement("h5");
         h3.setAttribute("class", "qnaheader");
         h3.setAttribute("style", "width: 30%");
         h3.innerHTML = "";
-
+    
         var h4 = document.createElement("h5");
         h4.setAttribute("class", "qnaheader");
         h4.setAttribute("style", "width: 15%;text-align: right");
-        h4.innerHTML = "5 Comments";
-
+        h4.setAttribute("ID", "historynum");
+        h4.innerHTML = "log : " + historynum;
+    
         var h5 = document.createElement("h5");
         h5.setAttribute("class", "qnaheader");
         h5.setAttribute("style", "width: 5%;cursor:pointer;margin-left:10px");
         h5.setAttribute("ID", "ban");
         h5.innerHTML = 'Report <i class="fas fa-ban"></i>';
-
+    
         div2.appendChild(h1);
         div2.appendChild(h2);
         div2.appendChild(h3);
         div2.appendChild(h4);
         div2.appendChild(h5);
-
+    
         div.appendChild(div2);
-
+    
         var div3 = document.createElement("div");
         div3.setAttribute("ID", "write-div");
-
+    
         // var siren = document.createElement("h5");
         // siren.innerHTML = '<i class="fas fa-ban"></i>';
-
+    
         div.appendChild(div3);
-
+    
         // div.appendChild(siren);
-
+    
         parent.appendChild(div);
-
-        getqnaData();
-    }
-    function calendar() {
+    
+        getHistoryData(author);
+      }
+      function calendar() {
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
         var div_calendar = document.createElement("div");
         div_calendar.setAttribute("ID", "calendar1");
-
+    
         var div1 = document.createElement("div");
         div1.setAttribute(
-        "style",
-        "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+          "style",
+          "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
         );
-
+    
         div1.appendChild(div_calendar);
-
+    
         div.appendChild(div1);
-
+    
         parent.appendChild(div);
         let calendarEl = document.getElementById("calendar1");
         let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        contentHeight: 600,
-        events: [
+          initialView: "dayGridMonth",
+          contentHeight: 600,
+          events: [
             {
-            title: "BTS 'Butter' group teaser 1",
-            start: "2021-05-10",
-            color: "#8b00ff",
-            idol: "BTS",
+              title: "BTS 'Butter' group teaser 1",
+              start: "2021-05-10T12:00:00",
+              color: "#8b00ff",
+              idol: "BTS",
             },
             {
-            title: "BTS 'Butter' group teaser 2",
-            start: "2021-05-18",
-            color: "#8b00ff",
-            idol: "BTS",
+              title: "BTS 'Butter' group teaser 2",
+              start: "2021-05-18T12:00:00",
+              color: "#8b00ff",
+              idol: "BTS",
             },
             {
-            title: "BTS 'Butter' Comeback Showcase",
-            start: "2021-05-21",
-            color: "#e11900",
-            idol: "BTS",
+              title: "BTS 'Butter' Comeback Showcase",
+              start: "2021-05-21T15:00:00",
+              color: "#8b00ff",
+              idol: "BTS",
             },
             {
-            title: "BTS BBMA",
-            start: "2021-05-24",
-            color: "#e11900",
-            idol: "BTS",
+              title: "BTS BBMA",
+              start: "2021-05-24T18:00:00",
+              color: "#8b00ff",
+              idol: "BTS",
             },
             {
-            title: "G-IDLE Minnie Web Drama Poster",
-            start: "2021-05-21",
-            color: "#e11900",
-            idol: "G-IDLE",
+              title: "G-IDLE Minnie Web Drama Poster",
+              start: "2021-05-21T19:00:00",
+              color: "#e11900",
+              idol: "G-IDLE",
             },
             {
-            title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
-            start: "2021-05-22",
-            color: "#e11900",
-            idol: "G-IDLE",
+              title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
+              start: "2021-05-22T14:00:00",
+              color: "#e11900",
+              idol: "G-IDLE",
             },
             {
-            title: "G-IDLE Minnie Bazzar Magazine",
-            start: "2021-05-24",
-            color: "#e11900",
-            idol: "G-IDLE",
+              title: "G-IDLE Minnie Bazzar Magazine",
+              start: "2021-05-24T21:00:00",
+              color: "#e11900",
+              idol: "G-IDLE",
             },
-        ],
-        eventDidMount: function (arg) {
+          ],
+          eventDidMount: function (arg) {
             var filter = document.getElementById("filter");
             var val = filter.options[filter.selectedIndex].value;
             // console.log(val);
             // console.log("---------");
             // console.log(arg.event.extendedProps.idol);
             if (val === "All") {
-            arg.el.style.display = "auto";
+              arg.el.style.display = "auto";
             } else if (arg.event.extendedProps.idol != val) {
-            arg.el.style.display = "none";
+              arg.el.style.display = "none";
             }
-        },
+          },
+          eventClick: function (info) {
+            var schedule = document.getElementById("schedule_id");
+            schedule.innerHTML = "Schedule : " + info.event.title;
+            var date = document.getElementById("date_id");
+            date.innerHTML = "Date : " + info.event.start;
+    
+            $("#calendar_popup").dialog("open");
+          },
         });
-
+    
         calendar.render();
         $("#filter").on("change", function () {
-        calendar.refetchEvents();
+          calendar.refetchEvents();
         });
-    }
+      }
 
     function clear() {
         var div = document.getElementById("bigdiv");
@@ -2711,6 +2731,204 @@ $(document).ready(function () {
         temp = document.getElementById("SNS");
         temp.setAttribute("class","default_top");
     }
+
+    function historyPhoto(content) {
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+        var div_chunks = document.createElement("div");
+        div_chunks.setAttribute("ID", "photochunks");
+        div_chunks.setAttribute(
+          "style",
+          "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+        );
+        var div1 = document.createElement("div");
+        div1.setAttribute(
+          "style",
+          "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+        );
+    
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
+    
+        var text1 = document.createTextNode("Photo Board");
+    
+        strong1.appendChild(text1);
+    
+        div1.appendChild(strong1);
+    
+        div.appendChild(div1);
+    
+        var div3 = document.createElement("div");
+        div3.setAttribute("ID", "write-div");
+    
+        var div_content = document.createElement("div");
+        div_content.setAttribute(
+          "style",
+          "display : flex; flex-direction: column;"
+        );
+        var schedule_div = document.createElement("div");
+        schedule_div.setAttribute(
+          "style",
+          "display : flex;height:40px;font-family: Roboto, serif;"
+        );
+        var schedule = document.createElement("STRONG");
+        schedule.setAttribute(
+          "style",
+          "font-size: 30px;position: absolute; right: 20px"
+        );
+        schedule.innerHTML = "schedule: " + content.schedule;
+    
+        var img = document.createElement("img");
+        var storage = firebase.storage().ref();
+        storage
+          .child(content.photourl)
+          .getDownloadURL()
+          .then(function (url) {
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = "blob";
+            xhr.onload = function (event) {
+              var blob = xhr.response;
+            };
+            xhr.open("GET", url);
+            xhr.send();
+            img.src = url;
+            return url;
+          })
+          .then((url) => {
+            var img1 = new Image();
+            img1.onload = function () {
+              img.setAttribute(
+                "style",
+                "width: " + this.width + "px; height: " + this.height + "px"
+              );
+            };
+            img1.src = url;
+          });
+    
+        var header = document.createElement("div");
+        header.setAttribute("style", "display : flex;");
+        var contents = document.createElement("div");
+        contents.setAttribute("style", "display : flex;");
+    
+        var title = document.createElement("div");
+        title.setAttribute("style", "font-size: 30px");
+        title.innerHTML = "Title: " + content.title;
+        var author = document.createElement("div");
+        author.setAttribute(
+          "style",
+          "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+        );
+        author.innerHTML = content.author;
+        var date = document.createElement("div");
+        date.setAttribute(
+          "style",
+          "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+        );
+        date.innerHTML = "Date: " + content.date;
+        var content_html = document.createElement("div");
+        content_html.setAttribute("style", "font-size: 30px");
+        content_html.innerHTML = content.content;
+    
+        header.appendChild(title);
+        header.appendChild(date);
+        schedule_div.appendChild(schedule);
+        contents.appendChild(content_html);
+        contents.appendChild(author);
+        div_content.appendChild(header);
+    
+        div_content.appendChild(schedule_div);
+        div_content.appendChild(img);
+    
+        div_content.appendChild(contents);
+    
+        div3.appendChild(div_content);
+        var div5 = document.createElement("div");
+        var leavecomment = document.createElement("input");
+        leavecomment.setAttribute("ID", "comment_input_photo");
+        leavecomment.setAttribute(
+          "style",
+          "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+        );
+    
+        var entercomment = document.createElement("button");
+        entercomment.setAttribute("ID", "entercomment");
+        entercomment.setAttribute(
+          "style",
+          "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+        );
+        entercomment.innerHTML = "Enter";
+    
+        div5.appendChild(leavecomment);
+        div5.appendChild(entercomment);
+        // div5.appendChild(qnaedit);
+        // div5.appendChild(qnadelete);
+    
+        var div6 = document.createElement("div");
+        div6.setAttribute("class", "commentline");
+        div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+    
+        var commentnum = document.createElement("h4");
+        commentnum.setAttribute("style", "font-family: Roboto, serif;");
+        commentnum.setAttribute("ID", "comment_number");
+        commentnum.innerHTML = "Comments (" + f_total_commentnum + ")";
+        // commentnum.innerHTML = "Comments(2)";
+    
+        // var text1 = document.createElement("p");
+        // text1.setAttribute(
+        //   "style",
+        //   "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+        // );
+        // text1.setAttribute("ID", "history");
+        // text1.innerHTML = "History";
+    
+        div6.appendChild(commentnum);
+        // div6.appendChild(text1);
+    
+        var div7 = document.createElement("div");
+        div7.setAttribute("ID", "photo_comments");
+    
+        div3.appendChild(div5);
+        div3.appendChild(div6);
+        div3.appendChild(div7);
+        div.appendChild(div_chunks);
+        div.appendChild(div3);
+    
+        parent.appendChild(div);
+        getCommentData_photo();
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function gotophoto(content, src) {
         var parent = document.getElementById("contents");
@@ -3057,7 +3275,7 @@ $(document).ready(function () {
             curr.setAttribute("class","selected_side");
             calendar();
         } else if (current_state == "history") {
-        history();
+            history(options.src);
         }
         else if (current_state == "shop") {;
             var curr = document.getElementById("shop");
@@ -3085,6 +3303,11 @@ $(document).ready(function () {
         }
 
     }
+
+
+
+
+
 
     filter.addEventListener("change", function () {
         if (current_state == "qna2" || current_state == "photo2") {
@@ -3146,7 +3369,6 @@ $(document).ready(function () {
         current_state = "goto";
         var key = $(this).parent().children().text();
         var src = $(this).attr("src");
-
         firebase
         .database()
         .ref("/photo/" + key)
@@ -3170,6 +3392,8 @@ $(document).ready(function () {
             reshape({ pval: photoval, src: src });
         });
     });
+
+
 
     $("#contents").on("click", ".image_main", function () {
         var temp = $(this).parent().children().text();
@@ -3236,6 +3460,125 @@ $(document).ready(function () {
             reshape();
         });
     })
+
+    $("#contents").on("click", ".history_specific", function () {
+        // gotophoto(options.pval, options.src);
+        var type = $(this).parent().children()[3].innerHTML;
+        console.log(type);
+        var postorcomment = $(this).parent().children()[2].innerHTML;
+        console.log(postorcomment);
+        if (type == "photocomment") {
+          firebase
+            .database()
+            .ref("/photo")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              for (let key of keyList) {
+                if (key == postorcomment) {
+                  f_photo = qnaval[key];
+                  f_key_photo = key;
+                  f_total_commentnum = qnaval[key].commentnum;
+                  current_state = "photo_specific";
+                  clear();
+                  resetmenu();
+                  blue_photo();
+                  historyPhoto(qnaval[key]);
+                }
+              }
+            });
+        } else if (type == "qnacomment") {
+          firebase
+            .database()
+            .ref("/qna")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              for (let key of keyList) {
+                if (key == postorcomment) {
+                  f_qna = qnaval[key];
+                  f_key = key;
+                  f_qnaanswer = qnaval[key].answer;
+                  current_state = "qnapost";
+                  reshape();
+                }
+              }
+            });
+        } else if (type == "freecomment") {
+          firebase
+            .database()
+            .ref("/free")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              for (let key of keyList) {
+                if (key == postorcomment) {
+                  fr_qna = qnaval[key];
+                  fr_key = key;
+                  fr_freecomments = qnaval[key].commentsnum;
+                  current_state = "freepost";
+                  reshape();
+                }
+              }
+            });
+        } else if (type == "photo") {
+          console.log(postorcomment);
+          firebase
+            .database()
+            .ref("/photo")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              var key = keyList[postorcomment - 1];
+              f_photo = qnaval[key];
+              f_key_photo = key;
+              // f_qnaanswer = qnaval[key].answer;
+              current_state = "photo_specific";
+              clear();
+              resetmenu();
+              blue_photo();
+              historyPhoto(qnaval[key]);
+            });
+        } else if (type == "qnapost") {
+          var question_no = postorcomment - 1;
+          firebase
+            .database()
+            .ref("/qna")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              var currentkey = keyList[question_no];
+              f_qna = qnaval[currentkey];
+              f_key = currentkey;
+              f_qnaanswer = qnaval[currentkey].answer;
+    
+              current_state = "qnapost";
+              reshape();
+            });
+        } else if (type == "freepost") {
+          var question_no = postorcomment - 1;
+          firebase
+            .database()
+            .ref("/free")
+            .once("value")
+            .then((snapshot) => {
+              var qnaval = snapshot.val();
+              var keyList = Object.keys(qnaval);
+              var currentkey = keyList[question_no];
+              fr_qna = qnaval[currentkey];
+              fr_key = currentkey;
+              fr_freecomments = qnaval[currentkey].commentsnum;
+    
+              current_state = "qnapost";
+              reshape();
+            });
+        }
+      });
 
     $("#qna").click(function () {
         current_state = "qna1";
@@ -3306,7 +3649,6 @@ $(document).ready(function () {
         });
     });
 
-
     $("#contents").on("click", ".free_post_title", function () {
         var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase
@@ -3325,6 +3667,7 @@ $(document).ready(function () {
             reshape();
         });
     });
+
 
     $("#contents").on("click", "#enterans", function () {
         if (current_user == "nologin") alert("Please log-in");
@@ -3376,6 +3719,11 @@ $(document).ready(function () {
             .database()
             .ref("/photo/" + f_key_photo + "/comments")
             .push();
+            var history = firebase
+          .database()
+          .ref("/history/" + current_user)
+          .push();
+        var date = new Date().toLocaleDateString();
         newcomment.set({
             content: comment_input,
             author: current_user,
@@ -3386,6 +3734,13 @@ $(document).ready(function () {
         var update = {};
         update["/photo/" + f_key_photo + "/commentnum"] = f_total_commentnum;
 
+        history.set({
+            type: "photocomment",
+            content: comment_input,
+            index: f_total_commentnum,
+            question_key: f_key_photo,
+            date: date,
+          });
         firebase.database().ref().update(update);
         addcomment_photo_new({ content: comment_input, author: current_user });
         var commentnum = document.getElementById("comment_number");
@@ -3566,6 +3921,7 @@ $(document).ready(function () {
     });
 
     $("#contents").on("click", "#submitphoto", function () {
+        photonum++;
         var photo = document.getElementById("image").files[0];
         var storageRef = firebase.storage().ref();
         storageRef
@@ -3577,25 +3933,58 @@ $(document).ready(function () {
         var content = document.getElementById("photoContents").value;
         var schedule = document.getElementById("schedule").value;
         var newphoto = firebase.database().ref("/photo").push();
-        // var history = firebase.database().ref("/history").push();
+        var history = firebase
+        .database()
+        .ref("/history/" + current_user)
+        .push();
         var date = new Date().toLocaleDateString();
         newphoto.set({
         title: title,
         author: current_user,
         idol: idol,
         date: date,
+        commentnum: 0,
         content: content,
         photourl: photourl,
         schedule: schedule,
         });
-        // history.set({
-        //   id: id,
-        //   author: current_user,
-        //   type: "photo",
-        // });
+        history.set({
+            type: "photo",
+            title: title,
+            index: photonum,
+            date: date,
+          });
         current_state = "photo";
         reshape();
     });
+
+    $("#ban_popup").dialog({
+        autoOpen: false,
+        dialogClass: "dialog_title",
+        show: {
+          duration: 0,
+        },
+        hide: {
+          duration: 0,
+        },
+        title: "Report User",
+      });
+      $("#ban_popup").dialog("option", "width", 850);
+      $("#ban_popup").dialog("option", "height", 500);
+    
+      $("#calendar_popup").dialog({
+        autoOpen: false,
+        dialogClass: "dialog_title",
+        show: {
+          duration: 0,
+        },
+        hide: {
+          duration: 0,
+        },
+        title: "Calendar",
+      });
+      $("#calendar_popup").dialog("option", "width", 700);
+      $("#calendar_popup").dialog("option", "height", 200);
 
     $('#contents').on("click", "#img1_btn", function(){
         $('#img1_popup').dialog("open");
@@ -3762,19 +4151,7 @@ $(document).ready(function () {
         $("#img4_popup").dialog("close");
     });
 
-    $("#ban_popup").dialog({
-        autoOpen: false,
-        dialogClass: "dialog_title",
-        show: {
-        duration: 0,
-        },
-        hide: {
-        duration: 0,
-        },
-        title: "Report User",
-    });
-    $("#ban_popup").dialog("option", "width", 850);
-    $("#ban_popup").dialog("option", "height", 500);
+    
     $("#my_page").dialog({
         autoOpen: false,
         dialogClass: "dialog_title",
