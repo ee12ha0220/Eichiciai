@@ -238,12 +238,14 @@ select {
     text-decoration : underline;
 }
 
-.sliderContentText {
-    position: relative;
-    transition: left 1s;
-    left: 0;
+.free_post_title{
+    width: 40%;
+    font-family: Roboto, serif;
+    margin:auto;
+    cursor:pointer;
 }
 
-.sliderContentText.moveleft {
-    left: 50px;
+.free_post_title:hover{
+    color : blue;
+    text-decoration : underline;
 }

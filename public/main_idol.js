@@ -1900,6 +1900,154 @@ $(document).ready(function () {
         getnoticeData();
     }
 
+    function shop_page(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Shop");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class","qnaline_ori");
+
+        var p1 = document.createElement("p");
+        p1.setAttribute("style", "font-family: Roboto, serif");
+        p1.setAttribute("ID", "shop_yourpts");
+        p1.innerHTML = "Your Points : 4360 points";
+
+        div2.appendChild(p1);    
+        div.appendChild(div2);
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("style", "display: flex");
+
+
+        var div4 = document.createElement("div");
+        div4.setAttribute("style", "width:25%;");            
+        var img1 = document.createElement("img");
+        img1.setAttribute("src", '../images/bts_emoticon1.jpg');
+        img1.setAttribute("height", "280");
+        img1.setAttribute("style", "margin-left: 20px; margin-top: 10px");
+        var img1_title = document.createElement("h4");
+        img1_title.innerHTML = "[BTS]Emoticon ver.4";
+        img1_title.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-3px;text-decoration: underline;");
+        var img1_cost = document.createElement("p");
+        img1_cost.innerHTML = "300 points";
+        img1_cost.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-15px;font-family: Roboto,serif;");
+        var img1_btn_div = document.createElement("div");
+        img1_btn_div.setAttribute("style", "text-align:center");
+        var img1_btn = document.createElement("button");
+        img1_btn.innerHTML = "BUY";
+        img1_btn.setAttribute("ID", "img1_btn");
+        img1_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
+        img1_btn_div.appendChild(img1_btn);
+
+
+        div4.appendChild(img1);
+        div4.appendChild(img1_title);
+        div4.appendChild(img1_cost);
+        div4.appendChild(img1_btn_div);
+
+        var div5 = document.createElement("div");
+        div5.setAttribute("style", "width:25%;");
+        var img2 = document.createElement("img");
+        img2.setAttribute("src", '../images/bts_emoticon2.jpg');
+        img2.setAttribute("height", "280");
+        img2.setAttribute("style", "margin-left: 38px; margin-top: 10px");
+        var img2_title = document.createElement("h4");
+        img2_title.innerHTML = "[BTS]Emoticon ver.3";
+        img2_title.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-3px;text-decoration: underline");
+        var img2_cost = document.createElement("p");
+        img2_cost.innerHTML = "300 points";
+        img2_cost.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-15px;font-family: Roboto,serif;");
+        var img2_btn_div = document.createElement("div");
+        img2_btn_div.setAttribute("style", "text-align:center");
+        var img2_btn = document.createElement("button");
+        img2_btn.innerHTML = "BUY";
+        img2_btn.setAttribute("ID", "img2_btn");
+        img2_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
+        img2_btn_div.appendChild(img2_btn);
+
+        div5.appendChild(img2);
+        div5.appendChild(img2_title);
+        div5.appendChild(img2_cost);
+        div5.appendChild(img2_btn_div);
+
+
+        var div6 = document.createElement("div");
+        div6.setAttribute("style", "width:25%;");
+        var img3 = document.createElement("img");
+        img3.setAttribute("src", '../images/bts_emoticon3.jpg');
+        img3.setAttribute("height", "280");
+        img3.setAttribute("style", "margin-left: 38px; margin-top: 10px");
+        var img3_title = document.createElement("h4");
+        img3_title.innerHTML = "[BTS]Emoticon ver.2";
+        img3_title.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-3px;text-decoration: underline");
+        var img3_cost = document.createElement("p");
+        img3_cost.innerHTML = "300 points";
+        img3_cost.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-15px;font-family: Roboto,serif;");
+        var img3_btn_div = document.createElement("div");
+        img3_btn_div.setAttribute("style", "text-align:center");
+        var img3_btn = document.createElement("button");
+        img3_btn.innerHTML = "BUY";
+        img3_btn.setAttribute("ID", "img3_btn");
+        img3_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
+        img3_btn_div.appendChild(img3_btn);
+
+        div6.appendChild(img3);
+        div6.appendChild(img3_title);
+        div6.appendChild(img3_cost);
+        div6.appendChild(img3_btn_div);
+
+
+        var div7 = document.createElement("div");
+        div7.setAttribute("style", "width:25%;margin-right:20px");
+        var img4 = document.createElement("img");
+        img4.setAttribute("src", '../images/bts_emoticon4.jpg');
+        img4.setAttribute("height", "280");
+        img4.setAttribute("style", "margin-left: 38px; margin-top: 10px");
+        var img4_title = document.createElement("h4");
+        img4_title.innerHTML = "[BTS]Emoticon ver.1";
+        img4_title.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-3px;text-decoration: underline");
+        var img4_cost = document.createElement("p");
+        img4_cost.innerHTML = "300 points";
+        img4_cost.setAttribute("style", "margin-left: 20px;text-align: center;margin-top:-15px;font-family: Roboto,serif;");
+        var img4_btn_div = document.createElement("div");
+        img4_btn_div.setAttribute("style", "text-align:center");
+        var img4_btn = document.createElement("button");
+        img4_btn.innerHTML = "BUY";
+        img4_btn.setAttribute("ID", "img4_btn");
+        img4_btn.setAttribute("style", "font-size: 20px;background-color:#2b5a89;color:white;margin-top:-1px");
+        img4_btn_div.appendChild(img4_btn);
+
+        div7.appendChild(img4);
+        div7.appendChild(img4_title);
+        div7.appendChild(img4_cost);
+        div7.appendChild(img4_btn_div);
+
+        div3.appendChild(div4);
+        div3.appendChild(div5);
+        div3.appendChild(div6);
+        div3.appendChild(div7);
+
+
+        div.appendChild(div3); 
+        
+        parent.appendChild(div);
+    }
+
+
+
     function history() {
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
@@ -2347,6 +2495,14 @@ $(document).ready(function () {
         black_free();
         history();
         }
+        else if (current_state == "shop") {
+            black_photo();
+            black_qna();
+            black_free();
+            var curr = document.getElementById("shop");
+            curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
+            shop_page();
+        }
     }
 
     filter.addEventListener("change", function () {
@@ -2447,6 +2603,11 @@ $(document).ready(function () {
         current_state = "photo2";
         reshape();
         }
+    });
+
+    $("#shop").click(function () {
+        current_state = "shop";
+        reshape();
     });
 
     $("#contents").on("click", ".question", function () {
@@ -2827,6 +2988,172 @@ $(document).ready(function () {
         current_state = "photo";
         reshape();
     });
+
+    $('#contents').on("click", "#img1_btn", function(){
+        $('#img1_popup').dialog("open");
+    });
+
+    $('#img1_popup').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: '[Shop] Buy an item!'
+    })
+    $('#img1_popup').dialog("option", "width", 700);
+
+    $('#img1_popup_yes').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: 'Completed!',
+        show:{
+            duration:0
+        },
+        hide:{
+            duration:0
+        }
+    });
+    $('#img1_popup_yes').dialog("option", "width", 700);
+
+    $('#img1_yes').click(function(){
+        $("#img1_popup").dialog("close");
+        $("#img1_popup_yes").dialog("open");
+    });
+
+    $('#img1_ok').click(function(){
+        $("#img1_popup_yes").dialog("close");
+    });
+
+    $('#img1_no').click(function(){
+        $("#img1_popup").dialog("close");
+    });
+
+    $('#contents').on("click", "#img2_btn", function(){
+        $('#img2_popup').dialog("open");
+    });
+
+    $('#img2_popup').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: '[Shop] Buy an item!'
+    })
+    $('#img2_popup').dialog("option", "width", 700);
+
+    $('#img2_popup_yes').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: 'Completed!',
+        show:{
+            duration:0
+        },
+        hide:{
+            duration:0
+        }
+    });
+    $('#img2_popup_yes').dialog("option", "width", 700);
+
+    $('#img2_yes').click(function(){
+        $("#img2_popup").dialog("close");
+        $("#img2_popup_yes").dialog("open");
+    });
+
+    $('#contents').on("click", "#img3_btn", function(){
+        $('#img3_popup').dialog("open");
+    });
+
+    $('#img3_popup').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: '[Shop] Buy an item!'
+    })
+    $('#img3_popup').dialog("option", "width", 700);
+
+    $('#img3_popup_yes').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: 'Completed!',
+        show:{
+            duration:0
+        },
+        hide:{
+            duration:0
+        }
+    });
+    $('#img3_popup_yes').dialog("option", "width", 700);
+
+    $('#img3_yes').click(function(){
+        $("#img3_popup").dialog("close");
+        $("#img3_popup_yes").dialog("open");
+    });
+
+    $('#img3_ok').click(function(){
+        $("#img1_popup_yes").dialog("close");
+    });
+
+    $('#img3_no').click(function(){
+        $("#img1_popup").dialog("close");
+    });
+
+    $('#contents').on("click", "#img4_btn", function(){
+        $('#img4_popup').dialog("open");
+    });
+
+    $('#img4_popup').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: '[Shop] Buy an item!'
+    })
+    $('#img4_popup').dialog("option", "width", 700);
+
+    $('#img4_popup_yes').dialog({
+        autoOpen: false,
+        dialogClass: 'dialog_title',
+        title: 'Completed!',
+        show:{
+            duration:0
+        },
+        hide:{
+            duration:0
+        }
+    });
+    $('#img4_popup_yes').dialog("option", "width", 700);
+
+    $('#img4_yes').click(function(){
+        $("#img4_popup").dialog("close");
+        $("#img4_popup_yes").dialog("open");
+    });
+
+    $('#img4_ok').click(function(){
+        $("#img4_popup_yes").dialog("close");
+    });
+
+    $('#img4_no').click(function(){
+        $("#img4_popup").dialog("close");
+    });
+
+    $('#img2_ok').click(function(){
+        $("#img2_popup_yes").dialog("close");
+    });
+
+    $('#img2_no').click(function(){
+        console.log(12323);
+        $("#img2_popup").dialog("close");
+    });
+
+    $('#img3_ok').click(function(){
+        $("#img3_popup_yes").dialog("close");
+    });
+
+    $('#img3_no').click(function(){
+        $("#img3_popup").dialog("close");
+    });
+
+    $('#img4_ok').click(function(){
+        $("#img4_popup_yes").dialog("close");
+    });
+
+    $('#img4_no').click(function(){
+        $("#img4_popup").dialog("close");
+    });
+
     $("#ban_popup").dialog({
         autoOpen: false,
         dialogClass: "dialog_title",
@@ -2883,7 +3210,9 @@ $(document).ready(function () {
     });
 
     $("#contents").on("click", ".selectbtn", function () {
-        var author_of_question = $(this).parent().children()[3].innerHTML;
+        var author_of_question = $(this).parent().children()[0].innerHTML;
+        var select_content = document.getElementById("select_content");
+        select_content.innerHTML = "Will you select "+author_of_question+"'s answer";
         selected_answer = $(this).parent().index();
         $("#select").dialog("open");
     });
