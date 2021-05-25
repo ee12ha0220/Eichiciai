@@ -27,6 +27,10 @@ $( document ).ready(function() {
     var fr_key;
     var fr_freecomments;
 
+    var f_photo;
+    var f_key_photo;
+    var f_total_commentnum;
+
     var selected_answer;
     var idol = $("#filter").val();
     var current_user = "nologin";
@@ -45,6 +49,25 @@ $( document ).ready(function() {
                 addcomment(current, state);
             }
         });
+    }
+
+    function getCommentData_photo() {
+        firebase
+            .database()
+            .ref("/photo/" + f_key_photo)
+            .once("value")
+            .then((snapshot) => {
+            var photoval = snapshot.val();
+            if (photoval.comments == null) return;
+            var keyList = Object.keys(photoval.comments);
+            photonum = keyList.length;
+            var current;
+    
+            for (var i = photonum - 1; i >= 0; i--) {
+                current = photoval.comments[keyList[i]];
+                addcomment_photo(current);
+            }
+            });
     }
 
     function getFreeCommentData(){
@@ -183,6 +206,66 @@ $( document ).ready(function() {
         div1.appendChild(h5);
 
         parent.insertBefore(div1, target_div);
+    }
+    
+    function addcomment_photo(commentval) {
+        var target_div = document.getElementById("photo_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        div1.setAttribute("style", "height:auto;margin-left:0px;margin-right:0px");
+    
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+        h1.innerHTML = commentval.author;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+        h2.innerHTML = commentval.content;
+    
+        var text1 = document.createElement("p");
+        text1.setAttribute("ID", "history");
+        text1.setAttribute(
+            "style",
+            "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+        );
+        text1.innerHTML = "History";
+    
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(text1);
+    
+        target_div.appendChild(div1);
+    }
+    
+    function addcomment_photo_new(commentval) {
+        var target_div = document.getElementById("photo_comments");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        div1.setAttribute("style", "height:auto;margin-left:0px;margin-right:0px");
+    
+        var h1 = document.createElement("p");
+        h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+        h1.innerHTML = commentval.author;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+        h2.innerHTML = commentval.content;
+    
+        var text1 = document.createElement("p");
+        text1.setAttribute("ID", "history");
+        text1.setAttribute(
+            "style",
+            "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+        );
+        text1.innerHTML = "History";
+    
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(text1);
+    
+        console.log(target_div);
+        console.log(target_div.firstChild);
+        target_div.insertBefore(div1, target_div.firstChild);
     }
 
     function addfree(qnaval) {
@@ -1992,6 +2075,19 @@ $( document ).ready(function() {
         }   
         
     });
+
+    $("#contents").on("click", "#entercomment", function () {
+        if (current_user == "nologin") alert("Please log-in");
+        else {
+            var comment_input = document.getElementById("comment_input_photo").value;
+            var newcomment = firebase
+            .database()
+            .ref("/photo/" + f_key_photo + "/comments")
+            .push();
+            newcomment.set({
+            content: comment_input,
+            author: current_user,
+        });
 
     $('#contents').on("click", "#fr_entercomment", function(){
         if (current_user == "nologin") alert("Please log-in")
