@@ -2445,7 +2445,7 @@ $( document ).ready(function() {
         parent.insertBefore(logout, target);
         //parent.insertBefore(img, target);
         parent.insertBefore(usr, target);
-        reshape();
+        if (current_state != "photo_specific") reshape();
     })
 
     $("#nav1").on("click", "#logout", function() {
@@ -2464,7 +2464,7 @@ $( document ).ready(function() {
         login.innerHTML = "LOGIN";
 
         parent.insertBefore(login, target);
-        reshape();
+        if (current_state != "photo_specific") reshape();
     });
 
     $("#contents").on("click", "#submitphoto", function () {
