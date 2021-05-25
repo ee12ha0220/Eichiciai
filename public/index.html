@@ -15,15 +15,6 @@
         <div id = "header">
             <nav id = "nav1">
                 <a style = "float:left; margin-left:20px; font-size:35px; font-family: Lobster, serif;color: #1087FF;"> Starlight </a>
-                <select name = "boards" style = "height:29px;font-family: Roboto, serif;background-color: #E3EAF1;border:0;">
-                    <option hidden>Boards</option>
-                    <option>Free Board</option> 
-                    <option>QnA Board</option>
-                    <option>Photo Board</option>
-                    <option>Video Board</option>
-                </select>
-                <input id = "search-board" style = "width:500px; font-size:20px;background-color: #E3EAF1;border:0;height: 29px;"></input>
-                <button id = "search-board-btn" style = "font-size:20px;font-family: Roboto, serif;background-color:#ffffff;border: 0.5;width:100px">Search</button>
                 <button id = "login" style = "float: right;align-items: center;margin-right: 20px;font-size: 20px;margin-top: 10px;font-family: Roboto, serif;">LOGIN</button>
                 <a id = "back"><i style = "float:right; font-size:30px; margin-top:10px; margin-right:10px" class="fas fa-arrow-left"></i></a>
             </nav>
@@ -34,21 +25,18 @@
                     <li style="font-family: Roboto, serif;"><a id = "main" style = "cursor:pointer">Main</a></li>
                     <li style="font-family: Roboto, serif;"><a id = "calendar" style = "cursor:pointer">Calendar</a></li>
                     <li style="font-family: Roboto, serif;"><a id = "notice" style = "cursor:pointer">Notice</a></li>
-                    <li style="font-family: Roboto, serif;"><a id = "hot" style = "cursor:pointer">HOT</a></li>
                     <li style="font-family: Roboto, serif;"><a id = "shop" style = "cursor:pointer">Shop</a></li>
-                    <li style="font-family: Roboto, serif;"><a id = "wiki" style = "cursor:pointer">Wiki</a></li>
+                    <li><a id = "blank"> </a></li>
                 </ul>
             </nav>
         </div>
         <div id="contents">
-            <div Id = "boards"  style="font-family: Roboto, serif;"> 
-                <a> Favorites </a>
-                <a id="free" style="cursor: pointer;"> Free Board </a>
-                <a id="qna" style = "cursor:pointer"> QnA Board </a>
-                <a id="photo" style = "cursor:pointer"> Photo Board </a>
-                <a> Video Board </a>
-                <a> Star board </a>
-                <a> SNS </a>
+            <div Id = "boards"  style="font-family: Roboto, serif">
+                <a id="free" style="cursor: pointer;margin-right:20px"> Free Board </a>
+                <a id="qna" style = "cursor:pointer;margin-right:20px"> QnA Board </a>
+                <a id="photo" style = "cursor:pointer;margin-right:20px"> Photo Board </a>
+                <a id="star" style = "cursor:pointer;margin-right:20px"> Star Letter </a>
+                <a id="SNS" style = "cursor:pointer;margin-right:20px"> SNS </a>
             </div>
             <div style = "margin-top:10px;font-family: Roboto, serif;margin-left: 20px;">
                 <select id="filter" style = "font-family: Roboto, serif;">

@@ -249,3 +249,24 @@ select {
     color : blue;
     text-decoration : underline;
 }
+
+#boards a:hover{
+    background-color: #1087FF;
+    color: white;
+}
+
+.default_side{
+    cursor:pointer;border-right:2px solid #666666;
+}
+
+.selected_side{
+    border-right: solid 4px #1087ff; cursor:pointer;
+}
+
+.default_top{
+    color: black;cursor:pointer;
+}
+
+.selected_top{
+    color: #1087FF;cursor:pointer;
+}

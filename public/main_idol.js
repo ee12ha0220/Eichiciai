@@ -2310,61 +2310,28 @@ $(document).ready(function () {
     function resetmenu() {
         var temp;
         temp = document.getElementById("main");
-        temp.setAttribute(
-        "style",
-        "cursor:pointer;border-right:2px solid #666666;"
-        );
+        temp.setAttribute("class","default_side");
         temp = document.getElementById("notice");
-        temp.setAttribute(
-        "style",
-        "cursor:pointer;border-right:2px solid #666666;"
-        );
-        temp = document.getElementById("hot");
-        temp.setAttribute(
-        "style",
-        "cursor:pointer;border-right:2px solid #666666;"
-        );
+        temp.setAttribute("class","default_side");
         temp = document.getElementById("shop");
-        temp.setAttribute(
-        "style",
-        "cursor:pointer;border-right:2px solid #666666;"
-        );
+        temp.setAttribute("class","default_side");
         temp = document.getElementById("calendar");
+        temp.setAttribute("class","default_side");
+        temp = document.getElementById("blank");
         temp.setAttribute(
         "style",
-        "cursor:pointer;border-right:2px solid #666666;"
+        "border-right:2px solid #666666;height:260px"
         );
-        temp = document.getElementById("wiki");
-        temp.setAttribute(
-        "style",
-        "cursor:pointer;border-right:2px solid #666666;"
-        );
-    }
-
-    function blue_qna() {
-        var t_qna = document.getElementById("qna");
-        t_qna.setAttribute("style", "color: #1087FF;cursor:pointer;");
-    }
-    function black_qna() {
-        var t_qna = document.getElementById("qna");
-        t_qna.setAttribute("style", "color: #000000;cursor:pointer;");
-    }
-    function blue_photo() {
-        var t_photo = document.getElementById("photo");
-        t_photo.setAttribute("style", "color: #1087FF;cursor:pointer;");
-    }
-    function black_photo() {
-        var t_photo = document.getElementById("photo");
-        t_photo.setAttribute("style", "color: #000000;cursor:pointer;");
-    }
-
-    function blue_free() {
-        var t_free = document.getElementById("free");
-        t_free.setAttribute("style", "color: #1087FF;cursor:pointer;");
-    }
-    function black_free() {
-        var t_free = document.getElementById("free");
-        t_free.setAttribute("style", "color: #000000;cursor:pointer;");
+        temp = document.getElementById("free");
+        temp.setAttribute("class","default_top");
+        temp = document.getElementById("qna");
+        temp.setAttribute("class","default_top");
+        temp = document.getElementById("photo");
+        temp.setAttribute("class","default_top");
+        temp = document.getElementById("star");
+        temp.setAttribute("class","default_top");
+        temp = document.getElementById("SNS");
+        temp.setAttribute("class","default_top");
     }
 
     function gotophoto(content, src) {
@@ -2464,6 +2431,160 @@ $(document).ready(function () {
         parent.appendChild(div);
     }
 
+    function SNS_page() {
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute("style", "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px");
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("SNS of Idols");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+        if (idol == "All" || idol == "BTS"){
+            var div2 = document.createElement("div");
+            div2.setAttribute("style", "text-align:left; margin-left:20px;font-family:Roboto, serif;border-bottom:3px solid #2B5A89; margin-right:20px");
+            var text2 = document.createElement("p");
+            text2.innerHTML = "☞ BTS Official SNS : "
+            text2.setAttribute("style", "font-size: 20px;")
+            var div2_2 = document.createElement("div");
+            div2_2.setAttribute("style", "margin-bottom: 5px");
+            var a2_1 = document.createElement("a");
+            a2_1.setAttribute("href", "https://instagram.com/bts.bighitofficial?utm_medium=copy_link");
+            a2_1.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_1.setAttribute("target", "_blank");
+            a2_1.setAttribute("rel", "noreferrer noopener");
+            a2_1.innerHTML = "Instagram";
+            var a2_2 = document.createElement("a");
+            a2_2.setAttribute("href", "https://www.facebook.com/bangtan.official");
+            a2_2.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_2.setAttribute("target", "_blank");
+            a2_2.setAttribute("rel", "noreferrer noopener");
+            a2_2.innerHTML = "Facebook";
+            var a2_3 = document.createElement("a");
+            a2_3.setAttribute("href", "https://twitter.com/BTS_twt");
+            a2_3.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_3.setAttribute("target", "_blank");
+            a2_3.setAttribute("rel", "noreferrer noopener");
+            a2_3.innerHTML = "Twitter";
+            var a2_4 = document.createElement("a");
+            a2_4.setAttribute("href", "https://www.youtube.com/BANGTANTV");
+            a2_4.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_4.setAttribute("target", "_blank");
+            a2_4.setAttribute("rel", "noreferrer noopener");
+            a2_4.innerHTML = "Youtube";
+            var a2_5 = document.createElement("a");
+            a2_5.setAttribute("href", "https://www.tiktok.com/@bts_official_bighit?");
+            a2_5.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_5.setAttribute("target", "_blank");
+            a2_5.setAttribute("rel", "noreferrer noopener");
+            a2_5.innerHTML = "TikTok";
+            var a2_6 = document.createElement("a");
+            a2_6.setAttribute("href", "https://www.vlive.tv/channel/FE619");
+            a2_6.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_6.setAttribute("target", "_blank");
+            a2_6.setAttribute("rel", "noreferrer noopener");
+            a2_6.innerHTML = "V LIVE";
+            var a2_7 = document.createElement("a");
+            a2_7.setAttribute("href", "https://btsblog.ibighit.com/");
+            a2_7.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_7.setAttribute("target", "_blank");
+            a2_7.setAttribute("rel", "noreferrer noopener");
+            a2_7.innerHTML = "Blog";
+            var a2_8 = document.createElement("a");
+            a2_8.setAttribute("href", "https://ibighit.com/bts/kor/");
+            a2_8.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a2_8.setAttribute("target", "_blank");
+            a2_8.setAttribute("rel", "noreferrer noopener");
+            a2_8.innerHTML = "Official Homepage";
+            
+            div2_2.appendChild(a2_1);
+            div2_2.appendChild(a2_2);
+            div2_2.appendChild(a2_3);
+            div2_2.appendChild(a2_4);
+            div2_2.appendChild(a2_5);
+            div2_2.appendChild(a2_6);
+            div2_2.appendChild(a2_7);
+            div2_2.appendChild(a2_8);
+            div2.appendChild(text2);
+            div2.appendChild(div2_2);
+
+            div.appendChild(div2);
+        }
+
+        if (idol == "All" || idol == "G-IDLE"){
+            var div3 = document.createElement("div");
+            div3.setAttribute("style", "text-align:left; margin-left:20px;font-family:Roboto, serif;border-bottom:3px solid #2B5A89; margin-right:20px");
+            var text3 = document.createElement("p");
+            text3.innerHTML = "☞ G-Idle Official SNS : "
+            text3.setAttribute("style", "font-size: 20px;")
+            var div3_2 = document.createElement("div");
+            div3_2.setAttribute("style", "margin-bottom: 5px");
+            var a3_1 = document.createElement("a");
+            a3_1.setAttribute("href", "https://instagram.com/official_g_i_dle?utm_medium=copy_link");
+            a3_1.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_1.setAttribute("target", "_blank");
+            a3_1.setAttribute("rel", "noreferrer noopener");
+            a3_1.innerHTML = "Instagram";
+            var a3_2 = document.createElement("a");
+            a3_2.setAttribute("href", "https://www.facebook.com/G.I.DLE.CUBE");
+            a3_2.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_2.setAttribute("target", "_blank");
+            a3_2.setAttribute("rel", "noreferrer noopener");
+            a3_2.innerHTML = "Facebook";
+            var a3_3 = document.createElement("a");
+            a3_3.setAttribute("href", "https://twitter.com/G_I_DLE");
+            a3_3.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_3.setAttribute("target", "_blank");
+            a3_3.setAttribute("rel", "noreferrer noopener");
+            a3_3.innerHTML = "Twitter";
+            var a3_4 = document.createElement("a");
+            a3_4.setAttribute("href", "https://www.youtube.com/gidleofficial");
+            a3_4.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_4.setAttribute("target", "_blank");
+            a3_4.setAttribute("rel", "noreferrer noopener");
+            a3_4.innerHTML = "Youtube";
+            var a3_5 = document.createElement("a");
+            a3_5.setAttribute("href", "https://www.tiktok.com/@official_gidle?");
+            a3_5.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_5.setAttribute("target", "_blank");
+            a3_5.setAttribute("rel", "noreferrer noopener");
+            a3_5.innerHTML = "TikTok";
+            var a3_6 = document.createElement("a");
+            a3_6.setAttribute("href", "https://www.vlive.tv/channel/CE2621");
+            a3_6.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_6.setAttribute("target", "_blank");
+            a3_6.setAttribute("rel", "noreferrer noopener");
+            a3_6.innerHTML = "V LIVE";
+            var a3_7 = document.createElement("a");
+            a3_7.setAttribute("href", "https://cafe.daum.net/cube-g-i-dle");
+            a3_7.setAttribute("style", "font-family:Roboto, serif;font-weight: bolder;margin-right: 20px;");
+            a3_7.setAttribute("target", "_blank");
+            a3_7.setAttribute("rel", "noreferrer noopener");
+            a3_7.innerHTML = "Fan Cafe";
+    
+            div3_2.appendChild(a3_1);
+            div3_2.appendChild(a3_2);
+            div3_2.appendChild(a3_3);
+            div3_2.appendChild(a3_4);
+            div3_2.appendChild(a3_5);
+            div3_2.appendChild(a3_6);
+            div3_2.appendChild(a3_7);
+    
+            div3.appendChild(text3);
+            div3.appendChild(div3_2);
+    
+            div.appendChild(div3);
+        }
+        parent.appendChild(div);
+    }
+
     function showPopup() {
         $("#ban_popup").dialog("open");
     }
@@ -2486,61 +2607,43 @@ $(document).ready(function () {
         resetmenu();
         selected_filter = $("#filter").val();
         if (current_state == "main") {
-        black_photo();
-        black_qna();
-        black_free();
         var curr = document.getElementById("main");
-        curr.setAttribute(
-            "style",
-            "border-right: solid 4px #1087ff; cursor:pointer"
-        );
+        curr.setAttribute("class","selected_side");
         if (selected_filter == "All") main();
         else idolmain();
         } else if (current_state == "qna1") {
         qna1();
-        blue_qna();
-        black_photo();
-        black_free();
+        var curr = document.getElementById("qna");
+        curr.setAttribute("class","selected_top");
         } else if (current_state == "qna2") {
         qna2();
-        blue_qna();
-        black_photo();
-        black_free();
+        var curr = document.getElementById("qna");
+        curr.setAttribute("class","selected_top");
         } else if (current_state == "qnapost") {
-        blue_qna();
-        black_photo();
-        black_free();
+            var curr = document.getElementById("qna");
+            curr.setAttribute("class","selected_top");
         if (options.filter_change) {
             current_state = "qna1";
             reshape();
         } else qnapost();
         } else if (current_state == "noticepost") {
-        black_qna();
-        black_photo();
-        black_free();
         var curr = document.getElementById("notice");
-        curr.setAttribute(
-            "style",
-            "border-right: solid 4px #1087ff; cursor:pointer"
-        );
+        curr.setAttribute("class","selected_side");
         if (options.filter_change) {
             current_state = "notice";
             reshape();
         } else noticepost(options.pval);
         } else if (current_state == "photo") {
-        blue_photo();
-        black_qna();
-        black_free();
+            var curr = document.getElementById("photo");
+            curr.setAttribute("class","selected_top");
         photo();
         } else if (current_state == "photo2") {
-        blue_photo();
-        black_qna();
-        black_free();
+            var curr = document.getElementById("photo");
+            curr.setAttribute("class","selected_top");
         photo2();
         } else if (current_state == "photo_specific") {
-        blue_photo();
-        black_qna();
-        black_free();
+            var curr = document.getElementById("photo");
+            curr.setAttribute("class","selected_top");
         if (options.filter_change) {
             current_state = "photo";
             reshape();
@@ -2549,54 +2652,44 @@ $(document).ready(function () {
         }
         } else if (current_state == "goto") {
         current_state = "photo_specific";
-        blue_photo();
+        var curr = document.getElementById("photo");
+            curr.setAttribute("class","selected_top");
         gotophoto(options.pval, options.src);
         } else if (current_state == "notice") {
-        black_photo();
-        black_qna();
-        black_free();
         var curr = document.getElementById("notice");
-        curr.setAttribute(
-            "style",
-            "border-right: solid 4px #1087ff; cursor:pointer"
-        );
+        curr.setAttribute("class","selected_side");
         notice_page();
         } else if (current_state == "free") {
-        black_photo();
-        black_qna();
-        blue_free();
+            var curr = document.getElementById("free");
+            curr.setAttribute("class","selected_top");
         free_page();
         } else if (current_state == "free_write") {
-        black_photo();
-        black_qna();
-        blue_free();
+            var curr = document.getElementById("free");
+            curr.setAttribute("class","selected_top");
         free_write();
         } else if (current_state == "freepost") {
-        black_qna();
-        black_photo();
-        blue_free();
+            var curr = document.getElementById("free");
+            curr.setAttribute("class","selected_top");
         if (options.filter_change) {
             current_state = "free";
             reshape();
         } else freepost();
         } else if (current_state == "calendar") {
-        black_photo();
-        black_qna();
-        black_free();
-        calendar();
+            var curr = document.getElementById("calendar");
+            curr.setAttribute("class","selected_side");
+            calendar();
         } else if (current_state == "history") {
-        black_photo();
-        black_qna();
-        black_free();
         history();
         }
-        else if (current_state == "shop") {
-            black_photo();
-            black_qna();
-            black_free();
+        else if (current_state == "shop") {;
             var curr = document.getElementById("shop");
-            curr.setAttribute("style", "border-right: solid 4px #1087ff; cursor:pointer");
+            curr.setAttribute("class","selected_side");
             shop_page();
+        }
+        else if (current_state == "SNS") {
+            var curr = document.getElementById("SNS");
+            curr.setAttribute("class","selected_top");
+            SNS_page();
         }
     }
 
@@ -2615,6 +2708,11 @@ $(document).ready(function () {
 
     $("#calendar").click(function () {
         current_state = "calendar";
+        reshape();
+    });
+
+    $("#SNS").click(function () {
+        current_state = "SNS";
         reshape();
     });
     $("#contents").on("click", "#history", function () {
