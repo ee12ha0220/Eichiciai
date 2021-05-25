@@ -1,7 +1,7 @@
 $(document).ready(function () {
   var filter = document.getElementById("filter");
 
-  var firebaseConfig = {
+  var firebaseConfig = { 
     apiKey: "AIzaSyACT6acGeh9iFqQBDmkcAQc1Hzs9obUzr8",
     authDomain: "starlight-5a11b.firebaseapp.com",
     databaseURL: "https://starlight-5a11b-default-rtdb.firebaseio.com",
