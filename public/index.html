@@ -58,7 +58,92 @@
                 </select>
             </div>
         </div>
-
+        <div id="ban_popup">
+            <div id = "content">
+                <h1>Why do you want to report this user?</h1>
+                <label style="font-size: 30px"
+                  ><input
+                    id="1"
+                    type="checkbox"
+                    name="report"
+                    value="1"
+                    style="width: 25px; height: 25px"
+                  />
+                  Insulting comments</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="2"
+                    type="checkbox"
+                    name="report"
+                    value="2"
+                    style="width: 25px; height: 25px"
+                  />
+                  Improper nickname</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="3"
+                    type="checkbox"
+                    name="report"
+                    value="3"
+                    style="width: 25px; height: 25px"
+                  />
+                  Spamming on the board</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="4"
+                    type="checkbox"
+                    name="report"
+                    value="4"
+                    style="width: 25px; height: 25px"
+                  />
+                  etc...</label
+                ><br />
+                <input
+                  type="text"
+                  id="etc"
+                  name="etc"
+                  required
+                  minlength="1"
+                  size="60"
+                  style="height: 25px; margin-left: 35px"
+                /><br />
+                <button
+                  id="confirm"
+                  style="
+                    float: right;
+                    margin-top: 10px;
+                    font-size: 20px;
+                    margin-right: 20px;
+                    background-color: #2b5a89;
+                    font-family: Roboto, serif;
+                    border-radius: 10px;
+                    color: white;
+                  "
+                  type="button"
+                >
+                  Confirm
+                </button>
+                <input
+                  type="button"
+                  value="Cancel"
+                  style="
+                    float: right;
+                    margin-top: 10px;
+                    font-size: 20px;
+                    margin-right: 20px;
+                    background-color: #2b5a89;
+                    font-family: Roboto, serif;
+                    border-radius: 10px;
+                    color: white;
+                  "
+                  onClick="$('#ban_popup').dialog('close');"
+                />
+            </div>
+            
+          </div>
         <div id = "login_popup" style = "text-align:center"> 
             <div style="font-size:30px; margin-bottom: 20px;">Welcome back to STARLIGHT!</div>
             <div style="font-size:20px; margin-bottom: 5px;">Enter your ID and PASSWORD:</div>
@@ -109,5 +194,40 @@
         <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"> </script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase.js"></script>
+        <script>
+            $(document).ready(function () {
+              var confirm = document.getElementById("confirm");
+              function clear_popup() {
+                var div = document.getElementById("content");
+                var parent = document.getElementById("ban_popup");
+                parent.removeChild(div);
+              }
+              confirm.onclick = function () {
+                var result1 = $("#1").prop("checked");
+                var result2 = $("#2").prop("checked");
+                var result3 = $("#3").prop("checked");
+                var result4 = $("#4").prop("checked");
+                console.log(result1);
+                console.log(result2);
+                console.log(result3);
+                console.log(result4);
+        
+                if (result1 || result2 || result3 || result4) {
+                  clear_popup();
+                  var result = document.createElement("h1");
+                  var parent = document.getElementById("ban_popup");
+                  console.log(parent);
+                  parent.setAttribute("style", "text-align:center; height: 100%");
+                //   result.setAttribute("style", "position:absolute; top:38% ;left:5%");
+                  result.innerHTML = "Report for the user is successfully submitted!";
+                  console.log(result);
+                  parent.appendChild(result);
+                  console.log(parent);
+                } else {
+                  alert("Please check any reason why you want to report.");
+                }
+              };
+            });
+          </script>
     </body>
 </html>
