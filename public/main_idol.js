@@ -16,6 +16,8 @@ $(document).ready(function () {
     var qnanum = 0;
     var freenum = 0;
     var starnum = 0;
+    var photonum = 0;
+    var historynum = 0;
     var current_state = "main";
     var selected_filter;
     var f_qna;
@@ -114,6 +116,96 @@ $(document).ready(function () {
             }
         });
     }
+
+    function getHistoryData(author) {
+        firebase
+          .database()
+          .ref("/history/" + author)
+          .once("value")
+          .then((snapshot) => {
+            var historyval = snapshot.val();
+            if (historyval == null) return;
+            var keyList = Object.keys(historyval);
+            historynum1 = keyList.length;
+            var historynum = document.getElementById("historynum");
+            historynum.innerHTML = "log : " + historynum1.toString();
+            var current;
+            for (var i = historynum1 - 1; i >= 0; i--) {
+              current = historyval[keyList[i]];
+              addhistory(current);
+            }
+          });
+      }
+
+      function addhistory(qnaval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        // div1.setAttribute("style", "justify-content: flex-start");
+    
+        // var h1 = document.createElement("p");
+        // h1.setAttribute("class", "qnaheader");
+        // h1.setAttribute(
+        //   "style",
+        //   "width: 10%;font-family: Roboto, serif;margin:auto;"
+        // );
+        // h1.innerHTML = qnaval.no;
+    
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "history_specific");
+        h2.setAttribute(
+          "style",
+          "width: 60%;font-family: Roboto, serif;margin-left:20px"
+        );
+        if (
+          qnaval.type == "photocomment" ||
+          qnaval.type == "qnacomment" ||
+          qnaval.type == "freecomment"
+        ) {
+          h2.innerHTML = qnaval.content;
+        } else {
+          h2.innerHTML = qnaval.title;
+        }
+    
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute(
+          "style",
+          "width: 25%;font-family: Roboto, serif;text-align:right;margin-right:20px"
+        );
+        h3.innerHTML = qnaval.date;
+    
+        var h4 = document.createElement("p");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute(
+          "style",
+          "width: 10%;font-family: Roboto, serif;margin:auto;display:none"
+        );
+        if (qnaval.type == "photocomment" || qnaval.type == "qnacomment") {
+          h4.innerHTML = qnaval.question_key;
+        } else if (qnaval.type == "freecomment") {
+          h4.innerHTML = qnaval.free_key;
+        } else {
+          h4.innerHTML = qnaval.index;
+        }
+    
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute(
+          "style",
+          "width: 15%;font-family: Roboto, serif;margin:auto;display:none"
+        );
+        h5.innerHTML = qnaval.type;
+    
+        // div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
+        div1.appendChild(h4);
+        div1.appendChild(h5);
+    
+        parent.insertBefore(div1, target_div);
+      }
 
     function getnoticeData() {
         firebase
@@ -471,6 +563,7 @@ $(document).ready(function () {
         "style",
         "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
         );
+        text1.setAttribute("ID", "history");
         text1.innerHTML = "History";
 
         div1.appendChild(h1);
@@ -517,6 +610,7 @@ $(document).ready(function () {
         "style",
         "width: 20%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
         );
+        text1.setAttribute("ID", "history");
         text1.innerHTML = "History";
 
         div1.appendChild(h1);
@@ -3016,7 +3110,7 @@ $(document).ready(function () {
     });
     $("#contents").on("click", "#history", function () {
         current_state = "history";
-        reshape();
+        reshape({ src: $(this).parent().children()[0].innerHTML });
     });
     $("#contents").on("click", "#ban", function () {
         showPopup();
