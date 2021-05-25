@@ -588,9 +588,10 @@ $(document).ready(function () {
         for (var i = photonum - 1; i >= 0; i--) {
           current = photoval[keyList[i]];
           if (current.idol == idol || idol == "All") {
-            if (current_state == "main")
-              addphoto_main(div, current, keyList[i]);
-            else addphoto(current);
+            // if (current_state == "main")
+            //   addphoto_main(div, current, keyList[i]);
+            // else addphoto(current);
+            addphoto(current);
           }
         }
       });
@@ -1994,28 +1995,46 @@ $(document).ready(function () {
       contentHeight: 600,
       events: [
         {
-          title: "BTS online concert",
-          start: "2021-05-16",
+          title: "BTS 'Butter' group teaser 1",
+          start: "2021-05-10",
           color: "#8b00ff",
-          idol: "1",
+          idol: "BTS",
         },
         {
-          title: "BTS fan meeting",
-          start: "2021-05-14",
+          title: "BTS 'Butter' group teaser 2",
+          start: "2021-05-18",
           color: "#8b00ff",
-          idol: "1",
+          idol: "BTS",
         },
         {
-          title: "G-IDLE online concert",
+          title: "BTS 'Butter' Comeback Showcase",
+          start: "2021-05-21",
+          color: "#e11900",
+          idol: "BTS",
+        },
+        {
+          title: "BTS BBMA",
           start: "2021-05-24",
           color: "#e11900",
-          idol: "2",
+          idol: "BTS",
         },
         {
-          title: "G-IDLE fan meeting",
-          start: "2021-05-19",
+          title: "G-IDLE Minnie Web Drama Poster",
+          start: "2021-05-21",
           color: "#e11900",
-          idol: "2",
+          idol: "G-IDLE",
+        },
+        {
+          title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
+          start: "2021-05-22",
+          color: "#e11900",
+          idol: "G-IDLE",
+        },
+        {
+          title: "G-IDLE Minnie Bazzar Magazine",
+          start: "2021-05-24",
+          color: "#e11900",
+          idol: "G-IDLE",
         },
       ],
       eventDidMount: function (arg) {
@@ -2760,7 +2779,7 @@ $(document).ready(function () {
     var content = document.getElementById("photoContents").value;
     var schedule = document.getElementById("schedule").value;
     var newphoto = firebase.database().ref("/photo").push();
-    var history = firebase.database().ref("/history").push();
+    // var history = firebase.database().ref("/history").push();
     var date = new Date().toLocaleDateString();
     newphoto.set({
       title: title,
@@ -2771,11 +2790,11 @@ $(document).ready(function () {
       photourl: photourl,
       schedule: schedule,
     });
-    history.set({
-      id: id,
-      author: current_user,
-      type: "photo",
-    });
+    // history.set({
+    //   id: id,
+    //   author: current_user,
+    //   type: "photo",
+    // });
     current_state = "photo";
     reshape();
   });
