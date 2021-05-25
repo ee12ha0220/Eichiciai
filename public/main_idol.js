@@ -1695,7 +1695,7 @@ $(document).ready(function () {
         "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
         );
 
-        var entercomment = document.createElement("button");
+        var entercomment = document.createElement("button"); 
         entercomment.setAttribute("ID", "entercomment");
         entercomment.setAttribute(
         "style",
