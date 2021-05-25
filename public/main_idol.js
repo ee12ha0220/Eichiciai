@@ -602,7 +602,7 @@ $(document).ready(function () {
 
     function addidol(div, current, target) {
         var div0 = document.createElement("div");
-        div0.setAttribute("style", "display:inline-block");
+        div0.setAttribute("style", "display:inline-block;cursor: pointer;");
         var storage = firebase.storage().ref();
         storage
         .child(current.mainphoto)
