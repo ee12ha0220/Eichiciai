@@ -248,7 +248,11 @@ $(document).ready(function () {
       "style",
       "width: 60%;font-family: Roboto, serif;margin-left:20px"
     );
-    if (qnaval.type == "photocomment" || qnaval.type == "qnacomment") {
+    if (
+      qnaval.type == "photocomment" ||
+      qnaval.type == "qnacomment" ||
+      qnaval.type == "freecomment"
+    ) {
       h2.innerHTML = qnaval.content;
     } else {
       h2.innerHTML = qnaval.title;
@@ -270,6 +274,8 @@ $(document).ready(function () {
     );
     if (qnaval.type == "photocomment" || qnaval.type == "qnacomment") {
       h4.innerHTML = qnaval.question_key;
+    } else if (qnaval.type == "freecomment") {
+      h4.innerHTML = qnaval.free_key;
     } else {
       h4.innerHTML = qnaval.index;
     }
@@ -525,6 +531,7 @@ $(document).ready(function () {
       "style",
       "width: 20%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
     );
+    text1.setAttribute("ID", "history");
     text1.innerHTML = "History";
 
     div1.appendChild(h1);
@@ -688,6 +695,7 @@ $(document).ready(function () {
     var parent = document.getElementById("bigdiv");
     var div1 = document.createElement("div");
     div1.setAttribute("class", "photochunk");
+    div1.setAttribute("style", "margin-top:10px");
     var h1 = document.createElement("div");
     h1.setAttribute("class", "photoheader");
     h1.setAttribute("class", "photo_button_title");
@@ -1513,7 +1521,7 @@ $(document).ready(function () {
     div_chunks.setAttribute("ID", "photochunks");
     div_chunks.setAttribute(
       "style",
-      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;margin-left:20px"
     );
 
     var div1 = document.createElement("div");
@@ -1704,21 +1712,22 @@ $(document).ready(function () {
 
     var div3 = document.createElement("div");
     div3.setAttribute("ID", "write-div");
-
+    div3.setAttribute("style", "margin-left:20px;margin-right:20px;");
     var div_content = document.createElement("div");
     div_content.setAttribute(
       "style",
       "display : flex; flex-direction: column;"
     );
     var schedule_div = document.createElement("div");
+    schedule_div.setAttribute("class", "qnaline");
     schedule_div.setAttribute(
       "style",
-      "display : flex;height:40px;font-family: Roboto, serif;"
+      "display : flex;height:40px;font-family: Roboto, serif;border-bottom:0px"
     );
-    var schedule = document.createElement("STRONG");
+    var schedule = document.createElement("div");
     schedule.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px"
+      "font-size: 18px;position: absolute; right: 35px;font-family: Roboto, serif;"
     );
     schedule.innerHTML = content[0].innerHTML;
 
@@ -1734,27 +1743,37 @@ $(document).ready(function () {
     );
 
     var header = document.createElement("div");
-    header.setAttribute("style", "display : flex;");
+    header.setAttribute("class", "qnaline");
+    header.setAttribute(
+      "style",
+      "display : flex;border-bottom:4px solid #2B5A89;margin:0px"
+    );
     var contents = document.createElement("div");
     contents.setAttribute("style", "display : flex;");
 
     var title = document.createElement("div");
-    title.setAttribute("style", "font-size: 30px");
+    title.setAttribute(
+      "style",
+      "font-size: 18px;margin-left:10px;font-family: Roboto, serif"
+    );
     title.innerHTML = "Title: " + content[2].innerHTML;
     var author = document.createElement("div");
     author.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     author.innerHTML = content[3].innerHTML;
     var date = document.createElement("div");
     date.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     date.innerHTML = "Date: " + content[4].innerHTML;
     var content_html = document.createElement("div");
-    content_html.setAttribute("style", "font-size: 30px");
+    content_html.setAttribute(
+      "style",
+      "font-size: 30px;font-family: Roboto, serif;margin-left:10px"
+    );
     content_html.innerHTML = content[5].innerHTML;
 
     header.appendChild(title);
@@ -1776,14 +1795,14 @@ $(document).ready(function () {
     leavecomment.setAttribute("ID", "comment_input_photo");
     leavecomment.setAttribute(
       "style",
-      "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+      "height: 80px;width: 90%;margin-left:15px;margin-top:30px"
     );
 
     var entercomment = document.createElement("button");
     entercomment.setAttribute("ID", "entercomment");
     entercomment.setAttribute(
       "style",
-      "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+      "height:86px;width:86px;margin-left:20px;font-family: Roboto, serif;"
     );
     entercomment.innerHTML = "Enter";
 
@@ -2749,7 +2768,7 @@ $(document).ready(function () {
             if (key == postorcomment) {
               f_photo = qnaval[key];
               f_key_photo = key;
-              // f_qnaanswer = qnaval[key].answer;
+              f_total_commentnum = qnaval[key].commentnum;
               current_state = "photo_specific";
               clear();
               resetmenu();
@@ -2772,6 +2791,24 @@ $(document).ready(function () {
               f_key = key;
               f_qnaanswer = qnaval[key].answer;
               current_state = "qnapost";
+              reshape();
+            }
+          }
+        });
+    } else if (type == "freecomment") {
+      firebase
+        .database()
+        .ref("/free")
+        .once("value")
+        .then((snapshot) => {
+          var qnaval = snapshot.val();
+          var keyList = Object.keys(qnaval);
+          for (let key of keyList) {
+            if (key == postorcomment) {
+              fr_qna = qnaval[key];
+              fr_key = key;
+              fr_freecomments = qnaval[key].commentsnum;
+              current_state = "freepost";
               reshape();
             }
           }
@@ -2808,6 +2845,23 @@ $(document).ready(function () {
           f_qna = qnaval[currentkey];
           f_key = currentkey;
           f_qnaanswer = qnaval[currentkey].answer;
+
+          current_state = "qnapost";
+          reshape();
+        });
+    } else if (type == "freepost") {
+      var question_no = postorcomment - 1;
+      firebase
+        .database()
+        .ref("/free")
+        .once("value")
+        .then((snapshot) => {
+          var qnaval = snapshot.val();
+          var keyList = Object.keys(qnaval);
+          var currentkey = keyList[question_no];
+          fr_qna = qnaval[currentkey];
+          fr_key = currentkey;
+          fr_freecomments = qnaval[currentkey].commentsnum;
 
           current_state = "qnapost";
           reshape();
