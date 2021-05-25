@@ -15,18 +15,19 @@ $(document).ready(function () {
 
     var qnanum = 0;
     var freenum = 0;
+    var starnum = 0;
     var current_state = "main";
     var selected_filter;
     var f_qna;
     var f_key;
     var f_qnaanswer;
 
-    var n_qna;
-    var n_key;
-
     var fr_qna;
     var fr_key;
     var fr_freecomments;
+
+    var letter_key;
+    var letter_val;
 
     var f_photo;
     var f_key_photo;
@@ -150,6 +151,81 @@ $(document).ready(function () {
             if (current.idol == idol || idol == "All") addfree(current);
             }
         });
+    }
+
+    function getStarData() {
+        firebase
+        .database()
+        .ref("/star")
+        .once("value")
+        .then((snapshot) => {
+            var starval = snapshot.val();
+            if (starval == null) return;
+            var keyList = Object.keys(starval);
+            starnum = keyList.length;
+            var current;
+
+            for (var i = starnum - 1; i >= 0; i--) {
+            current = starval[keyList[i]];
+            if (current.idol == idol || idol == "All") addstar(current);
+            }
+        });
+    }
+
+    function addstar(starval) {
+        var target_div = document.getElementById("write-div");
+        var parent = document.getElementById("bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute("class", "qnaline");
+        div1.setAttribute("style", "text-align:center;");
+
+        var h1 = document.createElement("p");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute(
+        "style",
+        "width: 10%;font-family: Roboto, serif;margin:auto;"
+        );
+        h1.innerHTML = starval.no;
+
+        var h2 = document.createElement("p");
+        h2.setAttribute("class", "star_post_title");
+        h2.setAttribute(
+        "style",
+        "width: 40%;font-family: Roboto, serif;margin:auto;cursor:pointer;"
+        );
+        h2.innerHTML = starval.title;
+
+        var h3 = document.createElement("p");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute(
+        "style",
+        "width: 35%;font-family: Roboto, serif;margin:auto;"
+        );
+        h3.innerHTML = starval.author;
+
+        var h4 = document.createElement("p");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute(
+        "style",
+        "width: 10%;font-family: Roboto, serif;margin:auto;"
+        );
+        h4.innerHTML = starval.idol;
+
+        var h5 = document.createElement("p");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute(
+        "style",
+        "width: 15%;font-family: Roboto, serif;margin:auto;"
+        );
+        h5.innerHTML = starval.date;
+
+        div1.appendChild(h1);
+        div1.appendChild(h2);
+        div1.appendChild(h3);
+        div1.appendChild(h4);
+        div1.appendChild(h5);
+
+        parent.insertBefore(div1, target_div);
     }
 
     function addqna(qnaval) {
@@ -1102,6 +1178,159 @@ $(document).ready(function () {
         div4.appendChild(btn);
         div.appendChild(div4);
 
+        parent.appendChild(div);
+    }
+
+    function star_page() {
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute(
+        "style",
+        "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+        );
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Star Letter");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class", "qnaline_ori");
+
+        var h1 = document.createElement("h5");
+        h1.setAttribute("class", "qnaheader");
+        h1.setAttribute(
+        "style",
+        "width: 10%;font-family: Roboto, serif;margin:auto;"
+        );
+        h1.innerHTML = "No.";
+
+        var h2 = document.createElement("h5");
+        h2.setAttribute("class", "qnaheader");
+        h2.setAttribute(
+        "style",
+        "width: 40%;font-family: Roboto, serif;margin:auto;"
+        );
+        h2.innerHTML = "Title";
+
+        var h3 = document.createElement("h5");
+        h3.setAttribute("class", "qnaheader");
+        h3.setAttribute(
+        "style",
+        "width: 35%;font-family: Roboto, serif;margin:auto;"
+        );
+        h3.innerHTML = "Author";
+
+        var h4 = document.createElement("h5");
+        h4.setAttribute("class", "qnaheader");
+        h4.setAttribute(
+        "style",
+        "width: 10%;font-family: Roboto, serif;margin:auto;"
+        );
+        h4.innerHTML = "Idol";
+
+
+        var h5 = document.createElement("h5");
+        h5.setAttribute("class", "qnaheader");
+        h5.setAttribute(
+        "style",
+        "width: 15%;font-family: Roboto, serif;margin:auto;"
+        );
+        h5.innerHTML = "Date";
+
+        div2.appendChild(h1);
+        div2.appendChild(h2);
+        div2.appendChild(h3);
+        div2.appendChild(h4);
+        div2.appendChild(h5);
+
+        div.appendChild(div2);
+        parent.appendChild(div);
+
+        getStarData();
+    }
+
+    function starpost(){
+        var parent = document.getElementById("contents");
+        var div = document.createElement("div");
+        div.setAttribute("ID", "bigdiv");
+
+        var div1 = document.createElement("div");
+        div1.setAttribute(
+        "style",
+        "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+        );
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Star Letter");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div.appendChild(div1);
+
+        var div2 = document.createElement("div");
+        div2.setAttribute("class", "qnaline");
+        div2.setAttribute("style", "border-bottom:4px solid #2B5A89");
+
+        var letterno = document.createElement("div");
+        letterno.setAttribute("class", "qnaheader");
+        letterno.setAttribute(
+        "style",
+        "width:50%; text-align:left;font-family: Roboto, serif;"
+        );
+        letterno.innerHTML = "Letter No." + letter_val.no;
+
+        var letterauthor = document.createElement("div");
+        letterauthor.setAttribute("class", "qnaheader");
+        letterauthor.setAttribute(
+        "style",
+        "width:50%;text-align: right;font-family: Roboto, serif;"
+        );
+        letterauthor.innerHTML = letter_val.author;
+
+        div2.appendChild(letterno);
+        div2.appendChild(letterauthor);
+
+        var div3 = document.createElement("div");
+        div3.setAttribute("class", "qnaline");
+        div3.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+        var lettertitle = document.createElement("div");
+        lettertitle.setAttribute("class", "qnaheader");
+        lettertitle.setAttribute(
+        "style",
+        "width:50%; text-align:left;font-family: Roboto, serif;"
+        );
+        lettertitle.innerHTML = letter_val.title;
+
+        var lettertime = document.createElement("div");
+        lettertime.setAttribute("class", "qnaheader");
+        lettertime.setAttribute(
+        "style",
+        "width:50%;text-align: right;font-family: Roboto, serif;"
+        );
+        lettertime.innerHTML = letter_val.date;
+
+        div3.appendChild(lettertitle);
+        div3.appendChild(lettertime);
+
+        var div4 = document.createElement("div");
+        div4.innerHTML = letter_val.content;
+        div4.setAttribute("style", "margin:20px;font-family: Roboto, serif;");
+
+        div.appendChild(div2);
+        div.appendChild(div3);
+        div.appendChild(div4);
+        
         parent.appendChild(div);
     }
 
@@ -2691,6 +2920,21 @@ $(document).ready(function () {
             curr.setAttribute("class","selected_top");
             SNS_page();
         }
+        else if (current_state == "star") {
+            var curr = document.getElementById("star");
+            curr.setAttribute("class","selected_top");
+            star_page();
+        }
+        else if (current_state == "starpost") {
+            var curr = document.getElementById("star");
+            curr.setAttribute("class","selected_top");
+            if (options.filter_change) {
+                current_state = "star";
+                reshape();
+            } 
+            else starpost();
+        }
+
     }
 
     filter.addEventListener("change", function () {
@@ -2822,6 +3066,28 @@ $(document).ready(function () {
         });
     });
 
+    $("#star").click(function () {
+        current_state = "star";
+        reshape();
+    });
+
+    $("#contents").on("click", ".star_post_title", function(){
+        var letter_no = $(this).parent().children()[0].innerHTML - 1;
+        firebase
+        .database()
+        .ref("/star")
+        .once("value")
+        .then((snapshot) => {
+            var letterval = snapshot.val();
+            var keyList = Object.keys(letterval);
+            var currentkey = keyList[letter_no];
+            letter_val = letterval[currentkey];
+            letter_key = currentkey;
+            current_state = "starpost";
+            reshape();
+        });
+    })
+
     $("#qna").click(function () {
         current_state = "qna1";
         reshape();
@@ -2891,6 +3157,7 @@ $(document).ready(function () {
         });
     });
 
+
     $("#contents").on("click", ".free_post_title", function () {
         var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase
@@ -2901,7 +3168,6 @@ $(document).ready(function () {
             var freeval = snapshot.val();
             var keyList = Object.keys(freeval);
             var currentkey = keyList[question_no];
-            console.log(freeval[currentkey].no);
             fr_qna = freeval[currentkey];
             fr_key = currentkey;
             fr_freecomments = freeval[currentkey].commentsnum;

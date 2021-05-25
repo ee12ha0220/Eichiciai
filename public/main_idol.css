@@ -270,3 +270,8 @@ select {
 .selected_top{
     color: #1087FF;cursor:pointer;
 }
+
+.star_post_title:hover{
+    color : blue;
+    text-decoration : underline;
+}
