@@ -573,7 +573,7 @@ $(document).ready(function () {
             img.setAttribute("src", url);
             img.setAttribute(
             "style",
-            "width: 1200px;height: 400px; object-fit: cover;"
+            "width: 1400px;height: 500px; object-fit: cover;"
             );
             swipe_page.appendChild(img);
             swipe_page.appendChild(hidden);
@@ -800,6 +800,20 @@ $(document).ready(function () {
         var parent = document.getElementById("contents");
         var div0 = document.createElement("div");
         div0.setAttribute("ID", "bigdiv");
+        var div1 = document.createElement("div");
+        div1.setAttribute(
+        "style",
+        "text-align:left;margin-left:20px; margin-right:20px;border-bottom:4px solid black"
+        );
+
+        var strong1 = document.createElement("STRONG");
+        strong1.setAttribute("style", "font-size:40px;");
+
+        var text1 = document.createTextNode("Featured");
+
+        strong1.appendChild(text1);
+        div1.appendChild(strong1);
+        div0.appendChild(div1);
 
         var swipe = document.createElement("div");
         swipe.setAttribute("class", "swiper-container mySwiper");
@@ -812,14 +826,29 @@ $(document).ready(function () {
         swipe.appendChild(pagination);
         div0.appendChild(swipe);
 
+        var div2 = document.createElement("div");
+        div2.setAttribute(
+        "style",
+        "text-align:left;margin-top: 40px;margin-left:20px; margin-right:20px;"
+        );
+
+        var strong2 = document.createElement("STRONG");
+        strong2.setAttribute("style", "font-size:30px;");
+
+        var text2 = document.createTextNode("My Idols");
+
+        strong2.appendChild(text2);
+        div2.appendChild(strong2);
+        div0.appendChild(div2);
+
         var myidol = document.createElement("div");
-        myidol.setAttribute("style", "text-align:center;");
+        myidol.setAttribute("style", "text-align:left;margin-left:20px");
 
         var btn = document.createElement("button");
         btn.setAttribute("ID", "main_btn");
         btn.setAttribute(
         "style",
-        "width:280px; height:200px; vertical-align:top; margin-top:20px; font-size:50px"
+        "width:280px; height:200px; vertical-align:top; margin-top:20px; font-size:50px;border-radius:10px"
         );
         var plus = document.createTextNode("+");
         btn.appendChild(plus);
@@ -830,10 +859,20 @@ $(document).ready(function () {
         div0.appendChild(myidol);
         parent.appendChild(div0);
         var swiper = new Swiper(".mySwiper", {
-        pagination: {
-            el: ".swiper-pagination",
-            dynamicBullets: true,
-        },
+            spaceBetween: 30,
+            centeredSlides: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
         });
     }
 
@@ -843,7 +882,7 @@ $(document).ready(function () {
 
         var parent = document.getElementById("contents");
         var div0 = document.createElement("div");
-        div0.setAttribute("style", "float:left; width:80%;");
+        div0.setAttribute("style", "float:left; width:80%;margin-left:20px");
 
         var div1 = document.createElement("div");
 
@@ -874,12 +913,18 @@ $(document).ready(function () {
             div0.appendChild(div1);
 
             var div2 = document.createElement("div");
-            div2.setAttribute("style", "text-align:center; width:1000px;");
-            var text1 = document.createElement("p");
-            text1.setAttribute("style", "font-family: Roboto, serif");
-            text1.innerHTML = "Hot Photos & Videos";
-
-            div2.appendChild(text1);
+            div2.setAttribute(
+            "style",
+            "text-align:left;margin-top: 40px;margin-left:20px; margin-right:20px;"
+            );
+    
+            var strong2 = document.createElement("STRONG");
+            strong2.setAttribute("style", "font-size:30px;");
+    
+            var text2 = document.createTextNode("Hot photos");
+    
+            strong2.appendChild(text2);
+            div2.appendChild(strong2);
             div0.appendChild(div2);
 
             var div3 = document.createElement("div");
@@ -891,7 +936,7 @@ $(document).ready(function () {
             div.appendChild(div0);
 
             var div4 = document.createElement("div");
-            div4.setAttribute("style", "float:left; width: 20%;margin-top:20px");
+            div4.setAttribute("style", "float:left; width: 18%;margin-top:20px");
 
             var div5 = document.createElement("div");
             div5.setAttribute(
@@ -908,7 +953,7 @@ $(document).ready(function () {
             div4.appendChild(div5);
 
             var div6 = document.createElement("div");
-            div6.setAttribute("style", "background:#E3EAF1;height: 300px");
+            div6.setAttribute("style", "background:#E3EAF1;");
             div6.setAttribute("ID", "notice_list");
 
             getnoticeData_mainpage();
@@ -929,13 +974,23 @@ $(document).ready(function () {
             div4.appendChild(div7);
 
             var div8 = document.createElement("div");
-            div8.setAttribute("style", "background:#E3EAF1;height: 500px;");
+            div8.setAttribute("style", "background:#E3EAF1;");
 
-            var text4 = document.createTextNode("one");
-            var text5 = document.createTextNode("two");
+            var div9 = document.createElement("div");
+            div9.setAttribute(
+            "style",
+            "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
+            );
+            var h1 = document.createElement("p");
+            h1.setAttribute("class", "main_schedule");
+            h1.innerHTML = "• " + "aaaaaaaaaaaaa";
+            div9.appendChild(h1);
+            
+            // var text4 = document.createTextNode("one");
+            // var text5 = document.createTextNode("two");
 
-            div8.appendChild(text4);
-            div8.appendChild(text5);
+            div8.appendChild(div9);
+            //div8.appendChild(text5);
             div4.appendChild(div8);
 
             div.appendChild(div4);
