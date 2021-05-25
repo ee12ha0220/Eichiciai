@@ -49,7 +49,92 @@
                 </select>
             </div>
         </div>
-
+        <div id="ban_popup">
+            <div id = "content">
+                <h1>Why do you want to report this user?</h1>
+                <label style="font-size: 30px"
+                  ><input
+                    id="1"
+                    type="checkbox"
+                    name="report"
+                    value="1"
+                    style="width: 25px; height: 25px"
+                  />
+                  Insulting comments</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="2"
+                    type="checkbox"
+                    name="report"
+                    value="2"
+                    style="width: 25px; height: 25px"
+                  />
+                  Improper nickname</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="3"
+                    type="checkbox"
+                    name="report"
+                    value="3"
+                    style="width: 25px; height: 25px"
+                  />
+                  Spamming on the board</label
+                ><br />
+                <label style="font-size: 30px"
+                  ><input
+                    id="4"
+                    type="checkbox"
+                    name="report"
+                    value="4"
+                    style="width: 25px; height: 25px"
+                  />
+                  etc...</label
+                ><br />
+                <input
+                  type="text"
+                  id="etc"
+                  name="etc"
+                  required
+                  minlength="1"
+                  size="60"
+                  style="height: 25px; margin-left: 35px"
+                /><br />
+                <button
+                  id="confirm"
+                  style="
+                    float: right;
+                    margin-top: 10px;
+                    font-size: 20px;
+                    margin-right: 20px;
+                    background-color: #2b5a89;
+                    font-family: Roboto, serif;
+                    border-radius: 10px;
+                    color: white;
+                  "
+                  type="button"
+                >
+                  Confirm
+                </button>
+                <input
+                  type="button"
+                  value="Cancel"
+                  style="
+                    float: right;
+                    margin-top: 10px;
+                    font-size: 20px;
+                    margin-right: 20px;
+                    background-color: #2b5a89;
+                    font-family: Roboto, serif;
+                    border-radius: 10px;
+                    color: white;
+                  "
+                  onClick="$('#ban_popup').dialog('close');"
+                />
+            </div>
+            
+          </div>
         <div id = "login_popup" style = "text-align:center"> 
             <div style="font-size:30px; margin-bottom: 20px;">Welcome back to STARLIGHT!</div>
             <div style="font-size:20px; margin-bottom: 5px;">Enter your ID and PASSWORD:</div>
@@ -140,7 +225,7 @@
         </div>
 
         <div id = "select", style = "text-align:center"> 
-            <div style="font-size:22px">Will you select user77's answer</div>
+            <div id = "select_content", style="font-size:22px">Will you select user77's answer</div>
             <div style="font-size:18px">After selection, you cannot edit or delete your question.</div>
             <div>
                 <button id="yes"> Yes </button>
@@ -154,11 +239,106 @@
             <button id="close"> Close </button>
         </div>
 
+        <div id = "img1_popup" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Would you like to buy '[BTS] Emoticon ver.4'?</div>
+            <div style="margin-bottom: 10px;">Cost: 300 points</div>
+            <div style="margin-bottom: 10px;">Your Points: 4360 points</div>
+            <div style="float: right">
+                <button id="img1_yes" style="width:100px"> Yes </button>
+                <button id="img1_no" style="width:100px"> No </button> 
+            </div>
+        </div>
+
+        <div id = "img1_popup_yes" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Buying '[BTS] Emoticon ver.4' completed!</div>
+            <button id="img1_ok" style="width:100px"> OK </button>
+        </div>
+
+        <div id = "img2_popup" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Would you like to buy '[BTS] Emoticon ver.3'?</div>
+            <div style="margin-bottom: 10px;">Cost: 300 points</div>
+            <div style="margin-bottom: 10px;">Your Points: 4360 points</div>
+            <div style="float: right">
+                <button id="img2_yes" style="width:100px"> Yes </button>
+                <button id="img2_no" style="width:100px"> No </button> 
+            </div>
+        </div>
+
+        <div id = "img2_popup_yes" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Buying '[BTS] Emoticon ver.3' completed!</div>
+            <button id="img2_ok" style="width:100px"> OK </button>
+        </div>
+
+        <div id = "img3_popup" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Would you like to buy '[BTS] Emoticon ver.2'?</div>
+            <div style="margin-bottom: 10px;">Cost: 300 points</div>
+            <div style="margin-bottom: 10px;">Your Points: 4360 points</div>
+            <div style="float: right">
+                <button id="img3_yes" style="width:100px"> Yes </button>
+                <button id="img3_no" style="width:100px"> No </button> 
+            </div>
+        </div>
+
+        <div id = "img3_popup_yes" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Buying '[BTS] Emoticon ver.2' completed!</div>
+            <button id="img3_ok" style="width:100px"> OK </button>
+        </div>
+
+        <div id = "img4_popup" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Would you like to buy '[BTS] Emoticon ver.1'?</div>
+            <div style="margin-bottom: 10px;">Cost: 300 points</div>
+            <div style="margin-bottom: 10px;">Your Points: 4360 points</div>
+            <div style="float: right">
+                <button id="img4_yes" style="width:100px"> Yes </button>
+                <button id="img4_no" style="width:100px"> No </button> 
+            </div>
+        </div>
+
+        <div id = "img4_popup_yes" style="text-align:center;">
+            <div style="font-size: 30px;margin-bottom: 10px;">Buying '[BTS] Emoticon ver.1' completed!</div>
+            <button id="img4_ok" style="width:100px"> OK </button>
+        </div>
+
         <script src="jquery/js/jquery-1.9.0.min.js"></script>
         <script src="jquery/js/jquery-ui-1.10.0.custom.min.js"></script>
         <script src="./main_idol.js"></script>
         <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"> </script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase.js"></script>
+        <script>
+            $(document).ready(function () {
+              var confirm = document.getElementById("confirm");
+              function clear_popup() {
+                var div = document.getElementById("content");
+                var parent = document.getElementById("ban_popup");
+                parent.removeChild(div);
+              }
+              confirm.onclick = function () {
+                var result1 = $("#1").prop("checked");
+                var result2 = $("#2").prop("checked");
+                var result3 = $("#3").prop("checked");
+                var result4 = $("#4").prop("checked");
+                console.log(result1);
+                console.log(result2);
+                console.log(result3);
+                console.log(result4);
+        
+                if (result1 || result2 || result3 || result4) {
+                  clear_popup();
+                  var result = document.createElement("h1");
+                  var parent = document.getElementById("ban_popup");
+                  console.log(parent);
+                  parent.setAttribute("style", "text-align:center; height: 100%");
+                //   result.setAttribute("style", "position:absolute; top:38% ;left:5%");
+                  result.innerHTML = "Report for the user is successfully submitted!";
+                  console.log(result);
+                  parent.appendChild(result);
+                  console.log(parent);
+                } else {
+                  alert("Please check any reason why you want to report.");
+                }
+              };
+            });
+          </script>
     </body>
 </html>

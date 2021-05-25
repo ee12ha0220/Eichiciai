@@ -229,10 +229,23 @@ select {
 .main_notice{
     font-family: Roboto, serif;
     margin-top: 5px; 
-    cursor: pointer
+    cursor: pointer;
+    padding: 8px;
 }
 
 .main_notice:hover{
+    color : blue;
+    text-decoration : underline;
+}
+
+.free_post_title{
+    width: 40%;
+    font-family: Roboto, serif;
+    margin:auto;
+    cursor:pointer;
+}
+
+.free_post_title:hover{
     color : blue;
     text-decoration : underline;
 }
