@@ -1409,112 +1409,156 @@ $( document ).ready(function() {
         }
 
         function specific_photo(content) {
-        var parent = document.getElementById("contents");
-        var div = document.createElement("div");
-        div.setAttribute("ID", "bigdiv");
-        var div_chunks = document.createElement("div");
-        div_chunks.setAttribute("ID", "photochunks");
-        div_chunks.setAttribute(
+            var parent = document.getElementById("contents");
+            var div = document.createElement("div");
+            div.setAttribute("ID", "bigdiv");
+            var div_chunks = document.createElement("div");
+            div_chunks.setAttribute("ID", "photochunks");
+            div_chunks.setAttribute(
             "style",
             "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
-        );
-    
-        var div1 = document.createElement("div");
-        div1.setAttribute(
+            );
+        
+            var div1 = document.createElement("div");
+            div1.setAttribute(
             "style",
             "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
-        );
-    
-        var strong1 = document.createElement("STRONG");
-        strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
-    
-        var text1 = document.createTextNode("Photo Board");
-    
-        strong1.appendChild(text1);
-    
-        div1.appendChild(strong1);
-    
-        div.appendChild(div1);
-    
-        var div3 = document.createElement("div");
-        div3.setAttribute("ID", "write-div");
-    
-        var div_content = document.createElement("div");
-        div_content.setAttribute(
+            );
+        
+            var strong1 = document.createElement("STRONG");
+            strong1.setAttribute("style", "font-size:40px;font-family: Roboto, serif;");
+        
+            var text1 = document.createTextNode("Photo Board");
+        
+            strong1.appendChild(text1);
+        
+            div1.appendChild(strong1);
+        
+            div.appendChild(div1);
+        
+            var div3 = document.createElement("div");
+            div3.setAttribute("ID", "write-div");
+        
+            var div_content = document.createElement("div");
+            div_content.setAttribute(
             "style",
             "display : flex; flex-direction: column;"
-        );
-        var schedule_div = document.createElement("div");
-        schedule_div.setAttribute("style", "display : flex;height:40px;font-family: Roboto, serif;");
-        var schedule = document.createElement("STRONG");
-        schedule.setAttribute(
+            );
+            var schedule_div = document.createElement("div");
+            schedule_div.setAttribute(
+            "style",
+            "display : flex;height:40px;font-family: Roboto, serif;"
+            );
+            var schedule = document.createElement("STRONG");
+            schedule.setAttribute(
             "style",
             "font-size: 30px;position: absolute; right: 20px"
-        );
-        schedule.innerHTML = content[0].innerHTML;
-    
-        var img = document.createElement("img");
-        img.setAttribute("src", content[1].firstChild.src);
-        img.setAttribute(
+            );
+            schedule.innerHTML = content[0].innerHTML;
+        
+            var img = document.createElement("img");
+            img.setAttribute("src", content[1].firstChild.src);
+            img.setAttribute(
             "style",
             "width: " +
-            content[1].firstChild.width +
-            "px; height: " +
-            content[1].firstChild.height +
-            "px"
-        );
-    
-        var header = document.createElement("div");
-        header.setAttribute("style", "display : flex;");
-        var contents = document.createElement("div");
-        contents.setAttribute("style", "display : flex;");
-    
-        var title = document.createElement("div");
-        title.setAttribute("style", "font-size: 30px");
-        title.innerHTML = "Title: " + content[2].innerHTML;
-        var author = document.createElement("div");
-        author.setAttribute(
+                content[1].firstChild.width +
+                "px; height: " +
+                content[1].firstChild.height +
+                "px"
+            );
+        
+            var header = document.createElement("div");
+            header.setAttribute("style", "display : flex;");
+            var contents = document.createElement("div");
+            contents.setAttribute("style", "display : flex;");
+        
+            var title = document.createElement("div");
+            title.setAttribute("style", "font-size: 30px");
+            title.innerHTML = "Title: " + content[2].innerHTML;
+            var author = document.createElement("div");
+            author.setAttribute(
             "style",
             "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
-        );
-        author.innerHTML = content[3].innerHTML;
-        var date = document.createElement("div");
-        date.setAttribute(
+            );
+            author.innerHTML = content[3].innerHTML;
+            var date = document.createElement("div");
+            date.setAttribute(
             "style",
             "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
-        );
-        date.innerHTML = "Date: " + content[4].innerHTML;
-        var content_html = document.createElement("div");
-        content_html.setAttribute("style", "font-size: 30px");
-        content_html.innerHTML = content[5].innerHTML;
-    
-        header.appendChild(title);
-        header.appendChild(date);
-        schedule_div.appendChild(schedule);
-        contents.appendChild(content_html);
-        contents.appendChild(author);
-        div_content.appendChild(header);
-    
-        div_content.appendChild(schedule_div);
-        div_content.appendChild(img);
-    
-        div_content.appendChild(contents);
-    
-        div3.appendChild(div_content);
-    
-        var btn = document.createElement("button");
-        btn.setAttribute("ID", "write_button_photo");
-        btn.setAttribute(
+            );
+            date.innerHTML = "Date: " + content[4].innerHTML;
+            var content_html = document.createElement("div");
+            content_html.setAttribute("style", "font-size: 30px");
+            content_html.innerHTML = content[5].innerHTML;
+        
+            header.appendChild(title);
+            header.appendChild(date);
+            schedule_div.appendChild(schedule);
+            contents.appendChild(content_html);
+            contents.appendChild(author);
+            div_content.appendChild(header);
+        
+            div_content.appendChild(schedule_div);
+            div_content.appendChild(img);
+        
+            div_content.appendChild(contents);
+        
+            div3.appendChild(div_content);
+        
+            var div5 = document.createElement("div");
+            var leavecomment = document.createElement("input");
+            leavecomment.setAttribute("ID", "comment_input_photo");
+            leavecomment.setAttribute(
             "style",
-            "float:right; margin-top: 10px;font-size: 20px;margin-right:20px; background-color: #2B5A89;border-radius:10px; color:white"
-        );
-        btn.innerHTML = "Write";
-    
-        div3.appendChild(btn);
-        div.appendChild(div_chunks);
-        div.appendChild(div3);
-    
-        parent.appendChild(div);
+            "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+            );
+        
+            var entercomment = document.createElement("button");
+            entercomment.setAttribute("ID", "entercomment");
+            entercomment.setAttribute(
+            "style",
+            "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+            );
+            entercomment.innerHTML = "Enter";
+        
+            div5.appendChild(leavecomment);
+            div5.appendChild(entercomment);
+            // div5.appendChild(qnaedit);
+            // div5.appendChild(qnadelete);
+        
+            var div6 = document.createElement("div");
+            div6.setAttribute("class", "commentline");
+            div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+        
+            var commentnum = document.createElement("h4");
+            commentnum.setAttribute("style", "font-family: Roboto, serif;");
+            commentnum.setAttribute("ID", "comment_number");
+            commentnum.innerHTML = "Comments (" + f_total_commentnum + ")";
+            // commentnum.innerHTML = "Comments(2)";
+        
+            // var text1 = document.createElement("p");
+            // text1.setAttribute(
+            //   "style",
+            //   "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+            // );
+            // text1.setAttribute("ID", "history");
+            // text1.innerHTML = "History";
+        
+            div6.appendChild(commentnum);
+            // div6.appendChild(text1);
+        
+            var div7 = document.createElement("div");
+            div7.setAttribute("ID", "photo_comments");
+        
+            div3.appendChild(div5);
+            div3.appendChild(div6);
+            div3.appendChild(div7);
+        
+            div.appendChild(div_chunks);
+            div.appendChild(div3);
+        
+            parent.appendChild(div);
+            getCommentData_photo();
         }
 
         function free_page(){
@@ -1637,6 +1681,146 @@ $( document ).ready(function() {
     
             getnoticeData();
         }
+
+        function history() {
+            var parent = document.getElementById("contents");
+            var div = document.createElement("div");
+            div.setAttribute("ID", "bigdiv");
+        
+            var div1 = document.createElement("div");
+            div1.setAttribute(
+                "style",
+                "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+            );
+        
+            var strong1 = document.createElement("STRONG");
+            strong1.setAttribute("style", "font-size:40px; margin-right:50px");
+        
+            var text1 = document.createTextNode("Comment History");
+        
+            strong1.appendChild(text1);
+            div1.appendChild(strong1);
+            div.appendChild(div1);
+        
+            var div2 = document.createElement("div");
+            div2.setAttribute("class", "qnaline");
+            div2.setAttribute("style", "border-bottom:4px solid black");
+        
+            var h1 = document.createElement("h5");
+            h1.setAttribute("class", "qnaheader");
+            h1.setAttribute("style", "width: 10%");
+            h1.innerHTML = "User 91";
+        
+            var h2 = document.createElement("h5");
+            h2.setAttribute("class", "qnaheader");
+            h2.setAttribute("style", "width: 40%");
+            h2.innerHTML = "";
+        
+            var h3 = document.createElement("h5");
+            h3.setAttribute("class", "qnaheader");
+            h3.setAttribute("style", "width: 30%");
+            h3.innerHTML = "";
+        
+            var h4 = document.createElement("h5");
+            h4.setAttribute("class", "qnaheader");
+            h4.setAttribute("style", "width: 15%;text-align: right");
+            h4.innerHTML = "5 Comments";
+        
+            var h5 = document.createElement("h5");
+            h5.setAttribute("class", "qnaheader");
+            h5.setAttribute("style", "width: 5%;cursor:pointer");
+            h5.setAttribute("ID", "ban");
+            h5.innerHTML = 'Report <i class="fas fa-ban"></i>';
+        
+            div2.appendChild(h1);
+            div2.appendChild(h2);
+            div2.appendChild(h3);
+            div2.appendChild(h4);
+            div2.appendChild(h5);
+        
+            div.appendChild(div2);
+        
+            var div3 = document.createElement("div");
+            div3.setAttribute("ID", "write-div");
+        
+            // var siren = document.createElement("h5");
+            // siren.innerHTML = '<i class="fas fa-ban"></i>';
+        
+            div.appendChild(div3);
+        
+            // div.appendChild(siren);
+        
+            parent.appendChild(div);
+        
+            getqnaData();
+            }
+            function calendar() {
+            var parent = document.getElementById("contents");
+            var div = document.createElement("div");
+            div.setAttribute("ID", "bigdiv");
+            var div_calendar = document.createElement("div");
+            div_calendar.setAttribute("ID", "calendar1");
+        
+            var div1 = document.createElement("div");
+            div1.setAttribute(
+                "style",
+                "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+            );
+        
+            div1.appendChild(div_calendar);
+        
+            div.appendChild(div1);
+        
+            parent.appendChild(div);
+            let calendarEl = document.getElementById("calendar1");
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                contentHeight: 600,
+                events: [
+                {
+                    title: "BTS online concert",
+                    start: "2021-05-16",
+                    color: "#8b00ff",
+                    idol: "1",
+                },
+                {
+                    title: "BTS fan meeting",
+                    start: "2021-05-14",
+                    color: "#8b00ff",
+                    idol: "1",
+                },
+                {
+                    title: "G-IDLE online concert",
+                    start: "2021-05-24",
+                    color: "#e11900",
+                    idol: "2",
+                },
+                {
+                    title: "G-IDLE fan meeting",
+                    start: "2021-05-19",
+                    color: "#e11900",
+                    idol: "2",
+                },
+                ],
+                eventDidMount: function (arg) {
+                var filter = document.getElementById("filter");
+                var val = filter.options[filter.selectedIndex].value;
+                // console.log(val);
+                // console.log("---------");
+                // console.log(arg.event.extendedProps.idol);
+                if (val === "All") {
+                    arg.el.style.display = "auto";
+                } else if (arg.event.extendedProps.idol != val) {
+                    arg.el.style.display = "none";
+                }
+                },
+            });
+        
+            calendar.render();
+            $("#filter").on("change", function () {
+                calendar.refetchEvents();
+            });
+            }
 
 
     function clear(){
@@ -1895,6 +2079,18 @@ $( document ).ready(function() {
             }
             else freepost();
         }
+        else if (current_state == "calendar") {
+            black_photo();
+            black_qna();
+            black_free();
+            calendar();
+        } 
+        else if (current_state == "history") {
+            black_photo();
+            black_qna();
+            black_free();
+            history();
+        }
     }
 
     filter.addEventListener("change", function(){
@@ -1912,14 +2108,42 @@ $( document ).ready(function() {
         }
     });
 
+    $("#calendar").click(function () {
+        current_state = "calendar";
+        reshape();
+    });
+    $("#contents").on("click", "#history", function () {
+        current_state = "history";
+        reshape();
+    });
+    $("#contents").on("click", "#ban", function () {
+        showPopup();
+    });
+
     $("#photo").click(function () {
         current_state = "photo";
         reshape();
     });
 
     $("#contents").on("click", ".photo_button", function () {
-        current_state = "photo_specific";
-        reshape({photo_content: $(this).parent().children()});
+        index = $(this).parent().index();
+        // console.log(index);
+        firebase
+        .database()
+        .ref("/photo")
+        .once("value")
+        .then((snapshot) => {
+            var photoval = snapshot.val();
+            var keyList = Object.keys(photoval);
+            index = keyList.length - (index + 1);
+            var currentkey = keyList[index];
+            f_key_photo = currentkey;
+            f_photo = photoval[currentkey];
+            f_total_commentnum = photoval[currentkey].commentnum;
+    
+            current_state = "photo_specific";
+            reshape({photo_content: $(this).parent().children()})
+        });
     });
 
     $("#contents").on("click", ".image_main_idol_2", function(){
@@ -2075,6 +2299,34 @@ $( document ).ready(function() {
         }   
         
     });
+
+    $("#contents").on("click", "#entercomment", function () {
+        if (current_user == "nologin") alert("Please log-in");
+        else {
+        var comment_input = document.getElementById("comment_input_photo").value;
+        var newcomment = firebase
+            .database()
+            .ref("/photo/" + f_key_photo + "/comments")
+            .push();
+        newcomment.set({
+            content: comment_input,
+            author: current_user,
+        });
+    
+        f_total_commentnum += 1;
+    
+        var update = {};
+        update["/photo/" + f_key_photo + "/commentnum"] = f_total_commentnum;
+    
+        firebase.database().ref().update(update);
+        addcomment_photo_new({ content: comment_input, author: current_user });
+        var commentnum = document.getElementById("comment_number");
+        commentnum.innerHTML = "Comments (" + f_total_commentnum + ")";
+        var commentnum = document.getElementById("comment_number");
+        document.getElementById("comment_input_photo").value = "";
+        }
+    });
+
 
     $('#contents').on("click", "#fr_entercomment", function(){
         if (current_user == "nologin") alert("Please log-in")
