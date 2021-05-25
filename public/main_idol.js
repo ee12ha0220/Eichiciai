@@ -714,7 +714,7 @@ $( document ).ready(function() {
             div4.setAttribute("style", "float:left; width: 20%;");
             
             var div5 = document.createElement("div");
-            div5.setAttribute("style", "text-align:center");
+            div5.setAttribute("style", "text-align:center; border-top : 3px black solid");
             var text2 = document.createElement("p");
             text2.setAttribute("style", "font-family: Roboto, serif; font-size: 23px;text-decoration : underline;");
             text2.innerHTML = "Notice";
@@ -726,17 +726,6 @@ $( document ).ready(function() {
             div6.setAttribute("ID", "notice_list");
 
             getnoticeData_mainpage();
-            // var list = document.createElement("ul");
-            // var li1 = document.createElement("li");
-            
-            // li1.innerHTML = "one";
-            // var li2 = document.createElement("li");
-            // li2.innerHTML = "two";
-            
-            // list.appendChild(li1);
-            // list.appendChild(li2);
-            
-            //div6.appendChild(list);
             div4.appendChild(div6);
 
             var div7 = document.createElement("div");
@@ -791,12 +780,14 @@ $( document ).ready(function() {
         div1.setAttribute("style", "text-align: left; margin-left: 10px; margin-right: 5px;");
 
         var h1 = document.createElement("p");
-        h1.setAttribute("style", "font-family: Roboto, serif;margin-top: 5px;");
         h1.innerHTML = "※ " + noticeval.title;
-
+        h1.setAttribute("class", "main_notice");
         div1.appendChild(h1);
+        var div2 = document.createElement("div");
+        div2.setAttribute("style", "display:none");
+        div2.innerHTML = noticeval.no;
+        div1.appendChild(div2);
         parent.appendChild(div1);
-
     }
 
     function imageadder(parent_div, img_src, img_alt, img_class){
@@ -1069,7 +1060,7 @@ $( document ).ready(function() {
         //reshape();
     }
 
-    function noticepost(){
+    function noticepost(n_qna){
         var parent = document.getElementById("contents");
         var div = document.createElement("div");
         div.setAttribute("ID", "bigdiv");
@@ -2037,7 +2028,7 @@ $( document ).ready(function() {
                 current_state = "notice";
                 reshape();
             }
-            else noticepost();
+            else noticepost(options.pval);
         }
 
         else if (current_state == "photo") {
@@ -2094,7 +2085,7 @@ $( document ).ready(function() {
             black_photo();
             blue_free();
             if (options.filter_change){
-                current_state = "notice";
+                current_state = "free";
                 reshape();
             }
             else freepost();
@@ -2260,29 +2251,36 @@ $( document ).ready(function() {
         reshape();
     });
 
-    $('#contents').on("click", ".notice", function(){
-        index = $(this).parent().index();
+    $('#contents').on("click", ".main_notice", function(){
+        var question_no = $(this).parent().children()[1].innerHTML-1;
         firebase.database().ref('/notice').once('value').then((snapshot) => {
             var noticeval = snapshot.val()
             var keyList = Object.keys(noticeval);
-            index = keyList.length - index + 1;
-            var currentkey = keyList[index];
-            console.log(noticeval[currentkey].no);
-            n_qna = noticeval[currentkey];
+            var currentkey = keyList[question_no];
             n_key = currentkey;
-            
             current_state = "noticepost";
-            reshape();
+            reshape({pval: noticeval[currentkey]});
+        });
+    });
+
+    $('#contents').on("click", ".notice", function(){
+        var question_no = $(this).parent().children()[0].innerHTML - 1;
+        firebase.database().ref('/notice').once('value').then((snapshot) => {
+            var noticeval = snapshot.val()
+            var keyList = Object.keys(noticeval);
+            var currentkey = keyList[question_no];
+            n_key = currentkey;
+            current_state = "noticepost";
+            reshape({pval: noticeval[currentkey]});
         });
     });
 
     $('#contents').on("click", ".free_post_title", function(){
-        index = $(this).parent().index();
+        var question_no = $(this).parent().children()[0].innerHTML - 1;
         firebase.database().ref('/free').once('value').then((snapshot) => {
             var freeval = snapshot.val()
             var keyList = Object.keys(freeval);
-            index = keyList.length - index + 1;
-            var currentkey = keyList[index];
+            var currentkey = keyList[question_no];
             console.log(freeval[currentkey].no);
             fr_qna = freeval[currentkey];
             fr_key = currentkey;

@@ -225,3 +225,14 @@ select {
 .dialog_title .ui-dialog-titlebar {
     background: #85b8eb; 
 }
+
+.main_notice{
+    font-family: Roboto, serif;
+    margin-top: 5px; 
+    cursor: pointer
+}
+
+.main_notice:hover{
+    color : blue;
+    text-decoration : underline;
+}
