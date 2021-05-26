@@ -685,7 +685,7 @@ $(document).ready(function () {
         img.setAttribute("src", url);
         img.setAttribute(
           "style",
-          "width: 1400px;height: 500px; object-fit: cover;"
+          "object-fit: cover;"
         );
         swipe_page.appendChild(img);
         swipe_page.appendChild(hidden);
