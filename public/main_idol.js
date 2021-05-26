@@ -3734,6 +3734,7 @@ $(document).ready(function () {
           if (snapshot.val() == current_user)
             alert("You can't answer your own question");
           else {
+            var date = new Date().toLocaleDateString();
             var newcomment = firebase
               .database()
               .ref("/qna/" + f_key + "/comments")
@@ -3760,6 +3761,7 @@ $(document).ready(function () {
               content: comment_input,
               index: f_qnaanswer,
               question_key: f_key,
+              date: date
             });
             reshape();
           }
@@ -3809,6 +3811,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#fr_entercomment", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
+      var date = new Date().toLocaleDateString();
       var free_comment_input =
         document.getElementById("free_comment_input").value;
       firebase
@@ -3842,6 +3845,7 @@ $(document).ready(function () {
             content: free_comment_input,
             index: fr_freecomments,
             free_key: fr_key,
+            date: date
           });
           reshape();
         });
@@ -3872,6 +3876,7 @@ $(document).ready(function () {
       type: "qnapost",
       title: title,
       index: qnanum,
+      date: date
     });
     current_state = "qna1";
     reshape();
@@ -3900,6 +3905,7 @@ $(document).ready(function () {
       type: "freepost",
       title: title,
       index: freenum,
+      date: date
     });
     current_state = "free";
     reshape();
