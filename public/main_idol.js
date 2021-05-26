@@ -1806,7 +1806,7 @@ $(document).ready(function () {
     div_chunks.setAttribute("ID", "photochunks");
     div_chunks.setAttribute(
       "style",
-      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;"
+      "display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;margin-top:10px;margin-left:10px"
     );
 
     var div1 = document.createElement("div");
