@@ -3362,7 +3362,7 @@ $(document).ready(function () {
         alert("You can't select All when posting");
       } else idol = temp;
     } 
-    else if (current_state = "history"){
+    else if (current_state == "history"){
         idol = $("#filter").val();
     }
     else {
