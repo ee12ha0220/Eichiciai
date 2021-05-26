@@ -292,4 +292,10 @@ select {
     font-family: Roboto, serif;
     margin-top: 5px; 
     padding: 8px;
+    cursor: pointer;
+}
+
+.main_schedule:hover{
+  color : blue;
+  text-decoration : underline;
 }
