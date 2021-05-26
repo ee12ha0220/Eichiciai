@@ -2609,7 +2609,7 @@ $(document).ready(function () {
     h5.setAttribute("class", "qnaheader");
     h5.setAttribute(
       "style",
-      "width: 5%;cursor:pointer;margin-left:10px;color:red"
+      "width: 7%;cursor:pointer;margin-left:10px;color:red"
     );
     h5.setAttribute("ID", "ban");
     h5.innerHTML = 'Report <i class="fas fa-ban"></i>';
