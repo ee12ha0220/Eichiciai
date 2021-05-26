@@ -478,8 +478,6 @@ $(document).ready(function () {
     div1.appendChild(h2);
     div1.appendChild(text1);
 
-    console.log(target_div);
-    console.log(target_div.firstChild);
     target_div.insertBefore(div1, target_div.firstChild);
   }
 
@@ -521,7 +519,6 @@ $(document).ready(function () {
       "width: 10%;font-family: Roboto, serif;margin:auto;"
     );
     h4.innerHTML = qnaval.commentsnum;
-    console.log(qnaval.comments);
 
     var h5 = document.createElement("p");
     h5.setAttribute("class", "qnaheader");
@@ -2781,9 +2778,6 @@ $(document).ready(function () {
       eventDidMount: function (arg) {
         var filter = document.getElementById("filter");
         var val = filter.options[filter.selectedIndex].value;
-        // console.log(val);
-        // console.log("---------");
-        // console.log(arg.event.extendedProps.idol);
         if (val === "All") {
           arg.el.style.display = "auto";
         } else if (arg.event.extendedProps.idol != val) {
@@ -3318,8 +3312,6 @@ $(document).ready(function () {
   }
 
   function reshape(options) {
-    console.log(current_state);
-    console.log(idol);
     options = options || {};
     var defaults = {
       filter_change: false,
@@ -3475,7 +3467,6 @@ $(document).ready(function () {
 
   $("#contents").on("click", ".photo_button", function () {
     index = $(this).parent().index();
-    // console.log(index);
     firebase
       .database()
       .ref("/photo")
@@ -3591,9 +3582,7 @@ $(document).ready(function () {
   $("#contents").on("click", ".history_specific", function () {
     // gotophoto(options.pval, options.src);
     var type = $(this).parent().children()[3].innerHTML;
-    console.log(type);
     var postorcomment = $(this).parent().children()[2].innerHTML;
-    console.log(postorcomment);
     if (type == "photocomment") {
       firebase
         .database()
@@ -3653,7 +3642,6 @@ $(document).ready(function () {
           }
         });
     } else if (type == "photo") {
-      console.log(postorcomment);
       firebase
         .database()
         .ref("/photo")
@@ -3899,7 +3887,6 @@ $(document).ready(function () {
         .ref("/free/" + fr_key + "/author")
         .once("value")
         .then((snapshot) => {
-          console.log(snapshot.val());
           var newcomment = firebase
             .database()
             .ref("/free/" + fr_key + "/comments")
@@ -4282,7 +4269,6 @@ $(document).ready(function () {
   });
 
   $("#img2_no").click(function () {
-    console.log(12323);
     $("#img2_popup").dialog("close");
   });
 
