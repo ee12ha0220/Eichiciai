@@ -1812,11 +1812,11 @@ $(document).ready(function () {
     var div1 = document.createElement("div");
     div1.setAttribute(
       "style",
-      "text-align:right; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
+      "text-align:left; border-bottom:8px solid #2B5A89; margin-left:20px; margin-right:20px"
     );
 
     var strong1 = document.createElement("STRONG");
-    strong1.setAttribute("style", "font-size:40px; margin-right:20%");
+    strong1.setAttribute("style", "font-size:40px; margin-right:0%");
 
     var text1 = document.createTextNode("Photo Board");
 
@@ -1844,9 +1844,9 @@ $(document).ready(function () {
 
     var text4 = document.createTextNode("Hottest");
     strong1.appendChild(text1);
-    small1.appendChild(text2);
-    small2.appendChild(text3);
-    small3.appendChild(text4);
+    // small1.appendChild(text2);
+    // small2.appendChild(text3);
+    // small3.appendChild(text4);
 
     div1.appendChild(strong1);
     div1.appendChild(small1);
@@ -3361,11 +3361,9 @@ $(document).ready(function () {
         $("#filter option[value=" + idol + "]").prop("selected", true);
         alert("You can't select All when posting");
       } else idol = temp;
-    } 
-    else if (current_state == "history"){
-        idol = $("#filter").val();
-    }
-    else {
+    } else if (current_state == "history") {
+      idol = $("#filter").val();
+    } else {
       idol = $("#filter").val();
       reshape({ filter_change: true });
     }
@@ -3531,7 +3529,7 @@ $(document).ready(function () {
               clear();
               resetmenu();
               var curr = document.getElementById("photo");
-            curr.setAttribute("class", "selected_top");
+              curr.setAttribute("class", "selected_top");
               historyPhoto(qnaval[key]);
             }
           }
@@ -3761,7 +3759,7 @@ $(document).ready(function () {
               content: comment_input,
               index: f_qnaanswer,
               question_key: f_key,
-              date: date
+              date: date,
             });
             reshape();
           }
@@ -3845,7 +3843,7 @@ $(document).ready(function () {
             content: free_comment_input,
             index: fr_freecomments,
             free_key: fr_key,
-            date: date
+            date: date,
           });
           reshape();
         });
@@ -3876,7 +3874,7 @@ $(document).ready(function () {
       type: "qnapost",
       title: title,
       index: qnanum,
-      date: date
+      date: date,
     });
     current_state = "qna1";
     reshape();
@@ -3905,7 +3903,7 @@ $(document).ready(function () {
       type: "freepost",
       title: title,
       index: freenum,
-      date: date
+      date: date,
     });
     current_state = "free";
     reshape();
