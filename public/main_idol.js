@@ -3361,7 +3361,11 @@ $(document).ready(function () {
         $("#filter option[value=" + idol + "]").prop("selected", true);
         alert("You can't select All when posting");
       } else idol = temp;
-    } else {
+    } 
+    else if (current_state = "history"){
+        idol = $("#filter").val();
+    }
+    else {
       idol = $("#filter").val();
       reshape({ filter_change: true });
     }
@@ -3526,7 +3530,8 @@ $(document).ready(function () {
               current_state = "photo_specific";
               clear();
               resetmenu();
-              blue_photo();
+              var curr = document.getElementById("photo");
+            curr.setAttribute("class", "selected_top");
               historyPhoto(qnaval[key]);
             }
           }
@@ -3583,7 +3588,8 @@ $(document).ready(function () {
           current_state = "photo_specific";
           clear();
           resetmenu();
-          blue_photo();
+          var curr = document.getElementById("photo");
+          curr.setAttribute("class", "selected_top");
           historyPhoto(qnaval[key]);
         });
     } else if (type == "qnapost") {
