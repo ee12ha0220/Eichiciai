@@ -23,6 +23,7 @@ $(document).ready(function () {
   var f_qna;
   var f_key;
   var f_qnaanswer;
+  var author_of_question;
 
   var fr_qna;
   var fr_key;
@@ -311,15 +312,6 @@ $(document).ready(function () {
     var parent = document.getElementById("bigdiv");
     var div1 = document.createElement("div");
     div1.setAttribute("class", "qnaline");
-    // div1.setAttribute("style", "justify-content: flex-start");
-
-    // var h1 = document.createElement("p");
-    // h1.setAttribute("class", "qnaheader");
-    // h1.setAttribute(
-    //   "style",
-    //   "width: 10%;font-family: Roboto, serif;margin:auto;"
-    // );
-    // h1.innerHTML = qnaval.no;
 
     var h2 = document.createElement("p");
     h2.setAttribute("class", "history_specific");
@@ -764,7 +756,7 @@ $(document).ready(function () {
           if (current.idol == idol || idol == "All") {
             if (current_state == "main")
               addphoto_main(div, current, keyList[i]);
-            else addphoto(current);
+            else addphoto(current, i);
           }
         }
       });
@@ -794,7 +786,7 @@ $(document).ready(function () {
       });
   }
 
-  function addphoto(photoval) {
+  function addphoto(photoval, num) {
     var target_div = document.getElementById("write-div");
     var div_chunks = document.getElementById("photochunks");
     var parent = document.getElementById("bigdiv");
@@ -869,12 +861,17 @@ $(document).ready(function () {
     );
     h_content.innerHTML = photoval.content;
 
+    var hidden = document.createElement("div");
+    hidden.setAttribute("style", "display:none");
+    hidden.innerHTML = num+1;
+
     div1.appendChild(h6);
     div1.appendChild(div_img);
     div1.appendChild(h1);
     div1.appendChild(h3);
     div1.appendChild(h5);
     div1.appendChild(h_content);
+    div1.appendChild(hidden);
 
     div_chunks.appendChild(div1);
   }
@@ -2888,6 +2885,7 @@ $(document).ready(function () {
 
     var div3 = document.createElement("div");
     div3.setAttribute("ID", "write-div");
+    div3.setAttribute("style", "margin-left:20px;margin-right:20px;");
 
     var div_content = document.createElement("div");
     div_content.setAttribute(
@@ -2895,14 +2893,15 @@ $(document).ready(function () {
       "display : flex; flex-direction: column;"
     );
     var schedule_div = document.createElement("div");
+    schedule_div.setAttribute("class", "qnaline");
     schedule_div.setAttribute(
       "style",
-      "display : flex;height:40px;font-family: Roboto, serif;"
+      "display : flex;height:40px;font-family: Roboto, serif;border-bottom:0px"
     );
-    var schedule = document.createElement("STRONG");
+    var schedule = document.createElement("div");
     schedule.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px"
+      "font-size: 18px;position: absolute; right: 35px;font-family: Roboto, serif;"
     );
     schedule.innerHTML = "schedule: " + content.schedule;
 
@@ -2934,27 +2933,37 @@ $(document).ready(function () {
       });
 
     var header = document.createElement("div");
-    header.setAttribute("style", "display : flex;");
+    header.setAttribute("class", "qnaline");
+    header.setAttribute(
+      "style",
+      "display : flex;border-bottom:4px solid #2B5A89;margin:0px"
+    );
     var contents = document.createElement("div");
     contents.setAttribute("style", "display : flex;");
 
     var title = document.createElement("div");
-    title.setAttribute("style", "font-size: 30px");
+    title.setAttribute(
+      "style",
+      "font-size: 18px;margin-left:10px;font-family: Roboto, serif"
+    );
     title.innerHTML = "Title: " + content.title;
     var author = document.createElement("div");
     author.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     author.innerHTML = content.author;
     var date = document.createElement("div");
     date.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     date.innerHTML = "Date: " + content.date;
     var content_html = document.createElement("div");
-    content_html.setAttribute("style", "font-size: 30px");
+    content_html.setAttribute(
+      "style",
+      "font-size: 30px;font-family: Roboto, serif;margin-left:10px"
+    );
     content_html.innerHTML = content.content;
 
     header.appendChild(title);
@@ -3495,7 +3504,7 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", ".photo_button", function () {
-    index = $(this).parent().index();
+    var question_no = $(this).parent().children()[6].innerHTML - 1;
     firebase
       .database()
       .ref("/photo")
@@ -3503,8 +3512,7 @@ $(document).ready(function () {
       .then((snapshot) => {
         var photoval = snapshot.val();
         var keyList = Object.keys(photoval);
-        index = keyList.length - (index + 1);
-        var currentkey = keyList[index];
+        var currentkey = keyList[question_no];
         f_key_photo = currentkey;
         f_photo = photoval[currentkey];
         f_total_commentnum = photoval[currentkey].commentnum;
@@ -4351,6 +4359,7 @@ $(document).ready(function () {
 
   $("#select2").dialog({
     autoOpen: false,
+    dialogClass: "dialog_title",
     show: {
       duration: 0,
     },
@@ -4360,7 +4369,7 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", ".selectbtn", function () {
-    var author_of_question = $(this).parent().children()[0].innerHTML;
+    author_of_question = $(this).parent().children()[0].innerHTML;
     var select_content = document.getElementById("select_content");
     select_content.innerHTML =
       "Will you select " + author_of_question + "'s answer";
@@ -4370,6 +4379,10 @@ $(document).ready(function () {
 
   $("#yes").click(function () {
     $("#select").dialog("close");
+    var select2_content = document.getElementById("select2_content");
+    select2_content.innerHTML =
+      author_of_question + " got 20 points also.";
+
     $("#select2").dialog("open");
 
     firebase
