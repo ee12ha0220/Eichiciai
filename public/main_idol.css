@@ -211,7 +211,6 @@ select {
 
 .selectbtn {
   width: 6%;
-  margin-left: 20px;
   background: #1087ff;
   border-radius: 10px;
   border: none;
@@ -222,7 +221,6 @@ select {
 
 .selectedbtn {
   width: 8%;
-  margin-left: 20px;
   background: #1087ff;
   border-radius: 10px;
   border: none;

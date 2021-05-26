@@ -434,7 +434,7 @@ $(document).ready(function () {
     h1.innerHTML = commentval.author;
 
     var h2 = document.createElement("p");
-    h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+    h2.setAttribute("style", "width: 80%;font-family: Roboto, serif;");
     h2.innerHTML = commentval.content;
 
     var text1 = document.createElement("p");
@@ -448,7 +448,7 @@ $(document).ready(function () {
     var text2 = document.createElement("p");
     text2.setAttribute(
         "style",
-        "width: 5%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
@@ -556,19 +556,19 @@ $(document).ready(function () {
     var h1 = document.createElement("p");
     if (commentval.selected == true) {
       h1.setAttribute("style", "color:#2f80ed;width:20%");
-    } else h1.setAttribute("style", "width:20%;font-family: Roboto, serif;");
+    } else h1.setAttribute("style", "width:20%;font-family: Roboto, serif");
     h1.innerHTML = commentval.author;
 
     var h2 = document.createElement("p");
     if (commentval.selected == true) {
-      h2.setAttribute("style", "color:#2f80ed;width:60%");
-    } else h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+      h2.setAttribute("style", "color:#2f80ed;width:80%");
+    } else h2.setAttribute("style", "width: 80%;font-family: Roboto, serif");
     h2.innerHTML = commentval.content;
 
     var text1 = document.createElement("p");
     text1.setAttribute(
       "style",
-      "width: 5%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+      "margin-right:10px;width:5%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
     );
     text1.setAttribute("ID", "history");
     text1.innerHTML = "History";
@@ -580,7 +580,7 @@ $(document).ready(function () {
     var text2 = document.createElement("p");
     text2.setAttribute(
         "style",
-        "width: 5%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+        "margin-right:10px;width:6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
