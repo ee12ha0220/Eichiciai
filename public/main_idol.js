@@ -3264,6 +3264,11 @@ $(document).ready(function () {
         reshape();
     });
 
+    $("#starlight").click(function () {
+        current_state = "main";
+        reshape();
+    });
+
     $("#notice").click(function () {
         current_state = "notice";
         reshape();
