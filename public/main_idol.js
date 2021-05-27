@@ -465,20 +465,28 @@ $(document).ready(function () {
     h1.innerHTML = commentval.author;
 
     var h2 = document.createElement("p");
-    h2.setAttribute("style", "width: 60%;font-family: Roboto, serif;");
+    h2.setAttribute("style", "width: 80%;font-family: Roboto, serif;");
     h2.innerHTML = commentval.content;
 
     var text1 = document.createElement("p");
     text1.setAttribute("ID", "history");
     text1.setAttribute(
       "style",
-      "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
+      "width: 5%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
     );
     text1.innerHTML = "History";
+    var text2 = document.createElement("p");
+    text2.setAttribute(
+        "style",
+        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+    );
+    text2.setAttribute("ID", "ban");
+    text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
 
     div1.appendChild(h1);
     div1.appendChild(h2);
     div1.appendChild(text1);
+    div1.appendChild(text2);
 
     target_div.insertBefore(div1, target_div.firstChild);
   }
