@@ -33,4 +33,4 @@ We used HTML, CSS, and Javascript for our assignment. You can go to the public f
   
  - Deleting and editing posts, answers and comments. 
 
-  This was also not implemented because of the similar reason as the video board.  
+    This was also not implemented because of the similar reason as the video board.  
