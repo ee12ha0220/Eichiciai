@@ -6,7 +6,7 @@ We used HTML, CSS, and Javascript for our assignment. You can go to the public f
 
 - Swiper
 
-  We used the [swiper library](https://swiperjs.com/get-started) in the main page of a specific idol. We just used the code in [here](https://codesandbox.io/s/0bwlg), which was provided in the website above. The swiper worked well, but when we put photos inside it, it loaded only after we have opend the developer tools in chrome. We couldn't find any similar expirience like this, so we figured that it was firebase loading issue. 
+  We used the [swiper library](https://swiperjs.com/get-started) in the main page of a specific idol. We just used the code in [here](https://codesandbox.io/s/0bwlg), which was provided in the website above. The swiper worked well, but when we put photos inside it, it loaded only after we have opend the developer tools in chrome. We couldn't find any similar experience like this on the internet, so we figured that it was firebase loading issue. 
   
 - Dialog
 
