@@ -25,6 +25,9 @@ We used HTML, CSS, and Javascript for our assignment. You can go to the public f
   
   When the user is doing our tasks, he(or she) have to login only once. So we decieded to make a imaginary user that has 4360 points. No matter which ID the user logs in, if the user clicks on user info(which is on the top right of the screen) or goto shop menue the user will see 4360 points. We thought that this would not be a critical issue, because the user will play as a single ID throughout the task. 
   
+- Free board, QnA board, Notice, Star letter
+
+  We used the same layout for these 4 boards. Users can't write on notice and star letter board, because it will be used by idols and officials. We saved contents to firebase when a new post or comment was written, and loaded the needed contents from firebase when on a specific board, similar to our assignment. 
   
 - Photo board
 
