@@ -439,12 +439,11 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
-    
 
     div1.appendChild(h1);
     div1.appendChild(h2);
@@ -579,8 +578,8 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "margin-right:10px;width:6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "margin-right:10px;width:6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
@@ -631,12 +630,11 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
-    
 
     div1.appendChild(h1);
     div1.appendChild(h2);
@@ -691,10 +689,7 @@ $(document).ready(function () {
         swipe_page.setAttribute("class", "swiper-slide");
         var img = document.createElement("img");
         img.setAttribute("src", url);
-        img.setAttribute(
-          "style",
-          "object-fit: cover;"
-        );
+        img.setAttribute("style", "object-fit: cover;");
         swipe_page.appendChild(img);
         swipe_page.appendChild(hidden);
         div.appendChild(swipe_page);
@@ -871,7 +866,7 @@ $(document).ready(function () {
 
     var hidden = document.createElement("div");
     hidden.setAttribute("style", "display:none");
-    hidden.innerHTML = num+1;
+    hidden.innerHTML = num + 1;
 
     div1.appendChild(h6);
     div1.appendChild(div_img);
@@ -1100,97 +1095,97 @@ $(document).ready(function () {
 
         var div8 = document.createElement("div");
         div8.setAttribute("style", "background:#E3EAF1;");
-        if (idol == "BTS"){
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+        if (idol == "BTS") {
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' group teaser 1";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' group teaser 1";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' group teaser 2";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' group teaser 2";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' Comeback Showcase";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' Comeback Showcase";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS BBMA";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS BBMA";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
         }
-        if (idol == "G-IDLE"){
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+        if (idol == "G-IDLE") {
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML =
+            "• " + "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Bazzar Magazine";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Bazzar Magazine";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
         }
-
 
         div4.appendChild(div8);
 
@@ -2768,43 +2763,43 @@ $(document).ready(function () {
       events: [
         {
           title: "BTS 'Butter' group teaser 1",
-          start: "2021-05-10T12:00:00",
+          start: "2021-05-10T12:00:00+09:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS 'Butter' group teaser 2",
-          start: "2021-05-18T12:00:00",
+          start: "2021-05-18T12:00:00+09:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS 'Butter' Comeback Showcase",
-          start: "2021-05-21T15:00:00",
+          start: "2021-05-21T15:00:00+09:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "BTS BBMA",
-          start: "2021-05-24T18:00:00",
+          start: "2021-05-24T18:00:00+09:00",
           color: "#8b00ff",
           idol: "BTS",
         },
         {
           title: "G-IDLE Minnie Web Drama Poster",
-          start: "2021-05-21T19:00:00",
+          start: "2021-05-21T19:00:00+09:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
         {
           title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
-          start: "2021-05-22T14:00:00",
+          start: "2021-05-22T14:00:00+09:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
         {
           title: "G-IDLE Minnie Bazzar Magazine",
-          start: "2021-05-24T21:00:00",
+          start: "2021-05-24T21:00:00+09:00",
           color: "#e11900",
           idol: "G-IDLE",
         },
@@ -3504,7 +3499,6 @@ $(document).ready(function () {
     current_state = "calendar";
     reshape();
   });
-
 
   $("#photo").click(function () {
     current_state = "photo";
@@ -4388,8 +4382,7 @@ $(document).ready(function () {
   $("#yes").click(function () {
     $("#select").dialog("close");
     var select2_content = document.getElementById("select2_content");
-    select2_content.innerHTML =
-      author_of_question + " got 20 points also.";
+    select2_content.innerHTML = author_of_question + " got 20 points also.";
 
     $("#select2").dialog("open");
 
