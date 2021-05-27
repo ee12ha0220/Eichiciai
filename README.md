@@ -24,3 +24,13 @@ We used HTML, CSS, and Javascript for our assignment. You can go to the public f
   We made the shop menu because the user can buy some miscs(like emoticons) useing their points, which can be obtained by leaving answers in the QnA board. The process of buying was not inculded in our task, but we thougt it would be better if the user can know what they can do with their points. So we made the shop menu to give the user just a feeling about shopping. 
   
   When the user is doing our tasks, he(or she) have to login only once. So we decieded to make a imaginary user that has 4360 points. No matter which ID the user logs in, if the user clicks on user info(which is on the top right of the screen) or goto shop menue the user will see 4360 points. We thought that this would not be a critical issue, because the user will play as a single ID throughout the task. 
+
+
+## Some features we didn't implement
+- Video board
+
+  If you are geeking out on idols, watching video clips are mandatory. But seeing video clips was not in our tasks, so we decided to remove it from our prototype because dealing with videos with firebase was a litte tricky. 
+  
+ - Deleting and editing posts, answers and comments. 
+
+  This was also not implemented because of the similar reason as the video board.  
