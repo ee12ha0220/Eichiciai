@@ -1,6 +1,6 @@
 # Eichiciai
 
-We used HTML, CSS, and Javascript for our assignment. You can go to the public folder in our repository and view our code in the "main" branch. "index.html", "main_ido.css", "main_idol.js" are the codes we implemented. 
+We used HTML, CSS, and Javascript for our assignment. You can go to the public folder in our repository and view our code in the "main" branch. "index.html", "main_idol.css", "main_idol.js" are the codes we implemented. 
 
 ## Libraries and frameworks
 
