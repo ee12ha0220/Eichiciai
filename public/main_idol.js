@@ -4411,7 +4411,7 @@ $(document).ready(function () {
       });
   });
 
-  $("#no").click(function () {
+  $("#no").click(function () { 
     $("#select").dialog("close");
   });
 
