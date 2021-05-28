@@ -13,6 +13,7 @@ $(document).ready(function () {
   };
   firebase.initializeApp(firebaseConfig);
 
+  var refresh_state;
   var qnanum = 0;
   var freenum = 0;
   var starnum = 0;
@@ -3369,6 +3370,7 @@ $(document).ready(function () {
       options[prop] =
         typeof options[prop] !== "undefined" ? options[prop] : defaults[prop];
     }
+    refresh_state = options;
     clear();
     resetmenu();
     selected_filter = $("#filter").val();
@@ -3784,6 +3786,10 @@ $(document).ready(function () {
     reshape();
   });
 
+  $("#nav1").on("click", "#refresh", function(){
+    reshape(refresh_state);
+  })
+
   $("#contents").on("click", ".main_notice", function () {
     var question_no = $(this).parent().children()[1].innerHTML - 1;
     firebase
@@ -4056,7 +4062,9 @@ $(document).ready(function () {
 
     var parent = document.getElementById("nav1");
     var btn = document.getElementById("login");
+    var refresh_del = document.getElementById("refresh");
     parent.removeChild(btn);
+    parent.removeChild(refresh_del);
 
     var target = document.getElementById("back");
     var logout = document.createElement("button");
@@ -4067,6 +4075,10 @@ $(document).ready(function () {
     logout.setAttribute("ID", "logout");
     logout.innerHTML = "LOGOUT";
 
+    var refresh = document.createElement("a");
+    refresh.setAttribute("ID", "refresh");
+    refresh.innerHTML = "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
+
     var img = document.createElement("img");
     img.setAttribute("style", "float:right; margin-right:20px");
     img.setAttribute("alt", "user-img");
@@ -4076,6 +4088,7 @@ $(document).ready(function () {
     usr.innerHTML = current_user;
 
     parent.insertBefore(logout, target);
+    parent.insertBefore(refresh, target);
     //parent.insertBefore(img, target);
     parent.insertBefore(usr, target);
     if (current_state != "photo_specific") reshape();
@@ -4086,9 +4099,11 @@ $(document).ready(function () {
     var parent = document.getElementById("nav1");
     var btn = document.getElementById("logout");
     var usr = document.getElementById("username");
+    var refresh_del = document.getElementById("refresh");
 
     parent.removeChild(btn);
     parent.removeChild(usr);
+    parent.removeChild(refresh_del);
 
     var target = document.getElementById("back");
     var login = document.createElement("button");
@@ -4099,7 +4114,13 @@ $(document).ready(function () {
     login.setAttribute("ID", "login");
     login.innerHTML = "LOGIN";
 
+    var refresh = document.createElement("a");
+    refresh.setAttribute("ID", "refresh");
+    refresh.innerHTML = "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
+
+
     parent.insertBefore(login, target);
+    parent.insertBefore(refresh, target);
     if (current_state != "photo_specific") reshape();
   });
 
