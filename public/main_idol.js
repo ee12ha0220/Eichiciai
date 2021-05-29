@@ -647,8 +647,9 @@ $(document).ready(function () {
     target_div.appendChild(div1);
   }
 
-  function getswiperData(div) {
-    firebase
+  function getswiperData() {
+    return new Promise(function(resolve, reject){
+      firebase
       .database()
       .ref("/photo")
       .once("value")
@@ -665,41 +666,54 @@ $(document).ready(function () {
           else i--;
         }
 
-        for (var i = 0; i < 3; i++) {
-          current = photoval[keyList[randList[i]]];
-          readphoto(div, current, keyList[randList[i]]);
-        }
+        var divlist = [];
+        current = photoval[keyList[randList[0]]];
+        readphoto(current, keyList[randList[0]]).then(function(val){
+          divlist.push(val);
+          current = photoval[keyList[randList[1]]];
+          readphoto(current, keyList[randList[1]]).then(function(val){
+            divlist.push(val);
+            current = photoval[keyList[randList[2]]];
+            readphoto(current, keyList[randList[2]]).then(function(val){
+              divlist.push(val);
+              resolve(divlist);
+            })
+          })
+        });
       });
+    })
   }
 
-  function readphoto(div, photoval, keyval) {
-    var storage = firebase.storage().ref();
-    var hidden = document.createElement("div");
-    hidden.setAttribute("style", "display:none");
-    hidden.innerHTML = keyval;
-    storage
-      .child(photoval.photourl)
-      .getDownloadURL()
-      .then(function (url) {
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "blob";
-        xhr.onload = function (event) {
-          var blob = xhr.response;
-        };
-        xhr.open("GET", url);
-        xhr.send();
-        var swipe_page = document.createElement("div");
-        swipe_page.setAttribute("class", "swiper-slide");
-        var img = document.createElement("img");
-        img.setAttribute("src", url);
-        img.setAttribute(
-          "style",
-          "object-fit: cover;"
-        );
-        swipe_page.appendChild(img);
-        swipe_page.appendChild(hidden);
-        div.appendChild(swipe_page);
-      });
+  function readphoto(photoval, keyval) {
+    return new Promise(function(resolve, reject){
+      var storage = firebase.storage().ref();
+      var hidden = document.createElement("div");
+      hidden.setAttribute("style", "display:none");
+      hidden.innerHTML = keyval;
+      var swipe_page = document.createElement("div");
+      swipe_page.setAttribute("class", "swiper-slide");
+      storage
+        .child(photoval.photourl)
+        .getDownloadURL()
+        .then(function (url) {
+          var xhr = new XMLHttpRequest();
+          xhr.responseType = "blob";
+          xhr.onload = function (event) {
+            var blob = xhr.response;
+          };
+          xhr.open("GET", url);
+          xhr.send();
+          var img = document.createElement("img");
+          img.setAttribute("src", url);
+          img.setAttribute(
+            "style",
+            "object-fit: cover;"
+          );
+          swipe_page.appendChild(img);
+          swipe_page.appendChild(hidden);
+          resolve(swipe_page);
+        });
+    });
   }
 
   function getidolData(div, target) {
@@ -945,60 +959,86 @@ $(document).ready(function () {
     swipe.setAttribute("class", "swiper-container mySwiper");
     var swipe_wrapper = document.createElement("div");
     swipe_wrapper.setAttribute("class", "swiper-wrapper");
-    getswiperData(swipe_wrapper);
-    swipe.appendChild(swipe_wrapper);
-    var pagination = document.createElement("div");
-    pagination.setAttribute("class", "swiper-pagination");
-    swipe.appendChild(pagination);
-    div0.appendChild(swipe);
+//
+    // var swipe_page = document.createElement("div");
+    // swipe_page.setAttribute("class", "swiper-slide");
+    // var img = document.createElement("img");
+    // img.setAttribute("src", "https://ktsmemo.cafe24.com/p/0619.jpg");
+    // swipe_page.appendChild(img);
+    // swipe_wrapper.appendChild(swipe_page);
 
-    var div2 = document.createElement("div");
-    div2.setAttribute(
-      "style",
-      "text-align:left;margin-top: 40px;margin-left:20px; margin-right:20px;"
-    );
+    // var swipe_page = document.createElement("div");
+    // swipe_page.setAttribute("class", "swiper-slide");
+    // var img = document.createElement("img");
+    // img.setAttribute("src", "https://ktsmemo.cafe24.com/p/0619.jpg");
+    // swipe_page.appendChild(img);
+    // swipe_wrapper.appendChild(swipe_page);
 
-    var strong2 = document.createElement("STRONG");
-    strong2.setAttribute("style", "font-size:30px;");
+    // var swipe_page = document.createElement("div");
+    // swipe_page.setAttribute("class", "swiper-slide");
+    // var img = document.createElement("img");
+    // img.setAttribute("src", "https://ktsmemo.cafe24.com/p/0619.jpg");
+    // swipe_page.appendChild(img);
+    // swipe_wrapper.appendChild(swipe_page);
+//
+    getswiperData().then(function(val){
+      swipe_wrapper.appendChild(val[0]);
+      swipe_wrapper.appendChild(val[1]);
+      swipe_wrapper.appendChild(val[2]);
+      swipe.appendChild(swipe_wrapper);
+      var pagination = document.createElement("div");
+      pagination.setAttribute("class", "swiper-pagination");
+      swipe.appendChild(pagination);
+      div0.appendChild(swipe);
 
-    var text2 = document.createTextNode("My Idols");
+      var div2 = document.createElement("div");
+      div2.setAttribute(
+        "style",
+        "text-align:left;margin-top: 40px;margin-left:20px; margin-right:20px;"
+      );
 
-    strong2.appendChild(text2);
-    div2.appendChild(strong2);
-    div0.appendChild(div2);
+      var strong2 = document.createElement("STRONG");
+      strong2.setAttribute("style", "font-size:30px;");
 
-    var myidol = document.createElement("div");
-    myidol.setAttribute("style", "text-align:left;margin-left:20px");
+      var text2 = document.createTextNode("My Idols");
 
-    var btn = document.createElement("button");
-    btn.setAttribute("ID", "main_btn");
-    btn.setAttribute(
-      "style",
-      "width:280px; height:200px; vertical-align:top; margin-top:20px; font-size:50px;border-radius:10px"
-    );
-    var plus = document.createTextNode("+");
-    btn.appendChild(plus);
-    myidol.appendChild(btn);
+      strong2.appendChild(text2);
+      div2.appendChild(strong2);
+      div0.appendChild(div2);
 
-    getidolData(myidol, btn);
+      var myidol = document.createElement("div");
+      myidol.setAttribute("style", "text-align:left;margin-left:20px");
 
-    div0.appendChild(myidol);
-    parent.appendChild(div0);
-    var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 30,
-      centeredSlides: true,
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
+      var btn = document.createElement("button");
+      btn.setAttribute("ID", "main_btn");
+      btn.setAttribute(
+        "style",
+        "width:280px; height:200px; vertical-align:top; margin-top:20px; font-size:50px;border-radius:10px"
+      );
+      var plus = document.createTextNode("+");
+      btn.appendChild(plus);
+      myidol.appendChild(btn);
+
+      getidolData(myidol, btn);
+
+      div0.appendChild(myidol);
+      parent.appendChild(div0);
+      var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
     });
   }
 
