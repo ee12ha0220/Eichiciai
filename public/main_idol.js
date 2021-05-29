@@ -4232,6 +4232,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img1_btn", function () {
     $("#img1_popup").dialog("open");
+    $("#img2_popup").dialog("close");
+    $("#img3_popup").dialog("close");
+    $("#img4_popup").dialog("close");
   });
 
   $("#img1_popup").dialog({
@@ -4269,6 +4272,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img2_btn", function () {
     $("#img2_popup").dialog("open");
+    $("#img1_popup").dialog("close");
+    $("#img3_popup").dialog("close");
+    $("#img4_popup").dialog("close");
   });
 
   $("#img2_popup").dialog({
@@ -4298,6 +4304,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img3_btn", function () {
     $("#img3_popup").dialog("open");
+    $("#img1_popup").dialog("close");
+    $("#img2_popup").dialog("close");
+    $("#img4_popup").dialog("close");
   });
 
   $("#img3_popup").dialog({
@@ -4335,6 +4344,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img4_btn", function () {
     $("#img4_popup").dialog("open");
+    $("#img2_popup").dialog("close");
+    $("#img3_popup").dialog("close");
+    $("#img1_popup").dialog("close");
   });
  
   $("#img4_popup").dialog({
