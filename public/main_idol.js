@@ -742,7 +742,7 @@ $(document).ready(function () {
       });
   }
 
-  function getphotoData(div) {
+  function getphotoData(div = "", sche = "") {
     firebase
       .database()
       .ref("/photo")
@@ -753,13 +753,16 @@ $(document).ready(function () {
         var keyList = Object.keys(photoval);
         photonum = keyList.length;
         var current;
-
         for (var i = photonum - 1; i >= 0; i--) {
           current = photoval[keyList[i]];
           if (current.idol == idol || idol == "All") {
             if (current_state == "main")
               addphoto_main(div, current, keyList[i]);
-            else addphoto(current, i);
+            else {
+              if (sche == "" || sche == current.schedule) {
+                addphoto(current, i);
+              }
+            }
           }
         }
       });
@@ -1050,7 +1053,7 @@ $(document).ready(function () {
         var div3 = document.createElement("div");
         div3.setAttribute("style", "width:1020px;");
 
-        getphotoData(div3);
+        getphotoData(div3, undefined);
         div0.appendChild(div3);
 
         div.appendChild(div0);
@@ -1900,7 +1903,8 @@ $(document).ready(function () {
     //reshape();
   }
 
-  function photo() {
+  function photo(sche) {
+    console.log(sche);
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
     div.setAttribute("ID", "bigdiv");
@@ -1927,29 +1931,38 @@ $(document).ready(function () {
       "style",
       "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
-
-    var text2 = document.createTextNode("By Schedule");
+    var button = document.createElement("button");
+    button.setAttribute("ID", "schedule_reset");
+    button.setAttribute(
+      "style",
+      "margin-left:10px;font-size: 15px;background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
+    );
+    button.innerHTML = "Reset";
 
     var small2 = document.createElement("SMALL");
     small2.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:50%;font-family: Roboto, serif;"
     );
 
-    var text3 = document.createTextNode("Latest");
+    var text3 = document.createTextNode("Select date:");
 
     var small3 = document.createElement("SMALL");
     small3.setAttribute(
       "style",
-      "font-size:20px; margin-left:65% ;margin-right:0%;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:6% ;margin-right:0%;font-family: Roboto, serif;"
     );
 
     var date = document.createElement("input");
+    date.setAttribute("ID", "currentDate");
     date.setAttribute("type", "date");
+    date.setAttribute("value", sche);
+    date.setAttribute("style", "margin-left:5px");
     strong1.appendChild(text1);
-    // small1.appendChild(text2);
-    // small2.appendChild(text3);
+
+    small3.appendChild(text3);
     small3.appendChild(date);
+    small3.appendChild(button);
 
     div1.appendChild(strong1);
     div1.appendChild(small1);
@@ -1975,7 +1988,7 @@ $(document).ready(function () {
 
     parent.appendChild(div);
 
-    getphotoData();
+    getphotoData(undefined, sche);
   }
   function previewImage(f) {
     var file = f.files;
@@ -3398,7 +3411,7 @@ $(document).ready(function () {
     } else if (current_state == "photo") {
       var curr = document.getElementById("photo");
       curr.setAttribute("class", "selected_top");
-      photo();
+      photo(options.src);
     } else if (current_state == "photo2") {
       var curr = document.getElementById("photo");
       curr.setAttribute("class", "selected_top");
@@ -3809,6 +3822,13 @@ $(document).ready(function () {
         current_state = "noticepost";
         reshape({ pval: noticeval[currentkey] });
       });
+  });
+  $("#contents").on("change", "#currentDate", function () {
+    reshape({ src: $("#currentDate").val() });
+  });
+  $("#contents").on("click", "#schedule_reset", function () {
+    $("#currentDate").val("");
+    reshape();
   });
 
   $("#contents").on("click", ".free_post_title", function () {
