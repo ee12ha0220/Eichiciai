@@ -37,6 +37,9 @@ $(document).ready(function () {
   var f_key_photo;
   var f_total_commentnum;
 
+  var shopped = 0;
+  var id_points = 0;
+
   var selected_answer;
   var idol = $("#filter").val();
   var current_user = "nologin";
@@ -2462,7 +2465,7 @@ $(document).ready(function () {
     var p1 = document.createElement("p");
     p1.setAttribute("style", "font-family: Roboto, serif");
     p1.setAttribute("ID", "shop_yourpts");
-    p1.innerHTML = "Your Points : 4360 points";
+    p1.innerHTML = "Your Points : "+id_points+" points";
 
     div2.appendChild(p1);
     div.appendChild(div2);
@@ -3492,6 +3495,10 @@ $(document).ready(function () {
       var curr = document.getElementById("shop");
       curr.setAttribute("class", "selected_side");
       shop_page();
+      if (current_user == "nologin") {
+        var points = document.getElementById('shop_yourpts');
+        points.innerHTML = "(You are not logged-in. Please log in to buy.)";
+      }
     } else if (current_state == "SNS") {
       var curr = document.getElementById("SNS");
       curr.setAttribute("class", "selected_top");
@@ -4012,6 +4019,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#submitqna", function () {
     qnanum++;
+    //var points = document.getElementById('shop_yourpts');
+    id_points += 400;
+    //points.innerHTML = "Your Points : "+ id_points +" points";
     var title = document.getElementById("qnaTitle").value;
     var content = document.getElementById("qnaContents").value;
     var newqna = firebase.database().ref("/qna").push();
@@ -4230,7 +4240,18 @@ $(document).ready(function () {
   $("#calendar_popup").dialog("option", "width", 700);
   $("#calendar_popup").dialog("option", "height", 200);
 
+  $("#cannot_buy").dialog({
+    autoOpen: false,
+    dialogClass: "dialog_title",
+    title: "Unable to buy the item!",
+  });
+  $("#cannot_buy").dialog("option", "width", 700);
+
   $("#contents").on("click", "#img1_btn", function () {
+    if (current_user == "nologin") alert("Please log-in");
+    console.log("img1_btn");
+    var img1_points = document.getElementById("img1_points");
+    img1_points.innerHTML = "Your Points : "+id_points+ " points.";
     $("#img1_popup").dialog("open");
     $("#img2_popup").dialog("close");
     $("#img3_popup").dialog("close");
@@ -4258,12 +4279,27 @@ $(document).ready(function () {
   $("#img1_popup_yes").dialog("option", "width", 700);
 
   $("#img1_yes").click(function () {
+    console.log("img1_yes");
     $("#img1_popup").dialog("close");
-    $("#img1_popup_yes").dialog("open");
+    if(id_points < 300){
+      $("#cannot_buy").dialog("open");
+    }
+    else
+      {
+      $("#img1_popup_yes").dialog("open");}
   });
 
   $("#img1_ok").click(function () {
     $("#img1_popup_yes").dialog("close");
+    var points = document.getElementById('shop_yourpts');
+
+    if(points == 0){
+      $('#cannot_buy').dialog("open");
+    }
+    else
+      {id_points -= 300;
+      points.innerText = "Your Points : "+ id_points + " points";
+      $("#img1_popup_yes").dialog("close");}
   });
 
   $("#img1_no").click(function () {
@@ -4271,7 +4307,10 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", "#img2_btn", function () {
+    if (current_user == "nologin") alert("Please log-in");
     $("#img2_popup").dialog("open");
+    var img2_points = document.getElementById("img2_points");
+    img2_points.innerHTML = "Your Points : "+id_points+ " points.";
     $("#img1_popup").dialog("close");
     $("#img3_popup").dialog("close");
     $("#img4_popup").dialog("close");
@@ -4299,11 +4338,19 @@ $(document).ready(function () {
 
   $("#img2_yes").click(function () {
     $("#img2_popup").dialog("close");
-    $("#img2_popup_yes").dialog("open");
+    if(id_points < 300){
+      $("#cannot_buy").dialog("open");
+    }
+    else{
+      $("#img2_popup_yes").dialog("open");
+    }
   });
 
   $("#contents").on("click", "#img3_btn", function () {
+    if (current_user == "nologin") alert("Please log-in");
     $("#img3_popup").dialog("open");
+    var img3_points = document.getElementById("img3_points");
+    img3_points.innerHTML = "Your Points : "+id_points+ " points."
     $("#img1_popup").dialog("close");
     $("#img2_popup").dialog("close");
     $("#img4_popup").dialog("close");
@@ -4331,11 +4378,19 @@ $(document).ready(function () {
 
   $("#img3_yes").click(function () {
     $("#img3_popup").dialog("close");
-    $("#img3_popup_yes").dialog("open");
+    if(id_points < 300){
+      $("#cannot_buy").dialog("open");
+    }
+    else{
+      $("#img3_popup_yes").dialog("open");
+    }
   });
 
   $("#img3_ok").click(function () {
-    $("#img1_popup_yes").dialog("close");
+    $("#img3_popup_yes").dialog("close");
+    var points = document.getElementById('shop_yourpts');
+    id_points -= 300;
+    points.innerText = "Your Points : "+ id_points + " points";
   });
 
   $("#img3_no").click(function () {
@@ -4343,7 +4398,10 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", "#img4_btn", function () {
+    if (current_user == "nologin") alert("Please log-in");
     $("#img4_popup").dialog("open");
+    var img4_points = document.getElementById("img4_points");
+    img4_points.innerHTML = "Your Points : "+id_points+ " points."
     $("#img2_popup").dialog("close");
     $("#img3_popup").dialog("close");
     $("#img1_popup").dialog("close");
@@ -4371,11 +4429,19 @@ $(document).ready(function () {
 
   $("#img4_yes").click(function () {
     $("#img4_popup").dialog("close");
-    $("#img4_popup_yes").dialog("open");
+    if(id_points < 0){
+      $("#cannot_buy").dialog("open");
+    }
+    else{
+      $("#img4_popup_yes").dialog("open");
+    }
   });
 
   $("#img4_ok").click(function () {
     $("#img4_popup_yes").dialog("close");
+    var points = document.getElementById('shop_yourpts');
+    id_points -= 300;
+    points.innerText = "Your Points : "+ id_points + " points";
   });
 
   $("#img4_no").click(function () {
@@ -4384,23 +4450,20 @@ $(document).ready(function () {
 
   $("#img2_ok").click(function () {
     $("#img2_popup_yes").dialog("close");
+    var points = document.getElementById('shop_yourpts');
+    id_points -= 300;
+    points.innerText = "Your Points : "+ id_points + " points";
   });
 
   $("#img2_no").click(function () {
     $("#img2_popup").dialog("close");
   });
 
-  $("#img3_ok").click(function () {
-    $("#img3_popup_yes").dialog("close");
-  });
-
   $("#img3_no").click(function () {
     $("#img3_popup").dialog("close");
   });
 
-  $("#img4_ok").click(function () {
-    $("#img4_popup_yes").dialog("close");
-  });
+
 
   $("#img4_no").click(function () {
     $("#img4_popup").dialog("close");
@@ -4423,6 +4486,8 @@ $(document).ready(function () {
   $("#nav1").on("click", "#username", function () {
     var my_page_id = document.getElementById("my_page_id");
     my_page_id.innerHTML = "ID : " + current_user;
+    var my_page_points = document.getElementById("my_page_points");
+    my_page_points = "Your Points : " + id_points;
     $("#my_page").dialog("open");
   });
 
@@ -4490,7 +4555,16 @@ $(document).ready(function () {
 
   $("#close").click(function () {
     $("#select2").dialog("close");
+    var points = document.getElementById('shop_yourpts');
+    id_points += 10;
+    points.innerText = "Your Points : "+ id_points + " points";
     reshape();
   });
+
+  $('#cannot_buy_close').click(function() {
+    console.log("????");
+    $("#cannot_buy").dialog("close");
+  })
+
   reshape();
 });
