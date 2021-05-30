@@ -1941,14 +1941,15 @@ $(document).ready(function () {
     var small3 = document.createElement("SMALL");
     small3.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:65% ;margin-right:0%;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
 
-    var text4 = document.createTextNode("Hottest");
+    var date = document.createElement("input");
+    date.setAttribute("type", "date");
     strong1.appendChild(text1);
     // small1.appendChild(text2);
     // small2.appendChild(text3);
-    // small3.appendChild(text4);
+    small3.appendChild(date);
 
     div1.appendChild(strong1);
     div1.appendChild(small1);
