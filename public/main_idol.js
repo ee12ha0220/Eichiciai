@@ -1942,7 +1942,7 @@ $(document).ready(function () {
     var small2 = document.createElement("SMALL");
     small2.setAttribute(
       "style",
-      "font-size:20px; margin-left:50%;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:45%;font-family: Roboto, serif;"
     );
 
     var text3 = document.createTextNode("Select date:");
