@@ -4550,8 +4550,9 @@ $(document).ready(function () {
 
   $("#yes").click(function () {
     $("#select").dialog("close");
+    id_points+=20;
     var select2_content = document.getElementById("select2_content");
-    select2_content.innerHTML = author_of_question + " got 20 points also.";
+    select2_content.innerHTML = author_of_question + " got 30 points also.";
 
     $("#select2").dialog("open");
 
