@@ -25,6 +25,8 @@ $(document).ready(function () {
   var f_key;
   var f_qnaanswer;
   var author_of_question;
+  var click_schedule;
+  var idol_schedule;
 
   var fr_qna;
   var fr_key;
@@ -454,7 +456,7 @@ $(document).ready(function () {
     div1.appendChild(text1);
     div1.appendChild(text2);
 
-    target_div.appendChild(div1); 
+    target_div.appendChild(div1);
   }
 
   function addcomment_photo_new(commentval) {
@@ -649,44 +651,44 @@ $(document).ready(function () {
   }
 
   function getswiperData() {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       firebase
-      .database()
-      .ref("/photo")
-      .once("value")
-      .then((snapshot) => {
-        var photoval = snapshot.val();
-        if (photoval == null) return;
-        var keyList = Object.keys(photoval);
-        var randList = [];
-        photonum = keyList.length;
+        .database()
+        .ref("/photo")
+        .once("value")
+        .then((snapshot) => {
+          var photoval = snapshot.val();
+          if (photoval == null) return;
+          var keyList = Object.keys(photoval);
+          var randList = [];
+          photonum = keyList.length;
 
-        for (var i = 0; i < 3; i++) {
-          rand = Math.floor(Math.random() * photonum);
-          if (randList.indexOf(rand) === -1) randList.push(rand);
-          else i--;
-        }
+          for (var i = 0; i < 3; i++) {
+            rand = Math.floor(Math.random() * photonum);
+            if (randList.indexOf(rand) === -1) randList.push(rand);
+            else i--;
+          }
 
-        var divlist = [];
-        current = photoval[keyList[randList[0]]];
-        readphoto(current, keyList[randList[0]]).then(function(val){
-          divlist.push(val);
-          current = photoval[keyList[randList[1]]];
-          readphoto(current, keyList[randList[1]]).then(function(val){
+          var divlist = [];
+          current = photoval[keyList[randList[0]]];
+          readphoto(current, keyList[randList[0]]).then(function (val) {
             divlist.push(val);
-            current = photoval[keyList[randList[2]]];
-            readphoto(current, keyList[randList[2]]).then(function(val){
+            current = photoval[keyList[randList[1]]];
+            readphoto(current, keyList[randList[1]]).then(function (val) {
               divlist.push(val);
-              resolve(divlist);
-            })
-          })
+              current = photoval[keyList[randList[2]]];
+              readphoto(current, keyList[randList[2]]).then(function (val) {
+                divlist.push(val);
+                resolve(divlist);
+              });
+            });
+          });
         });
-      });
-    })
+    });
   }
 
   function readphoto(photoval, keyval) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       var storage = firebase.storage().ref();
       var hidden = document.createElement("div");
       hidden.setAttribute("style", "display:none");
@@ -706,10 +708,7 @@ $(document).ready(function () {
           xhr.send();
           var img = document.createElement("img");
           img.setAttribute("src", url);
-          img.setAttribute(
-            "style",
-            "object-fit: cover;"
-          );
+          img.setAttribute("style", "object-fit: cover;");
           swipe_page.appendChild(img);
           swipe_page.appendChild(hidden);
           resolve(swipe_page);
@@ -960,7 +959,7 @@ $(document).ready(function () {
     swipe.setAttribute("class", "swiper-container mySwiper");
     var swipe_wrapper = document.createElement("div");
     swipe_wrapper.setAttribute("class", "swiper-wrapper");
-//
+    //
     // var swipe_page = document.createElement("div");
     // swipe_page.setAttribute("class", "swiper-slide");
     // var img = document.createElement("img");
@@ -981,8 +980,8 @@ $(document).ready(function () {
     // img.setAttribute("src", "https://ktsmemo.cafe24.com/p/0619.jpg");
     // swipe_page.appendChild(img);
     // swipe_wrapper.appendChild(swipe_page);
-//
-    getswiperData().then(function(val){
+    //
+    getswiperData().then(function (val) {
       swipe_wrapper.appendChild(val[0]);
       swipe_wrapper.appendChild(val[1]);
       swipe_wrapper.appendChild(val[2]);
@@ -2472,7 +2471,7 @@ $(document).ready(function () {
     var p1 = document.createElement("p");
     p1.setAttribute("style", "font-family: Roboto, serif");
     p1.setAttribute("ID", "shop_yourpts");
-    p1.innerHTML = "Your Points : "+id_points+" points";
+    p1.innerHTML = "Your Points : " + id_points + " points";
 
     div2.appendChild(p1);
     div.appendChild(div2);
@@ -2822,42 +2821,49 @@ $(document).ready(function () {
           start: "2021-05-10T12:00:00",
           color: "#8b00ff",
           idol: "BTS",
+          date1: "2021-05-10",
         },
         {
           title: "BTS 'Butter' group teaser 2",
           start: "2021-05-18T12:00:00",
           color: "#8b00ff",
           idol: "BTS",
+          date1: "2021-05-18",
         },
         {
           title: "BTS 'Butter' Comeback Showcase",
           start: "2021-05-21T15:00:00",
           color: "#8b00ff",
           idol: "BTS",
+          date1: "2021-05-21",
         },
         {
           title: "BTS BBMA",
           start: "2021-05-24T18:00:00",
           color: "#8b00ff",
           idol: "BTS",
+          date1: "2021-05-24",
         },
         {
           title: "G-IDLE Minnie Web Drama Poster",
           start: "2021-05-21T19:00:00",
           color: "#e11900",
           idol: "G-IDLE",
+          date1: "2021-05-21",
         },
         {
           title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
           start: "2021-05-22T14:00:00",
           color: "#e11900",
           idol: "G-IDLE",
+          date1: "2021-05-22",
         },
         {
           title: "G-IDLE Minnie Bazzar Magazine",
           start: "2021-05-24T21:00:00",
           color: "#e11900",
           idol: "G-IDLE",
+          date1: "2021-05-24",
         },
       ],
       eventDidMount: function (arg) {
@@ -2874,7 +2880,8 @@ $(document).ready(function () {
         schedule.innerHTML = "Schedule : " + info.event.title;
         var date = document.getElementById("date_id");
         date.innerHTML = "Date : " + info.event.start;
-
+        click_schedule = info.event.extendedProps.date1;
+        idol_schedule = info.event.extendedProps.idol;
         $("#calendar_popup").dialog("open");
       },
     });
@@ -3503,7 +3510,7 @@ $(document).ready(function () {
       curr.setAttribute("class", "selected_side");
       shop_page();
       if (current_user == "nologin") {
-        var points = document.getElementById('shop_yourpts');
+        var points = document.getElementById("shop_yourpts");
         points.innerHTML = "(You are not logged-in. Please log in to buy.)";
       }
       else{
@@ -3843,9 +3850,9 @@ $(document).ready(function () {
     reshape();
   });
 
-  $("#nav1").on("click", "#refresh", function(){
+  $("#nav1").on("click", "#refresh", function () {
     reshape(refresh_state);
-  })
+  });
 
   $("#contents").on("click", ".main_notice", function () {
     var question_no = $(this).parent().children()[1].innerHTML - 1;
@@ -3908,7 +3915,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#enterans", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
-      id_points+=10;
+      id_points += 10;
       var comment_input = document.getElementById("comment_input").value;
       firebase
         .database()
@@ -3956,7 +3963,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#entercomment", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
-      id_points+=100;
+      id_points += 100;
       var comment_input = document.getElementById("comment_input_photo").value;
       var newcomment = firebase
         .database()
@@ -4144,7 +4151,8 @@ $(document).ready(function () {
 
     var refresh = document.createElement("a");
     refresh.setAttribute("ID", "refresh");
-    refresh.innerHTML = "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
+    refresh.innerHTML =
+      "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
 
     var img = document.createElement("img");
     img.setAttribute("style", "float:right; margin-right:20px");
@@ -4187,8 +4195,8 @@ $(document).ready(function () {
 
     var refresh = document.createElement("a");
     refresh.setAttribute("ID", "refresh");
-    refresh.innerHTML = "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
-
+    refresh.innerHTML =
+      "<i style = 'float:right; font-size:30px; margin-top:10px; margin-right:10px; cursor:pointer' class='fas fa-redo-alt'></i>";
 
     parent.insertBefore(login, target);
     parent.insertBefore(refresh, target);
@@ -4197,7 +4205,7 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#submitphoto", function () {
     photonum++;
-    id_points+=100;
+    id_points += 100;
     var photo = document.getElementById("image").files[0];
     var storageRef = firebase.storage().ref();
     storageRef
@@ -4271,9 +4279,9 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img1_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    else{
+    else {
       var img1_points = document.getElementById("img1_points");
-      img1_points.innerHTML = "Your Points : "+id_points+ " points.";
+      img1_points.innerHTML = "Your Points : " + id_points + " points.";
       $("#img1_popup").dialog("open");
       $("#img2_popup").dialog("close");
       $("#img3_popup").dialog("close");
@@ -4304,25 +4312,24 @@ $(document).ready(function () {
   $("#img1_yes").click(function () {
     console.log("img1_yes");
     $("#img1_popup").dialog("close");
-    if(id_points < 300){
+    if (id_points < 300) {
       $("#cannot_buy").dialog("open");
+    } else {
+      $("#img1_popup_yes").dialog("open");
     }
-    else
-      {
-      $("#img1_popup_yes").dialog("open");}
   });
 
   $("#img1_ok").click(function () {
     $("#img1_popup_yes").dialog("close");
-    var points = document.getElementById('shop_yourpts');
+    var points = document.getElementById("shop_yourpts");
 
-    if(points == 0){
-      $('#cannot_buy').dialog("open");
+    if (points == 0) {
+      $("#cannot_buy").dialog("open");
+    } else {
+      id_points -= 300;
+      points.innerText = "Your Points : " + id_points + " points";
+      $("#img1_popup_yes").dialog("close");
     }
-    else
-      {id_points -= 300;
-      points.innerText = "Your Points : "+ id_points + " points";
-      $("#img1_popup_yes").dialog("close");}
   });
 
   $("#img1_no").click(function () {
@@ -4331,10 +4338,10 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img2_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    else{
+    else {
       $("#img2_popup").dialog("open");
       var img2_points = document.getElementById("img2_points");
-      img2_points.innerHTML = "Your Points : "+id_points+ " points.";
+      img2_points.innerHTML = "Your Points : " + id_points + " points.";
       $("#img1_popup").dialog("close");
       $("#img3_popup").dialog("close");
       $("#img4_popup").dialog("close");
@@ -4363,10 +4370,9 @@ $(document).ready(function () {
 
   $("#img2_yes").click(function () {
     $("#img2_popup").dialog("close");
-    if(id_points < 300){
+    if (id_points < 300) {
       $("#cannot_buy").dialog("open");
-    }
-    else{
+    } else {
       $("#img2_popup_yes").dialog("open");
     }
   });
@@ -4376,7 +4382,7 @@ $(document).ready(function () {
     else {
       $("#img3_popup").dialog("open");
       var img3_points = document.getElementById("img3_points");
-      img3_points.innerHTML = "Your Points : "+id_points+ " points."
+      img3_points.innerHTML = "Your Points : " + id_points + " points.";
       $("#img1_popup").dialog("close");
       $("#img2_popup").dialog("close");
       $("#img4_popup").dialog("close");
@@ -4405,23 +4411,29 @@ $(document).ready(function () {
 
   $("#img3_yes").click(function () {
     $("#img3_popup").dialog("close");
-    if(id_points < 300){
+    if (id_points < 300) {
       $("#cannot_buy").dialog("open");
-    }
-    else{
+    } else {
       $("#img3_popup_yes").dialog("open");
     }
   });
 
   $("#img3_ok").click(function () {
     $("#img3_popup_yes").dialog("close");
-    var points = document.getElementById('shop_yourpts');
+    var points = document.getElementById("shop_yourpts");
     id_points -= 300;
-    points.innerText = "Your Points : "+ id_points + " points";
+    points.innerText = "Your Points : " + id_points + " points";
   });
 
   $("#img3_no").click(function () {
     $("#img1_popup").dialog("close");
+  });
+  $("#gotophoto").click(function () {
+    $("#calendar_popup").dialog("close");
+    current_state = "photo";
+    $("#filter").val(idol_schedule);
+    idol = $("#filter").val();
+    reshape({ filter_change: true, src: click_schedule });
   });
 
   $("#contents").on("click", "#img4_btn", function () {
@@ -4429,7 +4441,7 @@ $(document).ready(function () {
     else {
       $("#img4_popup").dialog("open");
       var img4_points = document.getElementById("img4_points");
-      img4_points.innerHTML = "Your Points : "+id_points+ " points."
+      img4_points.innerHTML = "Your Points : " + id_points + " points.";
       $("#img2_popup").dialog("close");
       $("#img3_popup").dialog("close");
       $("#img1_popup").dialog("close");
@@ -4458,19 +4470,18 @@ $(document).ready(function () {
 
   $("#img4_yes").click(function () {
     $("#img4_popup").dialog("close");
-    if(id_points < 300){
+    if (id_points < 300) {
       $("#cannot_buy").dialog("open");
-    }
-    else{
+    } else {
       $("#img4_popup_yes").dialog("open");
     }
   });
 
   $("#img4_ok").click(function () {
     $("#img4_popup_yes").dialog("close");
-    var points = document.getElementById('shop_yourpts');
+    var points = document.getElementById("shop_yourpts");
     id_points -= 300;
-    points.innerText = "Your Points : "+ id_points + " points";
+    points.innerText = "Your Points : " + id_points + " points";
   });
 
   $("#img4_no").click(function () {
@@ -4479,9 +4490,9 @@ $(document).ready(function () {
 
   $("#img2_ok").click(function () {
     $("#img2_popup_yes").dialog("close");
-    var points = document.getElementById('shop_yourpts');
+    var points = document.getElementById("shop_yourpts");
     id_points -= 300;
-    points.innerText = "Your Points : "+ id_points + " points";
+    points.innerText = "Your Points : " + id_points + " points";
   });
 
   $("#img2_no").click(function () {
@@ -4491,8 +4502,6 @@ $(document).ready(function () {
   $("#img3_no").click(function () {
     $("#img3_popup").dialog("close");
   });
-
-
 
   $("#img4_no").click(function () {
     $("#img4_popup").dialog("close");
@@ -4554,7 +4563,7 @@ $(document).ready(function () {
 
   $("#yes").click(function () {
     $("#select").dialog("close");
-    id_points+=20;
+    id_points += 20;
     var select2_content = document.getElementById("select2_content");
     select2_content.innerHTML = author_of_question + " got 30 points also.";
 
@@ -4578,7 +4587,7 @@ $(document).ready(function () {
       });
   });
 
-  $("#no").click(function () { 
+  $("#no").click(function () {
     $("#select").dialog("close");
   });
 
@@ -4588,10 +4597,10 @@ $(document).ready(function () {
     reshape();
   });
 
-  $('#cannot_buy_close').click(function() {
+  $("#cannot_buy_close").click(function () {
     console.log("????");
     $("#cannot_buy").dialog("close");
-  })
+  });
 
   reshape();
 });
