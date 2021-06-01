@@ -4581,7 +4581,7 @@ $(document).ready(function () {
   $("#close").click(function () {
     $("#select2").dialog("close");
     var points = document.getElementById('shop_yourpts');
-    id_points += 10;
+    id_points += 20;
     points.innerText = "Your Points : "+ id_points + " points";
     reshape();
   });
