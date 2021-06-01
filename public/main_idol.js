@@ -455,7 +455,7 @@ $(document).ready(function () {
     div1.appendChild(text1);
     div1.appendChild(text2);
 
-    target_div.appendChild(div1);
+    target_div.appendChild(div1); 
   }
 
   function addcomment_photo_new(commentval) {
