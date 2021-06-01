@@ -3506,6 +3506,10 @@ $(document).ready(function () {
         var points = document.getElementById('shop_yourpts');
         points.innerHTML = "(You are not logged-in. Please log in to buy.)";
       }
+      else{
+        var points = document.getElementById('shop_yourpts');
+        points.innerHTML = "Your Points : "+id_points+" points";
+      }
     } else if (current_state == "SNS") {
       var curr = document.getElementById("SNS");
       curr.setAttribute("class", "selected_top");
@@ -4580,9 +4584,7 @@ $(document).ready(function () {
 
   $("#close").click(function () {
     $("#select2").dialog("close");
-    var points = document.getElementById('shop_yourpts');
     id_points += 20;
-    points.innerText = "Your Points : "+ id_points + " points";
     reshape();
   });
 
