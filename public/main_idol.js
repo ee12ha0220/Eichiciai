@@ -443,12 +443,11 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
-    
 
     div1.appendChild(h1);
     div1.appendChild(h2);
@@ -481,8 +480,8 @@ $(document).ready(function () {
     text1.innerHTML = "History";
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
@@ -583,8 +582,8 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "margin-right:10px;width:6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "margin-right:10px;width:6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
@@ -635,12 +634,11 @@ $(document).ready(function () {
 
     var text2 = document.createElement("p");
     text2.setAttribute(
-        "style",
-        "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
+      "style",
+      "width: 6%;text-align:right;font-size:14px;color:red;cursor:pointer;font-family: Roboto, serif;"
     );
     text2.setAttribute("ID", "ban");
     text2.innerHTML = 'Report <i class="fas fa-ban"></i>';
-    
 
     div1.appendChild(h1);
     div1.appendChild(h2);
@@ -765,7 +763,7 @@ $(document).ready(function () {
       });
   }
 
-  function getphotoData(div) {
+  function getphotoData(div = "", sche = "") {
     firebase
       .database()
       .ref("/photo")
@@ -776,13 +774,16 @@ $(document).ready(function () {
         var keyList = Object.keys(photoval);
         photonum = keyList.length;
         var current;
-
         for (var i = photonum - 1; i >= 0; i--) {
           current = photoval[keyList[i]];
           if (current.idol == idol || idol == "All") {
             if (current_state == "main")
               addphoto_main(div, current, keyList[i]);
-            else addphoto(current, i);
+            else {
+              if (sche == "" || sche == current.schedule) {
+                addphoto(current, i);
+              }
+            }
           }
         }
       });
@@ -889,7 +890,7 @@ $(document).ready(function () {
 
     var hidden = document.createElement("div");
     hidden.setAttribute("style", "display:none");
-    hidden.innerHTML = num+1;
+    hidden.innerHTML = num + 1;
 
     div1.appendChild(h6);
     div1.appendChild(div_img);
@@ -1099,7 +1100,7 @@ $(document).ready(function () {
         var div3 = document.createElement("div");
         div3.setAttribute("style", "width:1020px;");
 
-        getphotoData(div3);
+        getphotoData(div3, undefined);
         div0.appendChild(div3);
 
         div.appendChild(div0);
@@ -1144,97 +1145,97 @@ $(document).ready(function () {
 
         var div8 = document.createElement("div");
         div8.setAttribute("style", "background:#E3EAF1;");
-        if (idol == "BTS"){
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+        if (idol == "BTS") {
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' group teaser 1";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' group teaser 1";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' group teaser 2";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' group teaser 2";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS 'Butter' Comeback Showcase";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS 'Butter' Comeback Showcase";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "BTS BBMA";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "BTS BBMA";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
         }
-        if (idol == "G-IDLE"){
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+        if (idol == "G-IDLE") {
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Web Drama Poster";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML =
+            "• " + "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
 
-            var div9 = document.createElement("div");
-            div9.setAttribute(
+          var div9 = document.createElement("div");
+          div9.setAttribute(
             "style",
             "border-radius:10px;background-color: white; text-align: left; margin-left: 10px; margin-right: 5px;"
-            );
-            var h1 = document.createElement("p");
-            h1.setAttribute("class", "main_schedule");
-            h1.innerHTML = "• " + "G-IDLE Minnie Bazzar Magazine";
-            div9.appendChild(h1);
-            div8.appendChild(div9);
+          );
+          var h1 = document.createElement("p");
+          h1.setAttribute("class", "main_schedule");
+          h1.innerHTML = "• " + "G-IDLE Minnie Bazzar Magazine";
+          div9.appendChild(h1);
+          div8.appendChild(div9);
         }
-
 
         div4.appendChild(div8);
 
@@ -1949,7 +1950,8 @@ $(document).ready(function () {
     //reshape();
   }
 
-  function photo() {
+  function photo(sche) {
+    console.log(sche);
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
     div.setAttribute("ID", "bigdiv");
@@ -1976,28 +1978,38 @@ $(document).ready(function () {
       "style",
       "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
     );
-
-    var text2 = document.createTextNode("By Schedule");
+    var button = document.createElement("button");
+    button.setAttribute("ID", "schedule_reset");
+    button.setAttribute(
+      "style",
+      "margin-left:10px;font-size: 15px;background-color: #2B5A89;font-family: Roboto, serif;border-radius:10px;color:white;"
+    );
+    button.innerHTML = "Reset";
 
     var small2 = document.createElement("SMALL");
     small2.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:45%;font-family: Roboto, serif;"
     );
 
-    var text3 = document.createTextNode("Latest");
+    var text3 = document.createTextNode("Select date:");
 
     var small3 = document.createElement("SMALL");
     small3.setAttribute(
       "style",
-      "font-size:20px; margin-right:3%; cursor:pointer;text-shadow: 4px 2px 2px gray;font-family: Roboto, serif;"
+      "font-size:20px; margin-left:6% ;margin-right:0%;font-family: Roboto, serif;"
     );
 
-    var text4 = document.createTextNode("Hottest");
+    var date = document.createElement("input");
+    date.setAttribute("ID", "currentDate");
+    date.setAttribute("type", "date");
+    date.setAttribute("value", sche);
+    date.setAttribute("style", "margin-left:5px");
     strong1.appendChild(text1);
-    // small1.appendChild(text2);
-    // small2.appendChild(text3);
-    // small3.appendChild(text4);
+
+    small3.appendChild(text3);
+    small3.appendChild(date);
+    small3.appendChild(button);
 
     div1.appendChild(strong1);
     div1.appendChild(small1);
@@ -2023,7 +2035,7 @@ $(document).ready(function () {
 
     parent.appendChild(div);
 
-    getphotoData();
+    getphotoData(undefined, sche);
   }
   function previewImage(f) {
     var file = f.files;
@@ -3447,7 +3459,7 @@ $(document).ready(function () {
     } else if (current_state == "photo") {
       var curr = document.getElementById("photo");
       curr.setAttribute("class", "selected_top");
-      photo();
+      photo(options.src);
     } else if (current_state == "photo2") {
       var curr = document.getElementById("photo");
       curr.setAttribute("class", "selected_top");
@@ -3553,7 +3565,6 @@ $(document).ready(function () {
     current_state = "calendar";
     reshape();
   });
-
 
   $("#photo").click(function () {
     current_state = "photo";
@@ -3868,6 +3879,13 @@ $(document).ready(function () {
         reshape({ pval: noticeval[currentkey] });
       });
   });
+  $("#contents").on("change", "#currentDate", function () {
+    reshape({ src: $("#currentDate").val() });
+  });
+  $("#contents").on("click", "#schedule_reset", function () {
+    $("#currentDate").val("");
+    reshape();
+  });
 
   $("#contents").on("click", ".free_post_title", function () {
     var question_no = $(this).parent().children()[0].innerHTML - 1;
@@ -4141,7 +4159,11 @@ $(document).ready(function () {
     parent.insertBefore(refresh, target);
     //parent.insertBefore(img, target);
     parent.insertBefore(usr, target);
-    if (current_state != "photo_specific") reshape();
+    if (current_state != "photo_specific") {
+      $("#filter").val("BTS").trigger("change");
+      idol = $("#filter").val();
+      reshape({ filter_change: true });
+    }
   });
 
   $("#nav1").on("click", "#logout", function () {
@@ -4526,8 +4548,7 @@ $(document).ready(function () {
   $("#yes").click(function () {
     $("#select").dialog("close");
     var select2_content = document.getElementById("select2_content");
-    select2_content.innerHTML =
-      author_of_question + " got 20 points also.";
+    select2_content.innerHTML = author_of_question + " got 20 points also.";
 
     $("#select2").dialog("open");
 
