@@ -803,9 +803,6 @@ $(document).ready(function () {
         for (var i = photonum - 1; i >= 0; i--) {
           current = photoval[keyList[i]];
           if (current.idol == idol || idol == "All") {
-            // if (current_state == "main")
-            //   addphoto_main(div, current, keyList[i]);
-            // else addphoto(current);
             addphoto(current);
           }
         }
@@ -1138,7 +1135,7 @@ $(document).ready(function () {
           "style",
           "font-family: Roboto, serif; font-size: 23px;line-height:5px"
         );
-        text3.innerHTML = "Schedule";
+        text3.innerHTML = "Calendar";
         div7.appendChild(text3);
         div4.appendChild(div7);
 
@@ -1946,11 +1943,9 @@ $(document).ready(function () {
     parent.appendChild(div);
 
     getFreeCommentData();
-    //reshape();
   }
 
   function photo(sche) {
-    console.log(sche);
     var parent = document.getElementById("contents");
     var div = document.createElement("div");
     div.setAttribute("ID", "bigdiv");
@@ -3916,6 +3911,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#enterans", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
+      id_points += 10;
       var comment_input = document.getElementById("comment_input").value;
       firebase
         .database()
@@ -3963,6 +3959,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#entercomment", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
+      id_points += 100;
       var comment_input = document.getElementById("comment_input_photo").value;
       var newcomment = firebase
         .database()
@@ -4044,9 +4041,7 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#submitqna", function () {
     qnanum++;
-    //var points = document.getElementById('shop_yourpts');
-    id_points += 400;
-    //points.innerHTML = "Your Points : "+ id_points +" points";
+    id_points += 100;
     var title = document.getElementById("qnaTitle").value;
     var content = document.getElementById("qnaContents").value;
     var newqna = firebase.database().ref("/qna").push();
@@ -4206,6 +4201,7 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#submitphoto", function () {
     photonum++;
+    id_points += 100;
     var photo = document.getElementById("image").files[0];
     var storageRef = firebase.storage().ref();
     storageRef
@@ -4279,13 +4275,14 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img1_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    console.log("img1_btn");
-    var img1_points = document.getElementById("img1_points");
-    img1_points.innerHTML = "Your Points : " + id_points + " points.";
-    $("#img1_popup").dialog("open");
-    $("#img2_popup").dialog("close");
-    $("#img3_popup").dialog("close");
-    $("#img4_popup").dialog("close");
+    else {
+      var img1_points = document.getElementById("img1_points");
+      img1_points.innerHTML = "Your Points : " + id_points + " points.";
+      $("#img1_popup").dialog("open");
+      $("#img2_popup").dialog("close");
+      $("#img3_popup").dialog("close");
+      $("#img4_popup").dialog("close");
+    }
   });
 
   $("#img1_popup").dialog({
@@ -4337,12 +4334,14 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img2_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    $("#img2_popup").dialog("open");
-    var img2_points = document.getElementById("img2_points");
-    img2_points.innerHTML = "Your Points : " + id_points + " points.";
-    $("#img1_popup").dialog("close");
-    $("#img3_popup").dialog("close");
-    $("#img4_popup").dialog("close");
+    else {
+      $("#img2_popup").dialog("open");
+      var img2_points = document.getElementById("img2_points");
+      img2_points.innerHTML = "Your Points : " + id_points + " points.";
+      $("#img1_popup").dialog("close");
+      $("#img3_popup").dialog("close");
+      $("#img4_popup").dialog("close");
+    }
   });
 
   $("#img2_popup").dialog({
@@ -4376,12 +4375,14 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img3_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    $("#img3_popup").dialog("open");
-    var img3_points = document.getElementById("img3_points");
-    img3_points.innerHTML = "Your Points : " + id_points + " points.";
-    $("#img1_popup").dialog("close");
-    $("#img2_popup").dialog("close");
-    $("#img4_popup").dialog("close");
+    else {
+      $("#img3_popup").dialog("open");
+      var img3_points = document.getElementById("img3_points");
+      img3_points.innerHTML = "Your Points : " + id_points + " points.";
+      $("#img1_popup").dialog("close");
+      $("#img2_popup").dialog("close");
+      $("#img4_popup").dialog("close");
+    }
   });
 
   $("#img3_popup").dialog({
@@ -4433,12 +4434,14 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#img4_btn", function () {
     if (current_user == "nologin") alert("Please log-in");
-    $("#img4_popup").dialog("open");
-    var img4_points = document.getElementById("img4_points");
-    img4_points.innerHTML = "Your Points : " + id_points + " points.";
-    $("#img2_popup").dialog("close");
-    $("#img3_popup").dialog("close");
-    $("#img1_popup").dialog("close");
+    else {
+      $("#img4_popup").dialog("open");
+      var img4_points = document.getElementById("img4_points");
+      img4_points.innerHTML = "Your Points : " + id_points + " points.";
+      $("#img2_popup").dialog("close");
+      $("#img3_popup").dialog("close");
+      $("#img1_popup").dialog("close");
+    }
   });
 
   $("#img4_popup").dialog({
@@ -4463,7 +4466,7 @@ $(document).ready(function () {
 
   $("#img4_yes").click(function () {
     $("#img4_popup").dialog("close");
-    if (id_points < 0) {
+    if (id_points < 300) {
       $("#cannot_buy").dialog("open");
     } else {
       $("#img4_popup_yes").dialog("open");
@@ -4518,7 +4521,7 @@ $(document).ready(function () {
     var my_page_id = document.getElementById("my_page_id");
     my_page_id.innerHTML = "ID : " + current_user;
     var my_page_points = document.getElementById("my_page_points");
-    my_page_points = "Your Points : " + id_points;
+    my_page_points.innerHTML = "Your Points : " + id_points;
     $("#my_page").dialog("open");
   });
 
@@ -4556,8 +4559,9 @@ $(document).ready(function () {
 
   $("#yes").click(function () {
     $("#select").dialog("close");
+    id_points += 20;
     var select2_content = document.getElementById("select2_content");
-    select2_content.innerHTML = author_of_question + " got 20 points also.";
+    select2_content.innerHTML = author_of_question + " got 30 points also.";
 
     $("#select2").dialog("open");
 
@@ -4586,7 +4590,7 @@ $(document).ready(function () {
   $("#close").click(function () {
     $("#select2").dialog("close");
     var points = document.getElementById("shop_yourpts");
-    id_points += 10;
+    id_points += 20;
     points.innerText = "Your Points : " + id_points + " points";
     reshape();
   });
