@@ -4003,6 +4003,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#fr_entercomment", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
+      id_points += 10;
       var date = new Date().toLocaleDateString();
       var free_comment_input =
         document.getElementById("free_comment_input").value;
@@ -4076,6 +4077,7 @@ $(document).ready(function () {
 
   $("#contents").on("click", "#submitfree", function () {
     freenum++;
+    id_points += 100;
     var title = document.getElementById("freeTitle").value;
     var content = document.getElementById("freeContents").value;
     var newqna = firebase.database().ref("/free").push();
