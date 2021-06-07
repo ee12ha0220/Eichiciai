@@ -2250,8 +2250,6 @@ $(document).ready(function () {
 
     div5.appendChild(leavecomment);
     div5.appendChild(entercomment);
-    // div5.appendChild(qnaedit);
-    // div5.appendChild(qnadelete);
 
     var div6 = document.createElement("div");
     div6.setAttribute("class", "commentline");
@@ -2261,18 +2259,8 @@ $(document).ready(function () {
     commentnum.setAttribute("style", "font-family: Roboto, serif;");
     commentnum.setAttribute("ID", "comment_number");
     commentnum.innerHTML = "Comments (" + f_total_commentnum + ")";
-    // commentnum.innerHTML = "Comments(2)";
-
-    // var text1 = document.createElement("p");
-    // text1.setAttribute(
-    //   "style",
-    //   "width: 10%;text-align:right;font-size:14px;color:#858080;cursor:pointer;font-family: Roboto, serif;"
-    // );
-    // text1.setAttribute("ID", "history");
-    // text1.innerHTML = "History";
 
     div6.appendChild(commentnum);
-    // div6.appendChild(text1);
 
     var div7 = document.createElement("div");
     div7.setAttribute("ID", "photo_comments");
@@ -2892,6 +2880,106 @@ $(document).ready(function () {
     });
   }
 
+  function calendar2() {
+    var parent = document.getElementById("contents");
+    var div = document.createElement("div");
+    div.setAttribute("ID", "bigdiv");
+    var div_calendar = document.createElement("div");
+    div_calendar.setAttribute("ID", "calendar1");
+
+    var div1 = document.createElement("div");
+    div1.setAttribute(
+      "style",
+      "text-align:right; border-bottom:8px solid black; margin-left:20px; margin-right:20px"
+    );
+
+    div1.appendChild(div_calendar);
+
+    div.appendChild(div1);
+
+    parent.appendChild(div);
+    let calendarEl = document.getElementById("calendar1");
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+      initialDate: new Date(2021, 4, 1),
+      initialView: "dayGridMonth",
+      contentHeight: 600,
+      events: [
+        {
+          title: "BTS 'Butter' group teaser 1",
+          start: "2021-05-10T12:00:00",
+          color: "#8b00ff",
+          idol: "BTS",
+          date1: "2021-05-10",
+        },
+        {
+          title: "BTS 'Butter' group teaser 2",
+          start: "2021-05-18T12:00:00",
+          color: "#8b00ff",
+          idol: "BTS",
+          date1: "2021-05-18",
+        },
+        {
+          title: "BTS 'Butter' Comeback Showcase",
+          start: "2021-05-21T15:00:00",
+          color: "#8b00ff",
+          idol: "BTS",
+          date1: "2021-05-21",
+        },
+        {
+          title: "BTS BBMA",
+          start: "2021-05-24T18:00:00",
+          color: "#8b00ff",
+          idol: "BTS",
+          date1: "2021-05-24",
+        },
+        {
+          title: "G-IDLE Minnie Web Drama Poster",
+          start: "2021-05-21T19:00:00",
+          color: "#e11900",
+          idol: "G-IDLE",
+          date1: "2021-05-21",
+        },
+        {
+          title: "G-IDLE Yuqi 'Bonnie & Clyde' Spoiler Selfie.ver",
+          start: "2021-05-22T14:00:00",
+          color: "#e11900",
+          idol: "G-IDLE",
+          date1: "2021-05-22",
+        },
+        {
+          title: "G-IDLE Minnie Bazzar Magazine",
+          start: "2021-05-24T21:00:00",
+          color: "#e11900",
+          idol: "G-IDLE",
+          date1: "2021-05-24",
+        },
+      ],
+      eventDidMount: function (arg) {
+        var filter = document.getElementById("filter");
+        var val = filter.options[filter.selectedIndex].value;
+        if (val === "All") {
+          arg.el.style.display = "auto";
+        } else if (arg.event.extendedProps.idol != val) {
+          arg.el.style.display = "none";
+        }
+      },
+      eventClick: function (info) {
+        var schedule = document.getElementById("schedule_id");
+        schedule.innerHTML = "Schedule : " + info.event.title;
+        var date = document.getElementById("date_id");
+        date.innerHTML = "Date : " + info.event.start;
+        click_schedule = info.event.extendedProps.date1;
+        idol_schedule = info.event.extendedProps.idol;
+        $("#calendar_popup").dialog("open");
+      },
+    });
+
+    calendar.render();
+    $("#filter").on("change", function () {
+      calendar.refetchEvents();
+    });
+  }
+
   function clear() {
     var div = document.getElementById("bigdiv");
     var parent = document.getElementById("contents");
@@ -3129,6 +3217,7 @@ $(document).ready(function () {
 
     var div3 = document.createElement("div");
     div3.setAttribute("ID", "write-div");
+    div3.setAttribute("style", "margin-left:20px;margin-right:20px;");
 
     var div_content = document.createElement("div");
     div_content.setAttribute(
@@ -3136,14 +3225,15 @@ $(document).ready(function () {
       "display : flex; flex-direction: column;"
     );
     var schedule_div = document.createElement("div");
+    schedule_div.setAttribute("class", "qnaline");
     schedule_div.setAttribute(
       "style",
-      "display : flex;height:40px;font-family: Roboto, serif;"
+      "display : flex;height:40px;font-family: Roboto, serif;border-bottom:0px"
     );
     var schedule = document.createElement("STRONG");
     schedule.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px"
+      "font-size: 18px;position: absolute; right: 35px;font-family: Roboto, serif;"
     );
     schedule.innerHTML = "schedule: " + content.schedule;
 
@@ -3154,27 +3244,37 @@ $(document).ready(function () {
     img.setAttribute("style", "width: " + w + "px; height: " + h + "px");
 
     var header = document.createElement("div");
-    header.setAttribute("style", "display : flex;");
+    header.setAttribute("class", "qnaline");
+    header.setAttribute(
+      "style",
+      "display : flex;border-bottom:4px solid #2B5A89;margin:0px"
+    );
     var contents = document.createElement("div");
     contents.setAttribute("style", "display : flex;");
 
     var title = document.createElement("div");
-    title.setAttribute("style", "font-size: 30px");
+    title.setAttribute(
+      "style",
+      "font-size: 18px;margin-left:10px;font-family: Roboto, serif"
+    );
     title.innerHTML = "Title: " + content.title;
     var author = document.createElement("div");
     author.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     author.innerHTML = content.author;
     var date = document.createElement("div");
     date.setAttribute(
       "style",
-      "font-size: 30px;position: absolute; right: 20px;font-family: Roboto, serif;"
+      "font-size: 18px;position: absolute; right: 20px;font-family: Roboto, serif;margin-right:10px"
     );
     date.innerHTML = "Date: " + content.date;
     var content_html = document.createElement("div");
-    content_html.setAttribute("style", "font-size: 30px");
+    content_html.setAttribute(
+      "style",
+      "font-size: 30px;font-family: Roboto, serif;margin-left:10px"
+    );
     content_html.innerHTML = content.content;
 
     header.appendChild(title);
@@ -3191,10 +3291,58 @@ $(document).ready(function () {
 
     div3.appendChild(div_content);
 
+    var div5 = document.createElement("div");
+    var leavecomment = document.createElement("input");
+    leavecomment.setAttribute("ID", "comment_input_photo");
+    leavecomment.setAttribute(
+      "style",
+      "height: 80px;width: 88%;margin-left:20px;margin-top:30px"
+    );
+
+    var entercomment = document.createElement("button");
+    entercomment.setAttribute("ID", "entercomment");
+    entercomment.setAttribute(
+      "style",
+      "height:86px;width:86px;margin-left:10px;font-family: Roboto, serif;"
+    );
+    entercomment.innerHTML = "Enter";
+
+    div5.appendChild(leavecomment);
+    div5.appendChild(entercomment);
+
+    var div6 = document.createElement("div");
+    div6.setAttribute("class", "commentline");
+    div6.setAttribute("style", "border-bottom:2px solid #2B5A89");
+
+    var commentnum = document.createElement("h4");
+    commentnum.setAttribute("style", "font-family: Roboto, serif;");
+    commentnum.setAttribute("ID", "comment_number");
+    commentnum.innerHTML = "Comments (" + content.commentnum + ")";
+
+    div6.appendChild(commentnum);
+
+    var div7 = document.createElement("div");
+    div7.setAttribute("ID", "photo_comments");
+
+    div3.appendChild(div5);
+    div3.appendChild(div6);
+    div3.appendChild(div7);
+
     div.appendChild(div_chunks);
     div.appendChild(div3);
 
     parent.appendChild(div);
+    firebase
+      .database()
+      .ref("/photo")
+      .once("value")
+      .then((snapshot) => {
+        var photoval = snapshot.val();
+        var keyList = Object.keys(photoval);
+        var currentkey = keyList[content.photonum-1];
+        f_key_photo = currentkey;
+        getCommentData_photo();
+      });
   }
 
   function SNS_page() {
@@ -3416,6 +3564,7 @@ $(document).ready(function () {
   }
 
   function reshape(options) {
+    console.log(current_state);
     options = options || {};
     var defaults = {
       filter_change: false,
@@ -3503,6 +3652,10 @@ $(document).ready(function () {
       var curr = document.getElementById("calendar");
       curr.setAttribute("class", "selected_side");
       calendar();
+    } else if (current_state == "calendar2") {
+      var curr = document.getElementById("calendar");
+      curr.setAttribute("class", "selected_side");
+      calendar2();
     } else if (current_state == "history") {
       history(options.src);
     } else if (current_state == "shop") {
@@ -3568,7 +3721,7 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", ".main_schedule", function () {
-    current_state = "calendar";
+    current_state = "calendar2";
     reshape();
   });
 
@@ -3691,7 +3844,6 @@ $(document).ready(function () {
   });
 
   $("#contents").on("click", ".history_specific", function () {
-    // gotophoto(options.pval, options.src);
     var type = $(this).parent().children()[3].innerHTML;
     var postorcomment = $(this).parent().children()[2].innerHTML;
     if (type == "photocomment") {
@@ -4233,6 +4385,7 @@ $(document).ready(function () {
       content: content,
       photourl: photourl,
       schedule: schedule,
+      photonum: photonum
     });
     history.set({
       type: "photo",
