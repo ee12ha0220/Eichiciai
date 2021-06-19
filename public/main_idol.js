@@ -4115,7 +4115,7 @@ $(document).ready(function () {
   $("#contents").on("click", "#entercomment", function () {
     if (current_user == "nologin") alert("Please log-in");
     else {
-      id_points += 100;
+      id_points += 10;
       var comment_input = document.getElementById("comment_input_photo").value;
       var newcomment = firebase
         .database()
